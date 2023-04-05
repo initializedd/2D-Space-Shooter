@@ -2,6 +2,7 @@
 #define WEAPON_H
 
 #include "Texture.h"
+#include "Projectile.h"
 #include <string>
 
 class Weapon
@@ -9,7 +10,7 @@ class Weapon
 private:
 	std::string		m_name;
 	int				m_damage;
-	Texture			m_texture;
+	Projectile      m_projectile;
 
 public:
 	Weapon();
@@ -17,9 +18,9 @@ public:
 
 	void shoot();
 
-	const std::string& getName() const;
-	const int getDamage() const;
-	const Texture& getTexture() const;
+	Projectile& getProjectile();
+	std::string& getName();
+	int getDamage() const;
 };
 
 #endif // !WEAPON_H

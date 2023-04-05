@@ -1,25 +1,24 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include "Texture.h"
 #include "Weapon.h"
+#include "Pair.h"
 
-class Entity
+class Player
 {
 private:
 	Texture		m_texture;
 	int			m_width;
 	int			m_height;
-	int			m_posX;
-	int			m_posY;
-	int			m_velX;
-	int			m_velY;
+	Pair		m_pos;
+	Pair		m_vel;
 	int			m_health;
 	Weapon		m_weapon;
 
 public:
-	Entity();
-	~Entity();
+	Player();
+	~Player();
 
 	void handleEvent(SDL_Event& event);
 
@@ -28,9 +27,9 @@ public:
 	bool setTexture(const char* path, const bool flag, const Uint8 red = 0xFF, const Uint8 green = 0xFF, const Uint8 blue = 0xFF);
 
 	Texture& getTexture();
-
-	int getPosX();
-	int getPosY();
+	Weapon& getWeapon();
+	int getPosX() const;
+	int getPosY() const;
 };
 
-#endif // !ENTITY_H
+#endif // !PLAYER_H
