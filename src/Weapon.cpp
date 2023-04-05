@@ -3,31 +3,31 @@
 Weapon::Weapon()
 	: m_name{}
 	, m_damage{}
-	, m_texture{}
+	, m_projectile{}
 {
 }
 
 Weapon::~Weapon()
 {
-	m_texture.free();
+	
 }
 
 void Weapon::shoot()
 {
-
+	
 }
 
-const std::string& Weapon::getName() const
+Projectile& Weapon::getProjectile()
+{
+	return m_projectile;
+}
+
+std::string& Weapon::getName()
 {
 	return m_name;
 }
 
-const int Weapon::getDamage() const
+int Weapon::getDamage() const
 {
 	return m_damage;
-}
-
-const Texture& Weapon::getTexture() const
-{
-	return m_texture;
 }

@@ -54,6 +54,9 @@ bool loadMedia()
 	if (!gPlayer.setTexture("img/ship.png", true))
 		return false;
 
+	if (!gPlayer.getWeapon().getProjectile().getTexture().loadFromFile("img/bullet.png", false))
+		return false;
+
 	return true;
 }
 
@@ -62,6 +65,7 @@ void free()
 	SDL_FreeSurface(gWindowIconTexture);
 	gWindowIconTexture = nullptr;
 
+	gPlayer.getWeapon().getProjectile().getTexture().free();
 	gPlayer.getTexture().free();
 	gBackgroundTexture.free();
 

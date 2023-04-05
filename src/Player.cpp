@@ -1,24 +1,23 @@
-#include "Entity.h"
+#include "Player.h"
 #include "Constants.h"
 
-Entity::Entity()
+Player::Player()
 	: m_texture{}
 	, m_width{}
 	, m_height{}
-	, m_posX{}
-	, m_posY{}
-	, m_velX{}
-	, m_velY{}
+	, m_pos{}
+	, m_vel{}
 	, m_health{}
+	, m_weapon{}
 {
 }
 
-Entity::~Entity()
+Player::~Player()
 {
 	m_texture.free();
 }
 
-void Entity::handleEvent(SDL_Event& event)
+void Player::handleEvent(SDL_Event& event)
 {
 	if (event.type == SDL_KEYDOWN && event.key.repeat == 0)
 	{
@@ -26,26 +25,22 @@ void Entity::handleEvent(SDL_Event& event)
 		{
 			case SDLK_UP:
 			case SDLK_w:
-				m_velY -= ENTITY_VEL;
+				m_vel.y -= PLAYER_VEL;
 				break;
 
 			case SDLK_DOWN:
 			case SDLK_s:
-				m_velY += ENTITY_VEL;
+				m_vel.y += PLAYER_VEL;
 				break;
 
 			case SDLK_LEFT:
 			case SDLK_a:
-				m_velX -= ENTITY_VEL;
+				m_vel.x -= PLAYER_VEL;
 				break;
 
 			case SDLK_RIGHT:
 			case SDLK_d:
-				m_velX += ENTITY_VEL;
-				break;
-
-			case SDLK_SPACE:
-				shoot();
+				m_vel.x += PLAYER_VEL;
 				break;
 		}
 	}
@@ -55,59 +50,64 @@ void Entity::handleEvent(SDL_Event& event)
 		{
 			case SDLK_UP:
 			case SDLK_w:
-				m_velY += ENTITY_VEL;
+				m_vel.y += PLAYER_VEL;
 				break;
 
 			case SDLK_DOWN:
 			case SDLK_s:
-				m_velY -= ENTITY_VEL;
+				m_vel.y -= PLAYER_VEL;
 				break;
 
 			case SDLK_LEFT:
 			case SDLK_a:
-				m_velX += ENTITY_VEL;
+				m_vel.x += PLAYER_VEL;
 				break;
 
 			case SDLK_RIGHT:
 			case SDLK_d:
-				m_velX -= ENTITY_VEL;
+				m_vel.x -= PLAYER_VEL;
 				break;
 		}
 	}
 }
 
-void Entity::move()
+void Player::move()
 {
 	// Update X position based on its X velocity
-	m_posX += m_velX;
+	m_pos.x += m_vel.x;
 
 	// Check if outside of left screen boundary
-	if (m_posX <= 0)
+	if (m_pos.x <= 0)
 	{
-		m_posX = 0;
+		m_pos.x = 0;
 	}
 	// Check if outside of right screen boundary
-	else if (m_posX + m_width >= SCREEN_WIDTH)
+	else if (m_pos.x + m_width >= SCREEN_WIDTH)
 	{
-		m_posX = SCREEN_WIDTH - m_width;
+		m_pos.x = SCREEN_WIDTH - m_width;
 	}
 
 	// Update Y position based on its Y velocity
-	m_posY += m_velY;
+	m_pos.y += m_vel.y;
 
 	// Check if outside of top screen boundary
-	if (m_posY <= 0)
+	if (m_pos.y <= 0)
 	{
-		m_posY = 0;
+		m_pos.y = 0;
 	}
 	// Check if outside of bottom screen boundary
-	else if (m_posY + m_height >= SCREEN_HEIGHT)
+	else if (m_pos.y + m_height >= SCREEN_HEIGHT)
 	{
-		m_posY = SCREEN_HEIGHT - m_height;
+		m_pos.y = SCREEN_HEIGHT - m_height;
 	}
 }
 
-bool Entity::setTexture(const char* path, const bool flag, const Uint8 red, const Uint8 green, const Uint8 blue)
+Texture& Player::getTexture()
+{
+	return m_texture;
+}
+
+bool Player::setTexture(const char* path, const bool flag, const Uint8 red, const Uint8 green, const Uint8 blue)
 {
 	if (!m_texture.loadFromFile(path, flag, red, green, blue))
 		return false;
@@ -118,17 +118,17 @@ bool Entity::setTexture(const char* path, const bool flag, const Uint8 red, cons
 	return true;
 }
 
-Texture& Entity::getTexture()
+Weapon& Player::getWeapon()
 {
-	return m_texture;
+	return m_weapon;
 }
 
-int Entity::getPosX()
+int Player::getPosX() const
 {
-	return m_posX;
+	return m_pos.x;
 }
 
-int Entity::getPosY()
+int Player::getPosY() const
 {
-	return m_posY;
+	return m_pos.y;
 }

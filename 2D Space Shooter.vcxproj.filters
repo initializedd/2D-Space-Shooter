@@ -4,15 +4,18 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\Texture.cpp" />
-    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Weapon.cpp" />
+    <ClCompile Include="src\Projectile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Globals.h" />
-    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Weapon.h" />
+    <ClInclude Include="src\Projectile.h" />
+    <ClInclude Include="src\Pair.h" />
   </ItemGroup>
 </Project>
