@@ -40,9 +40,9 @@ void Weapon::shoot()
 
 	// Right Cannon Debug Info
 	printf("Right Cannon Pos X: %d\n", m_projectiles.at(m_debugIndex).second.getPosX());
-	printf("Left Cannon Pos Y: %d\n", m_projectiles.at(m_debugIndex).second.getPosY());
-	printf("Left Cannon Width: %d\n", m_projectiles.at(m_debugIndex).second.getTexture().getWidth());
-	printf("Left Cannon Height: %d\n\n", m_projectiles.at(m_debugIndex).second.getTexture().getHeight());
+	printf("Right Cannon Pos Y: %d\n", m_projectiles.at(m_debugIndex).second.getPosY());
+	printf("Right Cannon Width: %d\n", m_projectiles.at(m_debugIndex).second.getTexture().getWidth());
+	printf("Right Cannon Height: %d\n\n", m_projectiles.at(m_debugIndex).second.getTexture().getHeight());
 	++m_debugIndex;
 }
 
