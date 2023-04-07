@@ -1,4 +1,5 @@
 #include "Projectile.h"
+#include "Constants.h"
 
 Projectile::Projectile()
 	: m_pos{}
@@ -10,6 +11,11 @@ Projectile::Projectile()
 Projectile::~Projectile()
 {
 	m_texture.free();
+}
+
+void Projectile::move()
+{
+	m_pos.y -= LASER_VEL;
 }
 
 void Projectile::setPosX(int x)
@@ -30,6 +36,11 @@ void Projectile::setVelX(int x)
 void Projectile::setVelY(int y)
 {
 	m_vel.y = y;
+}
+
+void Projectile::setTexture(Texture& texture)
+{
+	m_texture = texture;
 }
 
 int Projectile::getPosX() const
