@@ -9,9 +9,10 @@
 class Weapon
 {
 private:
-	std::string						m_name;
-	int								m_damage;
-	std::vector<Projectile>			m_projectiles;
+	std::string												m_name;
+	int														m_damage;
+	std::vector<std::pair<Projectile, Projectile>>			m_projectiles;
+	int														m_debugIndex;
 
 public:
 	Weapon();
