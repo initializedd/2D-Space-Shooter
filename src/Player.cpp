@@ -42,6 +42,11 @@ void Player::handleEvent(SDL_Event& event)
 			case SDLK_d:
 				m_vel.x += PLAYER_VEL;
 				break;
+
+			case SDLK_SPACE:
+				shoot();
+				break;
+
 		}
 	}
 	else if (event.type == SDL_KEYUP && event.key.repeat == 0)
@@ -100,6 +105,11 @@ void Player::move()
 	{
 		m_pos.y = SCREEN_HEIGHT - m_height;
 	}
+}
+
+void Player::shoot()
+{
+	m_weapon.shoot();
 }
 
 Texture& Player::getTexture()

@@ -23,6 +23,7 @@ public:
 	void handleEvent(SDL_Event& event);
 
 	void move();
+	void shoot();
 
 	bool setTexture(const char* path, const bool flag, const Uint8 red = 0xFF, const Uint8 green = 0xFF, const Uint8 blue = 0xFF);
 
