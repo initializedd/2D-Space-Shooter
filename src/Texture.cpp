@@ -31,7 +31,7 @@ bool Texture::loadPixelsFromFile(const char* path)
 	}
 	else
 	{
-		m_surfacePixels = SDL_ConvertSurfaceFormat(loadedSurface, SDL_GetWindowPixelFormat(gWindow.getWindow()), 0);
+		m_surfacePixels = SDL_ConvertSurfaceFormat(loadedSurface, SDL_PIXELFORMAT_ABGR8888, 0);
 		if (!m_surfacePixels)
 		{
 			printf("Failed to convert surface format, Error: %s\n", SDL_GetError());
@@ -50,7 +50,7 @@ bool Texture::loadPixelsFromFile(const char* path)
 	return true;
 }
 
-bool Texture::loadFromPixels(const bool flag, const Uint8 red, const Uint8 green, const Uint8 blue)
+bool Texture::loadFromPixels(const bool flag, const Uint8 red, const Uint8 green, const Uint8 blue, const Uint8 alpha)
 {
 	if (!m_surfacePixels)
 	{
@@ -59,7 +59,7 @@ bool Texture::loadFromPixels(const bool flag, const Uint8 red, const Uint8 green
 	}
 	else
 	{
-		SDL_SetColorKey(m_surfacePixels, flag, SDL_MapRGB(m_surfacePixels->format, red, green, blue));
+		SDL_SetColorKey(m_surfacePixels, flag, SDL_MapRGBA(m_surfacePixels->format, red, green, blue, alpha));
 		
 		m_texture = SDL_CreateTextureFromSurface(gWindow.getRenderer(), m_surfacePixels);
 		if (!m_texture)
@@ -80,7 +80,7 @@ bool Texture::loadFromPixels(const bool flag, const Uint8 red, const Uint8 green
 	return true;
 }
 
-bool Texture::loadFromFile(const char* path, const bool flag, const Uint8 red, const Uint8 green, const Uint8 blue)
+bool Texture::loadFromFile(const char* path, const bool flag, const Uint8 red, const Uint8 green, const Uint8 blue, const Uint8 alpha)
 {
 	if (!loadPixelsFromFile(path))
 	{
@@ -89,7 +89,7 @@ bool Texture::loadFromFile(const char* path, const bool flag, const Uint8 red, c
 	}
 	else
 	{
-		if (!loadFromPixels(flag, red, green, blue))
+		if (!loadFromPixels(flag, red, green, blue, alpha))
 		{
 			printf("Failed to load from pixels\n");
 			return false;
