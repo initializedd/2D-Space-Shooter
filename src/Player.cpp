@@ -112,11 +112,6 @@ void Player::shoot()
 	m_weapon.shoot();
 }
 
-Texture& Player::getTexture()
-{
-	return m_texture;
-}
-
 bool Player::setTexture(const char* path, const bool flag, const Uint8 red, const Uint8 green, const Uint8 blue)
 {
 	if (!m_texture.loadFromFile(path, flag, red, green, blue))
@@ -126,6 +121,11 @@ bool Player::setTexture(const char* path, const bool flag, const Uint8 red, cons
 	m_height = m_texture.getHeight();
 
 	return true;
+}
+
+Texture& Player::getTexture()
+{
+	return m_texture;
 }
 
 Weapon& Player::getWeapon()
