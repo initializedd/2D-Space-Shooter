@@ -1,16 +1,18 @@
 #include "Projectile.h"
 #include "Constants.h"
+#include <cstdio>
 
 Projectile::Projectile()
 	: m_pos{}
 	, m_vel{}
 	, m_texture{}
 {
+	printf("Projectile Created!\n");
 }
 
 Projectile::~Projectile()
 {
-	m_texture.free();
+	printf("Projectile Destroyed!\n");
 }
 
 void Projectile::move()
