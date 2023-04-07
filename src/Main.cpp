@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
 
 				gPlayer.getTexture().render(gPlayer.getPosX(), gPlayer.getPosY());
 
-				//gPlayer.getWeapon().updateProjectiles();
+				gPlayer.getWeapon().updateProjectiles();
 
 				SDL_RenderPresent(gWindow.getRenderer());
 			}
