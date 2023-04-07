@@ -35,7 +35,7 @@ bool init()
 
 bool loadMedia()
 {
-	if (!gBackgroundTexture.loadFromFile("img/space_bg.png", false))
+	if (!gBackgroundTexture.loadFromFile("img/space.png", false))
 		return false;
 
 	gBackgroundTexture.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -51,10 +51,10 @@ bool loadMedia()
 		SDL_SetWindowIcon(gWindow.getWindow(), gWindowIconTexture);
 	}
 
-	if (!gPlayer.setTexture("img/ship.png", true))
+	if (!gPlayer.setTexture("img/spiked_ship.png", false))
 		return false;
 
-	if (!gPlayer.getWeapon().getProjectile().getTexture().loadFromFile("img/bullet.png", false))
+	if (!gProjectileTexture.loadFromFile("img/bullet.png", false))
 		return false;
 
 	return true;
@@ -65,7 +65,7 @@ void free()
 	SDL_FreeSurface(gWindowIconTexture);
 	gWindowIconTexture = nullptr;
 
-	gPlayer.getWeapon().getProjectile().getTexture().free();
+	gProjectileTexture.free();
 	gPlayer.getTexture().free();
 	gBackgroundTexture.free();
 
@@ -104,6 +104,8 @@ int main(int argc, char* argv[])
 				gBackgroundTexture.render(0, 0);
 
 				gPlayer.getTexture().render(gPlayer.getPosX(), gPlayer.getPosY());
+
+				//gPlayer.getWeapon().updateProjectiles();
 
 				SDL_RenderPresent(gWindow.getRenderer());
 			}
