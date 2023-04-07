@@ -15,10 +15,13 @@ public:
 	Projectile();
 	~Projectile();
 
+	void move();
+
 	void setPosX(int x);
 	void setPosY(int y);
 	void setVelX(int x);
 	void setVelY(int y);
+	void setTexture(Texture& texture);
 
 	int getPosX() const;
 	int getPosY() const;
