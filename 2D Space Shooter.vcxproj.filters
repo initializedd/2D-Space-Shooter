@@ -7,6 +7,8 @@
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Weapon.cpp" />
     <ClCompile Include="src\Projectile.cpp" />
+    <ClCompile Include="src\Sound.cpp" />
+    <ClCompile Include="src\Particle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window.h" />
@@ -17,5 +19,7 @@
     <ClInclude Include="src\Weapon.h" />
     <ClInclude Include="src\Projectile.h" />
     <ClInclude Include="src\Pair.h" />
+    <ClInclude Include="src\Sound.h" />
+    <ClInclude Include="src\Particle.h" />
   </ItemGroup>
 </Project>
