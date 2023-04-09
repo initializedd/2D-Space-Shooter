@@ -1,10 +1,11 @@
 #ifndef PAIR_H
 #define PAIR_H
 
+template <typename T>
 struct Pair
 {
-	int x;
-	int y;
+	T x;
+	T y;
 };
 
 #endif // !PAIR_H
