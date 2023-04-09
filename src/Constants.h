@@ -7,6 +7,6 @@ const int SCREEN_HEIGHT{ 480 };
 
 // Velocity
 const int PLAYER_VEL{ 7 };
-const int LASER_VEL{ 5 };
+const int LASER_VEL{ 10 };
 
 #endif // !CONSTANTS_H
