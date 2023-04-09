@@ -103,7 +103,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>include/SDL2_H;include/SDL2_IMAGE_H;include/SDL2_TTF_H;include/SDL2_MIXER_H</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include/SDL2_H;include/SDL2_IMAGE_H;include/SDL2_TTF_H;include/SDL_MIXER_H</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +122,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>include/SDL2_H;include/SDL2_IMAGE_H;include/SDL2_TTF_H;include/SDL2_MIXER_H</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include/SDL2_H;include/SDL2_IMAGE_H;include/SDL2_TTF_H;include/SDL_MIXER_H</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,7 +141,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>include/SDL2_H;include/SDL2_IMAGE_H;include/SDL2_TTF_H;include/SDL2_MIXER_H</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include/SDL2_H;include/SDL2_IMAGE_H;include/SDL2_TTF_H;include/SDL_MIXER_H</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -160,7 +160,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>include/SDL2_H;include/SDL2_IMAGE_H;include/SDL2_TTF_H;include/SDL2_MIXER_H</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include/SDL2_H;include/SDL2_IMAGE_H;include/SDL2_TTF_H;include/SDL_MIXER_H</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -173,8 +173,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Projectile.cpp" />
+    <ClCompile Include="src\Sound.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Weapon.cpp" />
     <ClCompile Include="src\Window.cpp" />
@@ -183,8 +185,10 @@
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Globals.h" />
     <ClInclude Include="src\Pair.h" />
+    <ClInclude Include="src\Particle.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Projectile.h" />
+    <ClInclude Include="src\Sound.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Weapon.h" />
     <ClInclude Include="src\Window.h" />
