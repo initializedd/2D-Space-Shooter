@@ -60,8 +60,8 @@ void Weapon::updateProjectiles()
 		}
 		else
 		{
-			gProjectileTexture.render(projectilePair.first.getPosX(), projectilePair.first.getPosY(), &gRedLaserClip, 90);
-			gProjectileTexture.render(projectilePair.second.getPosX(), projectilePair.second.getPosY(), &gRedLaserClip, -90);
+			gProjectileTexture.render(projectilePair.first.getPosX(), projectilePair.first.getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, 90);
+			gProjectileTexture.render(projectilePair.second.getPosX(), projectilePair.second.getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, -90);
 
 			// Left Cannon Debug Info
 			printf("Left Cannon Pos X: %d\n", projectilePair.first.getPosX());
