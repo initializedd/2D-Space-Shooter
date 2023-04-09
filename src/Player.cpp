@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Globals.h"
 #include "Constants.h"
 
 Player::Player()
@@ -8,6 +9,7 @@ Player::Player()
 	, m_pos{}
 	, m_vel{}
 	, m_health{}
+	, m_particle{}
 	, m_weapon{}
 {
 }
@@ -110,6 +112,24 @@ void Player::move()
 void Player::shoot()
 {
 	m_weapon.shoot();
+	gLaserSound.playChunk(-1, 0);
+}
+
+void Player::animateExhaust(int flameFrames)
+{
+	SDL_Rect* currentClip = &gFlameClips[flameFrames / 6];
+
+	// Left Exhaust
+	gFlameTexture.render(gPlayer.getPosX() + (gPlayer.getTexture().getWidth() / 5.6), gPlayer.getPosY() + (gPlayer.getTexture().getHeight() / 1.15), currentClip, gFlameTexture.getWidth(), gFlameTexture.getHeight(), 180);
+
+	// Middle Left Exhaust
+	gFlameTexture.render(gPlayer.getPosX() + (gPlayer.getTexture().getWidth() / 2.9), gPlayer.getPosY() + gPlayer.getTexture().getHeight(), currentClip, gFlameTexture.getWidth(), gFlameTexture.getHeight(), 180);
+
+	// Middle Right Exhaust
+	gFlameTexture.render(gPlayer.getPosX() + (gPlayer.getTexture().getWidth() / 1.83), gPlayer.getPosY() + gPlayer.getTexture().getHeight(), currentClip, gFlameTexture.getWidth(), gFlameTexture.getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
+
+	// Right Exhaust
+	gFlameTexture.render(gPlayer.getPosX() + (gPlayer.getTexture().getWidth() / 1.41), gPlayer.getPosY() + (gPlayer.getTexture().getHeight() / 1.15), currentClip, gFlameTexture.getWidth(), gFlameTexture.getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
 }
 
 bool Player::setTexture(const char* path, const bool flag, const Uint8 red, const Uint8 green, const Uint8 blue)
