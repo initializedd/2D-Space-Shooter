@@ -99,14 +99,14 @@ bool Texture::loadFromFile(const char* path, const bool flag, const Uint8 red, c
 	return true;
 }
 
-void Texture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* centre, SDL_RendererFlip flip)
+void Texture::render(int x, int y, SDL_Rect* clip, int scaleW, int scaleH, double angle, SDL_Point* centre, SDL_RendererFlip flip)
 {
 	SDL_Rect render_quad{ x, y, m_width, m_height };
 
 	if (clip)
 	{
-		render_quad.w = clip->w;
-		render_quad.h = clip->h;
+		render_quad.w = scaleW;
+		render_quad.h = scaleH;
 	}
 
 	SDL_RenderCopyEx(gWindow.getRenderer(), m_texture, clip, &render_quad, angle, centre, flip);
