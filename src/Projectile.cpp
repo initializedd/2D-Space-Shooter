@@ -13,6 +13,7 @@ Projectile::Projectile()
 Projectile::~Projectile()
 {
 	printf("Projectile Destroyed!\n");
+	m_texture.free();
 }
 
 void Projectile::move()
