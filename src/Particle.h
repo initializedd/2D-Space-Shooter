@@ -7,12 +7,17 @@
 class Particle
 {
 private:
-	Texture		m_sprite;
-	SDL_Rect	m_clips[6];
+	Texture			m_texture;
+	SDL_Rect		m_clips[6];
 
 public:
 	Particle();
 	~Particle();
+
+	Texture& getTexture();
+	SDL_Rect* getClips();
+
+	void setClipsFromSprite(int width, int height, int padding);
 };
 
 #endif // !PARTICLE_H
