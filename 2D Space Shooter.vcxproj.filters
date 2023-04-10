@@ -9,6 +9,7 @@
     <ClCompile Include="src\Projectile.cpp" />
     <ClCompile Include="src\Sound.cpp" />
     <ClCompile Include="src\Particle.cpp" />
+    <ClCompile Include="src\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window.h" />
@@ -21,5 +22,6 @@
     <ClInclude Include="src\Pair.h" />
     <ClInclude Include="src\Sound.h" />
     <ClInclude Include="src\Particle.h" />
+    <ClInclude Include="src\Timer.h" />
   </ItemGroup>
 </Project>

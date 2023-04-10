@@ -178,6 +178,7 @@
     <ClCompile Include="src\Projectile.cpp" />
     <ClCompile Include="src\Sound.cpp" />
     <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\Weapon.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
@@ -190,6 +191,7 @@
     <ClInclude Include="src\Projectile.h" />
     <ClInclude Include="src\Sound.h" />
     <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\Timer.h" />
     <ClInclude Include="src\Weapon.h" />
     <ClInclude Include="src\Window.h" />
   </ItemGroup>
