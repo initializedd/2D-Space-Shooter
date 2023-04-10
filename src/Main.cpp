@@ -1,11 +1,14 @@
 #include "Window.h"
 #include "Texture.h"
+#include "Timer.h"
 #include "Globals.h"
 #include "Constants.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include <cstdio>
+#include <sstream>
 
 bool init()
 {
@@ -14,29 +17,29 @@ bool init()
 		printf("Failed to initialize SDL, Error: %s\n", SDL_GetError());
 		return false;
 	}
-	else
-	{
-		if (!gWindow.createWindow())
-			return false;
-		else
-		{
-			if (!gWindow.createRenderer())
-				return false;
 
-			if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG))
-			{
-				printf("Failed to initialize IMG, Error: %s\n", IMG_GetError());
-				return false;
-			}
-			else
-			{
-				if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-				{
-					printf("Failed to initialize Mixer, Error: %s\n", Mix_GetError());
-					return false;
-				}
-			}
-		}
+	if (!gWindow.createWindow())
+		return false;
+
+	if (!gWindow.createRenderer())
+		return false;
+
+	if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG))
+	{
+		printf("Failed to initialize IMG, Error: %s\n", IMG_GetError());
+		return false;
+	}
+
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		printf("Failed to initialize Mixer, Error: %s\n", Mix_GetError());
+		return false;
+	}
+
+	if (TTF_Init() == -1)
+	{
+		printf("Failed to initialize TTF, Error: %s\n", TTF_GetError());
+		return false;
 	}
 
 	return true;
@@ -44,7 +47,7 @@ bool init()
 
 bool loadMedia()
 {
-	if (!gBackgroundTexture.loadFromFile("img/space.png", false))
+	if (!gBackgroundTexture.loadFromFile("img/space_bg.png", false))
 		return false;
 
 	gBackgroundTexture.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -69,40 +72,18 @@ bool loadMedia()
 	if (!gLaserSound.loadChunk("audio/new laser.mp3"))
 		return false;
 
-	if (!gFlameTexture.loadFromFile("img/fire_sprite.png", false))
+	if (!gPlayer.getParticle().getTexture().loadFromFile("img/fire_sprite.png", false))
 		return false;
 
-	gFlameTexture.resize(gFlameTexture.getWidth() * 0.015, gFlameTexture.getHeight() * 0.015);
+	gPlayer.getParticle().setClipsFromSprite(400, 400, 20);
+	gPlayer.getParticle().getTexture().resize(gPlayer.getParticle().getTexture().getWidth() * 0.015, gPlayer.getParticle().getTexture().getHeight() * 0.015);
 
-	gFlameClips[0].x = 10;
-	gFlameClips[0].y = 10;
-	gFlameClips[0].w = 400;
-	gFlameClips[0].h = 400;
-
-	gFlameClips[1].x = 430;
-	gFlameClips[1].y = 10;
-	gFlameClips[1].w = 400;
-	gFlameClips[1].h = 400;
-
-	gFlameClips[2].x = 10;
-	gFlameClips[2].y = 430;
-	gFlameClips[2].w = 400;
-	gFlameClips[2].h = 400;
-
-	gFlameClips[3].x = 430;
-	gFlameClips[3].y = 430;
-	gFlameClips[3].w = 400;
-	gFlameClips[3].h = 400;
-
-	gFlameClips[4].x = 850;
-	gFlameClips[4].y = 10;
-	gFlameClips[4].w = 400;
-	gFlameClips[4].h = 400;
-
-	gFlameClips[5].x = 850;
-	gFlameClips[5].y = 430;
-	gFlameClips[5].w = 400;
-	gFlameClips[5].h = 400;
+	gFuturaFont = TTF_OpenFont("font/futura.ttf", 28);
+	if (!gFuturaFont)
+	{
+		printf("Failed to open font, Error: %s\n", TTF_GetError());
+		return false;
+	}
 
 	return true;
 }
@@ -112,13 +93,10 @@ void free()
 	SDL_FreeSurface(gWindowIconTexture);
 	gWindowIconTexture = nullptr;
 
-	gFlameTexture.free();
-	gProjectileTexture.free();
-	gPlayer.getTexture().free();
-	gBackgroundTexture.free();
+	TTF_CloseFont(gFuturaFont);
+	gFuturaFont = nullptr;
 
-	gWindow.free();
-
+	TTF_Quit();
 	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
@@ -138,7 +116,14 @@ int main(int argc, char* argv[])
 			backgroundMusic.playMusic(-1);
 			Mix_VolumeMusic(15);
 
+			int countedFrames = 0;
 			int flameFrames = 0;
+
+			Timer fpsTimer;
+			fpsTimer.start();
+
+			SDL_Color textColor{ 0x00, 0xFF, 0x00, 0xFF };
+			std::stringstream fpsText;
 
 			while (!quit)
 			{
@@ -154,6 +139,16 @@ int main(int argc, char* argv[])
 
 				gPlayer.move();
 
+				float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
+
+				if (avgFPS > 2000000)
+					avgFPS = 0.f;
+
+				fpsText.str("FPS: " + std::to_string(avgFPS));
+
+				if (!gFpsTextTexture.loadFromRenderedText(fpsText.str().c_str(), textColor))
+					return false;
+
 				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderClear(gWindow.getRenderer());
 
@@ -165,6 +160,8 @@ int main(int argc, char* argv[])
 
 				gPlayer.getWeapon().updateProjectiles();
 
+				gFpsTextTexture.render(SCREEN_WIDTH - gFpsTextTexture.getWidth(), 0);
+
 				SDL_RenderPresent(gWindow.getRenderer());
 
 				++flameFrames;
@@ -172,6 +169,8 @@ int main(int argc, char* argv[])
 				{
 					flameFrames = 0;
 				}
+
+				++countedFrames;
 			}
 		}
 	}

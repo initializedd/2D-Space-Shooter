@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Texture.h"
 #include "Sound.h"
+#include <SDL_ttf.h>
 
 inline Window			gWindow{};
 
@@ -17,7 +18,7 @@ inline Texture			gProjectileTexture{};
 inline SDL_Rect			gRedLaserClip{ 18, 13, 58, 41 };
 inline Sound			gLaserSound{};
 
-inline Texture			gFlameTexture{};
-inline SDL_Rect			gFlameClips[6];
+inline Texture			gFpsTextTexture{};
+inline TTF_Font*		gFuturaFont{};
 
 #endif // !GLOBALS_H
