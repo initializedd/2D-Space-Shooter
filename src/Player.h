@@ -5,22 +5,23 @@
 #include "Particle.h"
 #include "Weapon.h"
 #include "Pair.h"
+#include <SDL_events.h>
 
 class Player
 {
 private:
-	Texture		m_texture;
-	int			m_width;
-	int			m_height;
+	Texture			m_texture;
+	int				m_width;
+	int				m_height;
 
-	Pair		m_pos;
-	Pair		m_vel;
+	Pair<int>		m_pos;
+	Pair<int>		m_vel;
 
-	int			m_health;
+	int				m_health;
 
-	Particle	m_particle;
+	Particle		m_particle;
 
-	Weapon		m_weapon;
+	Weapon			m_weapon;
 
 public:
 	Player();
@@ -32,12 +33,13 @@ public:
 	void shoot();
 	void animateExhaust(int flameFrames);
 
-	bool setTexture(const char* path, const bool flag, const Uint8 red = 0xFF, const Uint8 green = 0xFF, const Uint8 blue = 0xFF);
-
 	Texture& getTexture();
+	Particle& getParticle();
 	Weapon& getWeapon();
 	int getPosX() const;
 	int getPosY() const;
+
+	bool setTexture(const char* path, const bool flag, const Uint8 red = 0xFF, const Uint8 green = 0xFF, const Uint8 blue = 0xFF);
 };
 
 #endif // !PLAYER_H
