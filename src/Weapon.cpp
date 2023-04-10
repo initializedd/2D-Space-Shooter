@@ -7,20 +7,26 @@ Weapon::Weapon()
 	, m_damage{}
 	, m_projectiles{}
 	, m_debugIndex{}
+	, m_lastShot{}
 {
 }
 
 Weapon::~Weapon()
 {
-	for (auto& projectile : m_projectiles)
-	{
-		projectile.first.getTexture().free();
-		projectile.second.getTexture().free();
-	}
 }
 
 void Weapon::shoot()
 {
+	if (!m_lastShot.isStarted()) 
+	{
+		m_lastShot.start();
+	}
+	else if (m_lastShot.getTicks() < 250) 
+	{
+		return; // not enough time has passed
+	}
+	m_lastShot.start();
+
 	Projectile leftCannon{};
 	leftCannon.setPosX(gPlayer.getPosX() + 31);
 	leftCannon.setPosY(gPlayer.getPosY());
@@ -29,21 +35,23 @@ void Weapon::shoot()
 	rightCannon.setPosX(gPlayer.getPosX() + 61);
 	rightCannon.setPosY(gPlayer.getPosY() + 1);
 
-	std::pair<Projectile, Projectile> p{ leftCannon, rightCannon };
-	m_projectiles.push_back(p);
+	Pair projectilePair{ leftCannon, rightCannon };
+	m_projectiles.push_back(projectilePair);
 
 	 // Left Cannon Debug Info
-	printf("Left Cannon Pos X: %d\n", m_projectiles.at(m_debugIndex).first.getPosX());
-	printf("Left Cannon Pos Y: %d\n", m_projectiles.at(m_debugIndex).first.getPosY());
-	printf("Left Cannon Width: %d\n", m_projectiles.at(m_debugIndex).first.getTexture().getWidth());
-	printf("Left Cannon Height: %d\n\n", m_projectiles.at(m_debugIndex).first.getTexture().getHeight());
+	printf("Left Cannon Pos X: %d\n", m_projectiles.at(m_debugIndex).x.getPosX());
+	printf("Left Cannon Pos Y: %d\n", m_projectiles.at(m_debugIndex).x.getPosY());
+	printf("Left Cannon Width: %d\n", m_projectiles.at(m_debugIndex).x.getTexture().getWidth());
+	printf("Left Cannon Height: %d\n\n", m_projectiles.at(m_debugIndex).x.getTexture().getHeight());
 
 	// Right Cannon Debug Info
-	printf("Right Cannon Pos X: %d\n", m_projectiles.at(m_debugIndex).second.getPosX());
-	printf("Right Cannon Pos Y: %d\n", m_projectiles.at(m_debugIndex).second.getPosY());
-	printf("Right Cannon Width: %d\n", m_projectiles.at(m_debugIndex).second.getTexture().getWidth());
-	printf("Right Cannon Height: %d\n\n", m_projectiles.at(m_debugIndex).second.getTexture().getHeight());
+	printf("Right Cannon Pos X: %d\n", m_projectiles.at(m_debugIndex).y.getPosX());
+	printf("Right Cannon Pos Y: %d\n", m_projectiles.at(m_debugIndex).y.getPosY());
+	printf("Right Cannon Width: %d\n", m_projectiles.at(m_debugIndex).y.getTexture().getWidth());
+	printf("Right Cannon Height: %d\n\n", m_projectiles.at(m_debugIndex).y.getTexture().getHeight());
 	++m_debugIndex;
+	
+	gLaserSound.playChunk(-1, 0);
 }
 
 void Weapon::updateProjectiles()
@@ -52,7 +60,7 @@ void Weapon::updateProjectiles()
 
 	for (auto& projectilePair : m_projectiles)
 	{
-		if (m_projectiles.at(i).first.getPosY() < 0 - gProjectileTexture.getHeight())
+		if (m_projectiles.at(i).x.getPosY() < 0 - gProjectileTexture.getHeight())
 		{
 			m_projectiles.erase(m_projectiles.begin() + i);
 			--i;
@@ -60,19 +68,19 @@ void Weapon::updateProjectiles()
 		}
 		else
 		{
-			gProjectileTexture.render(projectilePair.first.getPosX(), projectilePair.first.getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, 90);
-			gProjectileTexture.render(projectilePair.second.getPosX(), projectilePair.second.getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, -90);
+			gProjectileTexture.render(projectilePair.x.getPosX(), projectilePair.x.getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, 90);
+			gProjectileTexture.render(projectilePair.y.getPosX(), projectilePair.y.getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, -90);
 
 			// Left Cannon Debug Info
-			printf("Left Cannon Pos X: %d\n", projectilePair.first.getPosX());
-			printf("Left Cannon Pos Y: %d\n", projectilePair.first.getPosY());
+			printf("Left Cannon Pos X: %d\n", projectilePair.x.getPosX());
+			printf("Left Cannon Pos Y: %d\n", projectilePair.x.getPosY());
 
 			// Right Cannon Debug Info
-			printf("Right Cannon Pos X: %d\n", projectilePair.second.getPosX());
-			printf("Right Cannon Pos Y: %d\n\n", projectilePair.second.getPosY());
+			printf("Right Cannon Pos X: %d\n", projectilePair.y.getPosX());
+			printf("Right Cannon Pos Y: %d\n\n", projectilePair.y.getPosY());
 
-			projectilePair.first.move();
-			projectilePair.second.move();
+			projectilePair.x.move();
+			projectilePair.y.move();
 		}
 
 		++i;
