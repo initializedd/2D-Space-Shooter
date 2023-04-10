@@ -13,37 +13,11 @@ Projectile::Projectile()
 Projectile::~Projectile()
 {
 	printf("Projectile Destroyed!\n");
-	m_texture.free();
 }
 
 void Projectile::move()
 {
 	m_pos.y -= LASER_VEL;
-}
-
-void Projectile::setPosX(int x)
-{
-	m_pos.x = x;
-}
-
-void Projectile::setPosY(int y)
-{
-	m_pos.y = y;
-}
-
-void Projectile::setVelX(int x)
-{
-	m_vel.x = x;
-}
-
-void Projectile::setVelY(int y)
-{
-	m_vel.y = y;
-}
-
-void Projectile::setTexture(Texture& texture)
-{
-	m_texture = texture;
 }
 
 int Projectile::getPosX() const
@@ -69,4 +43,29 @@ int Projectile::getVelY() const
 Texture& Projectile::getTexture()
 {
 	return m_texture;
+}
+
+void Projectile::setPosX(int x)
+{
+	m_pos.x = x;
+}
+
+void Projectile::setPosY(int y)
+{
+	m_pos.y = y;
+}
+
+void Projectile::setVelX(int x)
+{
+	m_vel.x = x;
+}
+
+void Projectile::setVelY(int y)
+{
+	m_vel.y = y;
+}
+
+void Projectile::setTexture(Texture& texture)
+{
+	m_texture = texture;
 }
