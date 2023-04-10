@@ -1,7 +1,8 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include <SDL.h>
+#include <SDL_video.h>
+#include <SDL_render.h>
 
 class Window
 {
