@@ -22,6 +22,9 @@ TestResults
 # Build results
 /[Dd]ebug
 /[Rr]elease
+*.exe
+*.vcxproj
+*.filters
 *_i.c
 *_p.c
 *.ilk
