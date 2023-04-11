@@ -7,6 +7,7 @@ Window::Window()
 	, m_renderer{}
 	, m_width{}
 	, m_height{}
+	, m_fpsText{}
 {
 }
 
@@ -57,16 +58,6 @@ bool Window::createRenderer()
 	return true;
 }
 
-SDL_Window* Window::getWindow() const
-{
-	return m_window;
-}
-
-SDL_Renderer* Window::getRenderer() const
-{
-	return m_renderer;
-}
-
 void Window::free()
 {
 	if (m_renderer)
@@ -80,4 +71,29 @@ void Window::free()
 		SDL_DestroyWindow(m_window);
 		m_window = nullptr;
 	}
+}
+
+void Window::calculateFPS(Timer& timer, int countedFrames)
+{
+	float avgFPS = countedFrames / (timer.getTicks() / 1000.f);
+
+	if (avgFPS > 2000000)
+		avgFPS = 0.f;
+
+	m_fpsText.str("FPS: " + std::to_string((int)(round(avgFPS))));
+}
+
+SDL_Window* Window::getWindow() const
+{
+	return m_window;
+}
+
+SDL_Renderer* Window::getRenderer() const
+{
+	return m_renderer;
+}
+
+std::stringstream& Window::getFPS()
+{
+	return m_fpsText;
 }
