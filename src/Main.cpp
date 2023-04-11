@@ -85,6 +85,11 @@ bool loadMedia()
 		return false;
 	}
 
+	if (!gEnemy.getTexture().loadFromFile("img/enemy_ship1.png", false))
+		return false;
+
+	gEnemy.getTexture().resize(gEnemy.getTexture().getWidth() * 0.4, gEnemy.getTexture().getHeight() * 0.4);
+
 	return true;
 }
 
@@ -123,7 +128,6 @@ int main(int argc, char* argv[])
 			fpsTimer.start();
 
 			SDL_Color textColor{ 0x00, 0xFF, 0x00, 0xFF };
-			std::stringstream fpsText;
 
 			while (!quit)
 			{
@@ -139,14 +143,9 @@ int main(int argc, char* argv[])
 
 				gPlayer.move();
 
-				float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
+				gWindow.calculateFPS(fpsTimer, countedFrames);
 
-				if (avgFPS > 2000000)
-					avgFPS = 0.f;
-
-				fpsText.str("FPS: " + std::to_string(avgFPS));
-
-				if (!gFpsTextTexture.loadFromRenderedText(fpsText.str().c_str(), textColor))
+				if (!gFpsTextTexture.loadFromRenderedText(gWindow.getFPS().str().c_str(), textColor))
 					return false;
 
 				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
@@ -157,6 +156,8 @@ int main(int argc, char* argv[])
 				gPlayer.animateExhaust(flameFrames);
 
 				gPlayer.getTexture().render(gPlayer.getPosX(), gPlayer.getPosY());
+
+				gEnemy.getTexture().render((SCREEN_WIDTH - gEnemy.getTexture().getWidth()) / 2, 0, nullptr, 0, 0, 180);
 
 				gPlayer.getWeapon().updateProjectiles();
 

@@ -3,6 +3,7 @@
 
 #include "Window.h"
 #include "Player.h"
+#include "Entity.h"
 #include "Texture.h"
 #include "Sound.h"
 #include <SDL_ttf.h>
@@ -10,6 +11,7 @@
 inline Window			gWindow{};
 
 inline Player			gPlayer{};
+inline Entity			gEnemy{};
 
 inline Texture			gBackgroundTexture{};
 inline SDL_Surface*		gWindowIconTexture{};
