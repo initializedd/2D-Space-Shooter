@@ -172,6 +172,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\Player.cpp" />
@@ -184,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Constants.h" />
+    <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\Globals.h" />
     <ClInclude Include="src\Pair.h" />
     <ClInclude Include="src\Particle.h" />
