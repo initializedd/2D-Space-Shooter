@@ -23,8 +23,10 @@ TestResults
 /[Dd]ebug
 /[Rr]elease
 *.exe
+*.sln
 *.vcxproj
 *.filters
+*.user
 *_i.c
 *_p.c
 *.ilk
