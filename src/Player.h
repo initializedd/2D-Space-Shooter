@@ -10,18 +10,20 @@
 class Player
 {
 private:
-	Texture			m_texture;
-	int				m_width;
-	int				m_height;
+	Texture					m_texture;
+	int						m_width;
+	int						m_height;
 
-	Pair<int>		m_pos;
-	Pair<int>		m_vel;
+	Pair<int>				m_pos;
+	Pair<int>				m_vel;
 
-	int				m_health;
+	std::vector<SDL_Rect>	m_colliders;
 
-	Particle		m_particle;
+	int						m_health;
 
-	Weapon			m_weapon;
+	Particle				m_particle;
+
+	Weapon					m_weapon;
 
 public:
 	Player();
@@ -33,6 +35,10 @@ public:
 	void shoot();
 	void animateExhaust(int flameFrames);
 
+	bool checkCollision(std::vector<SDL_Rect>& a, std::vector<SDL_Rect>& b);
+	void shiftColliders();
+
+	std::vector<SDL_Rect>& getColliders();
 	Texture& getTexture();
 	Particle& getParticle();
 	Weapon& getWeapon();
