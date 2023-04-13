@@ -10,6 +10,7 @@ private:
 	Pair<int>		m_pos;
 	Pair<int>		m_vel;
 	Texture			m_texture;
+	SDL_Rect		m_collider;
 
 public:
 	Projectile();
@@ -17,17 +18,21 @@ public:
 
 	void move();
 
+	bool checkCollision(SDL_Rect& box);
+
 	int getPosX() const;
 	int getPosY() const;
 	int getVelX() const;
 	int getVelY() const;
 	Texture& getTexture();
+	SDL_Rect& getCollider();
 
 	void setPosX(int x);
 	void setPosY(int y);
 	void setVelX(int x);
 	void setVelY(int y);
 	void setTexture(Texture& texture);
+	void setCollider();
 };
 
 #endif // !PROJECTILE_H
