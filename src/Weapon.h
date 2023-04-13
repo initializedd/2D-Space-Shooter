@@ -12,8 +12,10 @@ class Weapon
 private:
 	std::string												m_name;
 	int														m_damage;
-	std::vector<Pair<Projectile>>							m_projectiles;
-	int														m_debugIndex;
+	std::vector<Projectile>									m_leftProjectiles;
+	std::vector<Projectile>									m_rightProjectiles;
+	int														m_leftDebugIndex;
+	int														m_rightDebugIndex;
 	Timer													m_lastShot;
 
 public:
