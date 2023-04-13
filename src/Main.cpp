@@ -89,6 +89,7 @@ bool loadMedia()
 		return false;
 
 	gEnemy.getTexture().resize(gEnemy.getTexture().getWidth() * 0.4, gEnemy.getTexture().getHeight() * 0.4);
+	gEnemy.setCollider();
 
 	return true;
 }
@@ -116,10 +117,10 @@ int main(int argc, char* argv[])
 			SDL_Event event;
 			bool quit = false;
 
-			Sound backgroundMusic{};
+			/*Sound backgroundMusic{};
 			backgroundMusic.loadMusic("audio/Orbital Colossus.mp3");
 			backgroundMusic.playMusic(-1);
-			Mix_VolumeMusic(15);
+			Mix_VolumeMusic(15);*/
 
 			int countedFrames = 0;
 			int flameFrames = 0;
@@ -157,7 +158,7 @@ int main(int argc, char* argv[])
 
 				gPlayer.getTexture().render(gPlayer.getPosX(), gPlayer.getPosY());
 
-				gEnemy.getTexture().render((SCREEN_WIDTH - gEnemy.getTexture().getWidth()) / 2, 0, nullptr, 0, 0, 180);
+				gEnemy.getTexture().render(gEnemy.getPosX(), gEnemy.getPosY(), nullptr, 0, 0);
 
 				gPlayer.getWeapon().updateProjectiles();
 

@@ -6,12 +6,13 @@
 #include "Entity.h"
 #include "Texture.h"
 #include "Sound.h"
+#include "Constants.h"
 #include <SDL_ttf.h>
 
 inline Window			gWindow{};
 
 inline Player			gPlayer{};
-inline Entity			gEnemy{};
+inline Entity			gEnemy{SCREEN_WIDTH / 2, 0};
 
 inline Texture			gBackgroundTexture{};
 inline SDL_Surface*		gWindowIconTexture{};
