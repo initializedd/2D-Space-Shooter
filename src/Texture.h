@@ -6,10 +6,10 @@
 class Texture
 {
 private:
-	SDL_Texture*	m_texture;
-	int				m_width;
-	int				m_height;
-	SDL_Surface*	m_surfacePixels;
+	SDL_Texture*				m_texture;
+	int							m_width;
+	int							m_height;
+	SDL_Surface*				m_surfacePixels;
 
 public:
 	Texture();
