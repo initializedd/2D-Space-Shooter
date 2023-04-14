@@ -31,8 +31,7 @@ public:
 	void move();
 	void shoot();
 
-	bool checkCollision(SDL_Rect& a, SDL_Rect& b);
-	//void shiftColliders();
+	bool checkCollision(SDL_Rect& box);
 
 	SDL_Rect& getCollider();
 	Texture& getTexture();

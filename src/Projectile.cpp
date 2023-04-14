@@ -1,4 +1,5 @@
 #include "Projectile.h"
+#include "Globals.h"
 #include "Constants.h"
 #include <cstdio>
 
@@ -21,20 +22,16 @@ void Projectile::move()
 
 bool Projectile::checkCollision(SDL_Rect& box)
 {
-	SDL_Rect projectileBox;
-	projectileBox.x = this->getPosX();
-	projectileBox.y = this->getPosY();
-	projectileBox.w = this->getPosX() + this->getTexture().getWidth();
-	projectileBox.h = this->getPosY() + this->getTexture().getHeight();
+	this->setCollider();
 
-	SDL_Rect enemyBox;
-	enemyBox.x = box.x;
-	enemyBox.y = box.y;
-	enemyBox.w = box.x + box.w;
-	enemyBox.h = box.y + box.h;
+	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
+	SDL_RenderDrawRect(gWindow.getRenderer(), &this->getCollider());
+
+	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
+	SDL_RenderDrawRect(gWindow.getRenderer(), &box);
 
 	// Check for collision
-	return SDL_HasIntersection(&projectileBox, &enemyBox);
+	return SDL_HasIntersection(&this->getCollider(), &box);
 }
 
 
@@ -97,6 +94,6 @@ void Projectile::setCollider()
 {
 	m_collider.x = m_pos.x;
 	m_collider.y = m_pos.y;
-	m_collider.w = m_pos.x + m_texture.getWidth();
-	m_collider.h = m_pos.y + m_texture.getHeight();
+	m_collider.w = gRedLaserClip.w;
+	m_collider.h = gRedLaserClip.h;
 }

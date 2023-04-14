@@ -13,7 +13,6 @@ Player::Player()
 	, m_particle{}
 	, m_weapon{}
 {
-	//shiftColliders();
 }
 
 Player::~Player()
@@ -83,48 +82,60 @@ void Player::move()
 {
 	// Update X position based on its X velocity
 	m_pos.x += m_vel.x;
-	//shiftColliders();
+	setCollider();
 
 	// Check if outside of left screen boundary
 	if (m_pos.x <= 0)
 	{
 		m_pos.x = 0;
-		//shiftColliders();
+		setCollider();
 	}
 	// Check if outside of right screen boundary
-	else if (m_pos.x + m_width >= SCREEN_WIDTH)
+	else if (m_pos.x + m_collider.w >= SCREEN_WIDTH)
 	{
-		m_pos.x = SCREEN_WIDTH - m_width;
-		//shiftColliders();
+		m_pos.x = SCREEN_WIDTH - m_collider.w;
+		setCollider();
+
 	}
-	else if (checkCollision(m_collider, gEnemy.getCollider()))
+	// Check if collision on X axis
+	else if (checkCollision(gEnemy.getCollider()))
 	{
-		m_pos.x -= m_vel.x;
+		if (m_pos.x < gEnemy.getPosX())
+			m_pos.x = gEnemy.getPosX() - m_collider.w;
+
+		else if (m_pos.x > gEnemy.getPosX())
+			m_pos.x = gEnemy.getPosX() + gEnemy.getTexture().getWidth();
+
+		setCollider();
 	}
 
 	// Update Y position based on its Y velocity
 	m_pos.y += m_vel.y;
-	//shiftColliders();
+	setCollider();
 
 	// Check if outside of top screen boundary
 	if (m_pos.y <= 0)
 	{
 		m_pos.y = 0;
-		//shiftColliders();
+		setCollider();
 	}
 	// Check if outside of bottom screen boundary
-	else if (m_pos.y + m_height + m_particle.getTexture().getHeight() >= SCREEN_HEIGHT)
+	else if (m_pos.y + m_collider.h >= SCREEN_HEIGHT)
 	{
-		m_pos.y = SCREEN_HEIGHT - m_height - m_particle.getTexture().getHeight();
-		//shiftColliders();
+		m_pos.y = SCREEN_HEIGHT - m_collider.h;
+		setCollider();
 	}
-	else if (checkCollision(m_collider, gEnemy.getCollider()))
+	// Check if collision on Y axis
+	else if (checkCollision(gEnemy.getCollider()))
 	{
-		m_pos.y -= m_vel.y;
-	}
+		if (m_pos.y < gEnemy.getPosY())
+			m_pos.y = gEnemy.getPosY() - m_collider.h;
 
-	m_collider.x = m_pos.x;
-	m_collider.y = m_pos.y;
+		else if (m_pos.y > gEnemy.getPosY())
+			m_pos.y = gEnemy.getPosY() + gEnemy.getTexture().getHeight();
+
+		setCollider();
+	}
 }
 
 void Player::shoot()
@@ -137,76 +148,24 @@ void Player::animateExhaust(int flameFrames)
 	SDL_Rect* currentClip = &m_particle.getClips()[flameFrames / 6];
 
 	// Left Exhaust
-	m_particle.getTexture().render(gPlayer.getPosX() + (gPlayer.getTexture().getWidth() / 5.6), gPlayer.getPosY() + (gPlayer.getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
+	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 5.6), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
 
 	// Middle Left Exhaust
-	m_particle.getTexture().render(gPlayer.getPosX() + (gPlayer.getTexture().getWidth() / 2.9), gPlayer.getPosY() + gPlayer.getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
+	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 2.9), this->getPosY() + this->getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
 
 	// Middle Right Exhaust
-	m_particle.getTexture().render(gPlayer.getPosX() + (gPlayer.getTexture().getWidth() / 1.83), gPlayer.getPosY() + gPlayer.getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
+	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.83), this->getPosY() + this->getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
 
 	// Right Exhaust
-	m_particle.getTexture().render(gPlayer.getPosX() + (gPlayer.getTexture().getWidth() / 1.41), gPlayer.getPosY() + (gPlayer.getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
+	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.41), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
 }
 
-bool Player::checkCollision(SDL_Rect& a, SDL_Rect& b) 
+bool Player::checkCollision(SDL_Rect& box)
 {
-	m_collider.x = m_pos.x;
-	m_collider.y = m_pos.y;
-	m_collider.w = m_width;
-	m_collider.h = m_height;
+	this->setCollider();
 
-	b.x = (SCREEN_WIDTH - gEnemy.getTexture().getWidth()) / 2;
-	b.y = 0;
-	b.w = gEnemy.getTexture().getWidth();
-	b.h = gEnemy.getTexture().getHeight();
-
-
-	int leftA, leftB;
-	int rightA, rightB;
-	int topA, topB;
-	int bottomA, bottomB;
-
-	leftA = a.x;
-	rightA = a.x + a.w;
-	topA = a.y;
-	bottomA = a.y + a.h;
-
-	leftB = b.x;
-	rightB = b.x + b.w;
-	topB = b.y;
-	bottomB = b.y + b.h;
-
-	if (bottomA <= topB) { return false; }
-
-	if (topA >= bottomB) { return false; }
-
-	if (rightA <= leftB) { return false; }
-
-	if (leftA >= rightB) { return false; }
-
-	return true;
+	return SDL_HasIntersection(&this->getCollider(), &box);
 }
-
-
-//void Player::shiftColliders()
-//{
-//	//The row offset
-//	int r = 0;
-//
-//	//Go through the dot's collision boxes
-//	for (int set = 0; set < m_collider.size(); ++set)
-//	{
-//		//Center the collision box
-//		m_collider[set].x = m_pos.x + (getTexture().getWidth() - m_collider[set].w) / 2;
-//
-//		//Set the collision box at its row offset
-//		m_collider[set].y = m_pos.y + r;
-//
-//		//Move the row offset down the height of the collision box
-//		r += m_collider[set].h;
-//	}
-//}
 
 SDL_Rect& Player::getCollider()
 {
@@ -238,13 +197,10 @@ int Player::getPosY() const
 	return m_pos.y;
 }
 
-bool Player::setTexture(const char* path, const bool flag, const Uint8 red, const Uint8 green, const Uint8 blue)
+void Player::setCollider()
 {
-	if (!m_texture.loadFromFile(path, flag, red, green, blue))
-		return false;
-
-	m_width = m_texture.getWidth();
-	m_height = m_texture.getHeight();
-
-	return true;
+	m_collider.x = m_pos.x;
+	m_collider.y = m_pos.y;
+	m_collider.w = m_texture.getWidth();
+	m_collider.h = m_texture.getHeight() + m_particle.getTexture().getHeight();
 }
