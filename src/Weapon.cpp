@@ -40,8 +40,8 @@ void Weapon::shoot()
 
 	#if defined(DEBUG)
 	// Left Cannon Debug Info
-	printf("Left Cannon Pos X: %d\n", m_leftProjectiles.at(m_leftDebugIndex).getPosX());
-	printf("Left Cannon Pos Y: %d\n", m_leftProjectiles.at(m_leftDebugIndex).getPosY());
+	printf("Left Cannon Pos X: %d\n", m_leftProjectiles.at(m_leftDebugIndex).getCollider().x);
+	printf("Left Cannon Pos Y: %d\n", m_leftProjectiles.at(m_leftDebugIndex).getCollider().y);
 	printf("Left Cannon Width: %d\n", m_leftProjectiles.at(m_leftDebugIndex).getCollider().w);
 	printf("Left Cannon Height: %d\n\n", m_leftProjectiles.at(m_leftDebugIndex).getCollider().h);
 	++m_leftDebugIndex;
@@ -56,8 +56,8 @@ void Weapon::shoot()
 
 	#if defined(DEBUG)
 	// Right Cannon Debug Info
-	printf("Right Cannon Pos X: %d\n", m_rightProjectiles.at(m_rightDebugIndex).getPosX());
-	printf("Right Cannon Pos Y: %d\n", m_rightProjectiles.at(m_rightDebugIndex).getPosY());
+	printf("Right Cannon Pos X: %d\n", m_rightProjectiles.at(m_rightDebugIndex).getCollider().x);
+	printf("Right Cannon Pos Y: %d\n", m_rightProjectiles.at(m_rightDebugIndex).getCollider().y);
 	printf("Right Cannon Width: %d\n", m_rightProjectiles.at(m_rightDebugIndex).getCollider().w);
 	printf("Right Cannon Height: %d\n\n", m_rightProjectiles.at(m_rightDebugIndex).getCollider().h);
 	++m_rightDebugIndex;
