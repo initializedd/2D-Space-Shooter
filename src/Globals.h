@@ -12,7 +12,7 @@
 inline Window			gWindow{};
 
 inline Player			gPlayer{};
-inline Entity			gEnemy{SCREEN_WIDTH / 2, 0};
+inline Entity			gEnemy{280, 0};
 
 inline Texture			gBackgroundTexture{};
 inline SDL_Surface*		gWindowIconTexture{};

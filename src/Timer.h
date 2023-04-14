@@ -6,11 +6,11 @@
 class Timer
 {
 private:
-	Uint32		m_startTicks;
-	Uint32		m_pausedTicks;
+	Uint32				m_startTicks;
+	Uint32				m_pausedTicks;
 	
-	bool		m_started;
-	bool		m_paused;
+	bool				m_started;
+	bool				m_paused;
 
 public:
 	Timer();
