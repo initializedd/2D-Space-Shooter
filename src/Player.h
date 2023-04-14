@@ -35,8 +35,7 @@ public:
 	void shoot();
 	void animateExhaust(int flameFrames);
 
-	bool checkCollision(SDL_Rect& a, SDL_Rect& b);
-	//void shiftColliders();
+	bool checkCollision(SDL_Rect& box);
 
 	SDL_Rect& getCollider();
 	Texture& getTexture();
@@ -45,7 +44,7 @@ public:
 	int getPosX() const;
 	int getPosY() const;
 
-	bool setTexture(const char* path, const bool flag, const Uint8 red = 0xFF, const Uint8 green = 0xFF, const Uint8 blue = 0xFF);
+	void setCollider();
 };
 
 #endif // !PLAYER_H
