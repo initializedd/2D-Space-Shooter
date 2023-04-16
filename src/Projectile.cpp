@@ -22,8 +22,6 @@ void Projectile::move()
 
 bool Projectile::checkCollision(SDL_Rect& box)
 {
-	this->setCollider();
-
 	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
 	SDL_RenderDrawRect(gWindow.getRenderer(), &this->getCollider());
 
@@ -90,10 +88,10 @@ void Projectile::setTexture(Texture& texture)
 	m_texture = texture;
 }
 
-void Projectile::setCollider()
+void Projectile::setCollider(SDL_Rect& box)
 {
-	m_collider.x = m_pos.x;
-	m_collider.y = m_pos.y;
-	m_collider.w = gRedLaserClip.w;
-	m_collider.h = gRedLaserClip.h;
+	m_collider.x = m_pos.x + box.x;
+	m_collider.y = m_pos.y + box.y;
+	m_collider.w = box.w;
+	m_collider.h = box.h;
 }
