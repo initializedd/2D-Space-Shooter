@@ -1,12 +1,12 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#ifndef ENEMY_H
+#define ENEMY_H
 
 #include "Texture.h"
 #include "Particle.h"
 #include "Weapon.h"
 #include "Pair.h"
 
-class Entity
+class Enemy
 {
 private:
 	Texture						m_texture;
@@ -16,7 +16,7 @@ private:
 	Pair<int>					m_pos;
 	Pair<int>					m_vel;
 
-	SDL_Rect					m_collider;
+	std::vector<SDL_Rect>		m_colliders;
 
 	int							m_health;
 
@@ -25,15 +25,15 @@ private:
 	Weapon						m_weapon;
 
 public:
-	Entity(int x, int y);
-	~Entity();
+	Enemy(int x, int y);
+	~Enemy();
 
 	void move();
 	void shoot();
 
 	bool checkCollision(SDL_Rect& box);
 
-	SDL_Rect& getCollider();
+	std::vector<SDL_Rect>& getColliders();
 	Texture& getTexture();
 	int getPosX() const;
 	int getPosY() const;
@@ -41,4 +41,4 @@ public:
 	void setCollider();
 };
 
-#endif // !ENTITY_H
+#endif // !ENEMY_H
