@@ -17,7 +17,7 @@ private:
 	Pair<int>				m_pos;
 	Pair<int>				m_vel;
 
-	SDL_Rect				m_collider;
+	std::vector<SDL_Rect>	m_colliders;
 
 	int						m_health;
 
@@ -35,16 +35,17 @@ public:
 	void shoot();
 	void animateExhaust(int flameFrames);
 
-	bool checkCollision(SDL_Rect& box);
+	bool checkCollisionPosX(std::vector<SDL_Rect>& box);
+	bool checkCollisionPosY(std::vector<SDL_Rect>& box);
 
-	SDL_Rect& getCollider();
+	std::vector<SDL_Rect>& getColliders();
 	Texture& getTexture();
 	Particle& getParticle();
 	Weapon& getWeapon();
 	int getPosX() const;
 	int getPosY() const;
 
-	void setCollider();
+	void setColliders();
 };
 
 #endif // !PLAYER_H

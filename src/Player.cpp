@@ -8,11 +8,17 @@ Player::Player()
 	, m_height{}
 	, m_pos{}
 	, m_vel{}
-	, m_collider{}
+	, m_colliders{}
 	, m_health{}
 	, m_particle{}
 	, m_weapon{}
 {
+	m_colliders.push_back(gHeadCollision);
+	m_colliders.push_back(gLeftWingCollision);
+	m_colliders.push_back(gRightWingCollision);
+	m_colliders.push_back(gBodyCollision);
+	m_colliders.push_back(gLowerCollision);
+	m_colliders.push_back(gExhaustCollision);
 }
 
 Player::~Player()
@@ -82,59 +88,47 @@ void Player::move()
 {
 	// Update X position based on its X velocity
 	m_pos.x += m_vel.x;
-	setCollider();
+	setColliders();
 
 	// Check if outside of left screen boundary
 	if (m_pos.x <= 0)
 	{
 		m_pos.x = 0;
-		setCollider();
+		setColliders();
 	}
 	// Check if outside of right screen boundary
-	else if (m_pos.x + m_collider.w >= SCREEN_WIDTH)
+	else if (m_pos.x + m_texture.getWidth() >= SCREEN_WIDTH)
 	{
-		m_pos.x = SCREEN_WIDTH - m_collider.w;
-		setCollider();
+		m_pos.x = SCREEN_WIDTH - m_texture.getWidth();
+		setColliders();
 
 	}
 	// Check if collision on X axis
-	else if (checkCollision(gEnemy.getCollider()))
+	else if (checkCollisionPosX(gEnemy.getColliders()))
 	{
-		if (m_pos.x < gEnemy.getPosX())
-			m_pos.x = gEnemy.getPosX() - m_collider.w;
-
-		else if (m_pos.x > gEnemy.getPosX())
-			m_pos.x = gEnemy.getPosX() + gEnemy.getTexture().getWidth();
-
-		setCollider();
+		setColliders();
 	}
 
 	// Update Y position based on its Y velocity
 	m_pos.y += m_vel.y;
-	setCollider();
+	setColliders();
 
 	// Check if outside of top screen boundary
 	if (m_pos.y <= 0)
 	{
 		m_pos.y = 0;
-		setCollider();
+		setColliders();
 	}
 	// Check if outside of bottom screen boundary
-	else if (m_pos.y + m_collider.h >= SCREEN_HEIGHT)
+	else if (m_pos.y + m_texture.getHeight() + m_particle.getTexture().getHeight() >= SCREEN_HEIGHT)
 	{
-		m_pos.y = SCREEN_HEIGHT - m_collider.h;
-		setCollider();
+		m_pos.y = SCREEN_HEIGHT - m_texture.getHeight() - m_particle.getTexture().getHeight();
+		setColliders();
 	}
 	// Check if collision on Y axis
-	else if (checkCollision(gEnemy.getCollider()))
+	else if (checkCollisionPosY(gEnemy.getColliders()))
 	{
-		if (m_pos.y < gEnemy.getPosY())
-			m_pos.y = gEnemy.getPosY() - m_collider.h;
-
-		else if (m_pos.y > gEnemy.getPosY())
-			m_pos.y = gEnemy.getPosY() + gEnemy.getTexture().getHeight();
-
-		setCollider();
+		setColliders();
 	}
 }
 
@@ -160,16 +154,53 @@ void Player::animateExhaust(int flameFrames)
 	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.41), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
 }
 
-bool Player::checkCollision(SDL_Rect& box)
+bool Player::checkCollisionPosX(std::vector<SDL_Rect>& box)
 {
-	this->setCollider();
+	for (int i = 0; i < box.size(); ++i)
+	{
+		for (int j = 0; j < this->m_colliders.size(); ++j)
+		{
+			if (SDL_HasIntersection(&m_colliders[j], &box.at(i)))
+			{
+				if (m_pos.x <= gEnemy.getPosX())
+					m_pos.x = (gEnemy.getPosX() - (gEnemy.getPosX() - box.at(i).x)) - ((m_colliders[j].x - m_pos.x) + m_colliders[j].w);
 
-	return SDL_HasIntersection(&this->getCollider(), &box);
+				if (m_pos.x > gEnemy.getPosX())
+					m_pos.x = (box.at(i).x + box.at(i).w) - (m_colliders[j].x - m_pos.x);
+
+				return true;
+			}
+		}
+	}
+
+	return false;
 }
 
-SDL_Rect& Player::getCollider()
+bool Player::checkCollisionPosY(std::vector<SDL_Rect>& box)
 {
-	return m_collider;
+	for (int i = 0; i < box.size(); ++i)
+	{
+		for (int j = 0; j < this->m_colliders.size(); ++j)
+		{
+			if (SDL_HasIntersection(&m_colliders[j], &box.at(i)))
+			{
+				if (m_pos.y <= gEnemy.getPosY())
+					m_pos.y = (gEnemy.getPosY() - (gEnemy.getPosY() - box.at(i).y)) - ((m_colliders[j].y - m_pos.y) + m_colliders[j].h);
+
+				if (m_pos.y > gEnemy.getPosY())
+					m_pos.y = (box.at(i).y + box.at(i).h) - (m_colliders[j].y - m_pos.y);
+
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+std::vector<SDL_Rect>& Player::getColliders()
+{
+	return m_colliders;
 }
 
 Texture& Player::getTexture()
@@ -197,10 +228,23 @@ int Player::getPosY() const
 	return m_pos.y;
 }
 
-void Player::setCollider()
+void Player::setColliders()
 {
-	m_collider.x = m_pos.x;
-	m_collider.y = m_pos.y;
-	m_collider.w = m_texture.getWidth();
-	m_collider.h = m_texture.getHeight() + m_particle.getTexture().getHeight();
+	m_colliders[0].x = gHeadCollision.x + m_pos.x;
+	m_colliders[0].y = gHeadCollision.y + m_pos.y;
+
+	m_colliders[1].x = gLeftWingCollision.x + m_pos.x;
+	m_colliders[1].y = gLeftWingCollision.y + m_pos.y;
+
+	m_colliders[2].x = gRightWingCollision.x + m_pos.x;
+	m_colliders[2].y = gRightWingCollision.y + m_pos.y;
+
+	m_colliders[3].x = gBodyCollision.x + m_pos.x;
+	m_colliders[3].y = gBodyCollision.y + m_pos.y;
+
+	m_colliders[4].x = gLowerCollision.x + m_pos.x;
+	m_colliders[4].y = gLowerCollision.y + m_pos.y;
+
+	m_colliders[5].x = gExhaustCollision.x + m_pos.x;
+	m_colliders[5].y = gExhaustCollision.y + m_pos.y;
 }
