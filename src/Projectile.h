@@ -32,7 +32,7 @@ public:
 	void setVelX(int x);
 	void setVelY(int y);
 	void setTexture(Texture& texture);
-	void setCollider();
+	void setCollider(SDL_Rect& box);
 };
 
 #endif // !PROJECTILE_H
