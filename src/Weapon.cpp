@@ -34,7 +34,7 @@ void Weapon::shoot()
 	Projectile leftCannon{};
 	leftCannon.setPosX(gPlayer.getPosX() + 31);
 	leftCannon.setPosY(gPlayer.getPosY());
-	leftCannon.setCollider();
+	leftCannon.setCollider(gLeftLaserHitBox);
 
 	m_leftProjectiles.push_back(leftCannon);
 
@@ -50,7 +50,7 @@ void Weapon::shoot()
 	Projectile rightCannon{};
 	rightCannon.setPosX(gPlayer.getPosX() + 61);
 	rightCannon.setPosY(gPlayer.getPosY() + 1);
-	rightCannon.setCollider();
+	rightCannon.setCollider(gRightLaserHitBox);
 
 	m_rightProjectiles.push_back(rightCannon);
 
@@ -73,26 +73,33 @@ void Weapon::updateProjectiles()
 	{
 		for (int i = 0; i < m_leftProjectiles.size(); ++i)
 		{
-			if (m_leftProjectiles[i].getPosY() < 0 - gProjectileTexture.getHeight() || m_leftProjectiles[i].checkCollision(gEnemy.getCollider()))
+			m_leftProjectiles[i].setCollider(gLeftLaserHitBox);
+
+			for (int j = 0; j < gEnemy.getColliders().size(); ++j)
 			{
-				m_leftProjectiles.erase(m_leftProjectiles.begin() + i);
+				if (m_leftProjectiles[i].getPosY() < 0 - gProjectileTexture.getHeight() || m_leftProjectiles[i].checkCollision(gEnemy.getColliders().at(j)))
+				{
+					m_leftProjectiles.erase(m_leftProjectiles.begin() + i);
 
-				#if defined(DEBUG)
-				printf("Left Cannon Destroyed!\n");
-				--m_leftDebugIndex;
-				#endif
-			}
-			else
-			{
-				gProjectileTexture.render(m_leftProjectiles[i].getPosX(), m_leftProjectiles[i].getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, 90);
+					#if defined(DEBUG)
+					printf("Left Cannon Destroyed!\n");
+					--m_leftDebugIndex;
+					#endif
 
-				#if defined(DEBUG)
-				// Left Cannon Debug Info
-				printf("Left Cannon Pos X: %d\n", m_leftProjectiles[i].getPosX());
-				printf("Left Cannon Pos Y: %d\n", m_leftProjectiles[i].getPosY());
-				#endif
+					break;
+				}
+				else
+				{
+					gProjectileTexture.render(m_leftProjectiles[i].getPosX(), m_leftProjectiles[i].getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, 90);
 
-				m_leftProjectiles[i].move();
+					#if defined(DEBUG)
+					// Left Cannon Debug Info
+					printf("Left Cannon Pos X: %d\n", m_leftProjectiles[i].getPosX());
+					printf("Left Cannon Pos Y: %d\n", m_leftProjectiles[i].getPosY());
+					#endif
+
+					m_leftProjectiles[i].move();
+				}
 			}
 		}
 	}
@@ -102,26 +109,33 @@ void Weapon::updateProjectiles()
 	{
 		for (int i = 0; i < m_rightProjectiles.size(); ++i)
 		{
-			if (m_rightProjectiles[i].getPosY() < 0 - gProjectileTexture.getHeight() || m_rightProjectiles[i].checkCollision(gEnemy.getCollider()))
+			m_rightProjectiles[i].setCollider(gRightLaserHitBox);
+
+			for (int j = 0; j < gEnemy.getColliders().size(); ++j)
 			{
-				m_rightProjectiles.erase(m_rightProjectiles.begin() + i);
+				if (m_rightProjectiles[i].getPosY() < 0 - gProjectileTexture.getHeight() || m_rightProjectiles[i].checkCollision(gEnemy.getColliders().at(j)))
+				{
+					m_rightProjectiles.erase(m_rightProjectiles.begin() + i);
 
-				#if defined(DEBUG)
-				printf("Right Cannon Destroyed!\n");
-				--m_rightDebugIndex;
-				#endif
-			}
-			else
-			{
-				gProjectileTexture.render(m_rightProjectiles[i].getPosX(), m_rightProjectiles[i].getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, -90);
+					#if defined(DEBUG)
+					printf("Right Cannon Destroyed!\n");
+					--m_rightDebugIndex;
+					#endif
 
-				#if defined(DEBUG)
-				// Right Cannon Debug Info
-				printf("Right Cannon Pos X: %d\n", m_rightProjectiles[i].getPosX());
-				printf("Right Cannon Pos Y: %d\n\n", m_rightProjectiles[i].getPosY());
-				#endif
+					break;
+				}
+				else
+				{
+					gProjectileTexture.render(m_rightProjectiles[i].getPosX(), m_rightProjectiles[i].getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, -90);
 
-				m_rightProjectiles[i].move();
+					#if defined(DEBUG)
+					// Right Cannon Debug Info
+					printf("Right Cannon Pos X: %d\n", m_rightProjectiles[i].getPosX());
+					printf("Right Cannon Pos Y: %d\n\n", m_rightProjectiles[i].getPosY());
+					#endif
+
+					m_rightProjectiles[i].move();
+				}
 			}
 		}
 	}
