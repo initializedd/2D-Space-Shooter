@@ -88,7 +88,7 @@ bool loadMedia()
 	if (!gEnemy.getTexture().loadFromFile("img/enemy_ship1.png", false))
 		return false;
 
-	gPlayer.setCollider();
+	gPlayer.setColliders();
 
 	gEnemy.getTexture().resize(gEnemy.getTexture().getWidth() * 0.4, gEnemy.getTexture().getHeight() * 0.4);
 	gEnemy.setCollider();
@@ -160,13 +160,21 @@ int main(int argc, char* argv[])
 
 				gPlayer.getTexture().render(gPlayer.getPosX(), gPlayer.getPosY());
 
-				gEnemy.getTexture().render(gEnemy.getPosX(), gEnemy.getPosY());
+				gEnemy.getTexture().render(gEnemy.getPosX(), gEnemy.getPosY(), nullptr, 0, 0, 180);
 
+				// Debug
 				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
-				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getCollider());
+				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(0));
+				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(1));
+				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(2));
+				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(3));
+				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(4));
+				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(5));
 
+				// Debug
 				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
-				SDL_RenderDrawRect(gWindow.getRenderer(), &gEnemy.getCollider());
+				SDL_RenderDrawRect(gWindow.getRenderer(), &gEnemy.getColliders().at(0));
+				SDL_RenderDrawRect(gWindow.getRenderer(), &gEnemy.getColliders().at(1));
 
 				gPlayer.getWeapon().updateProjectiles();
 
