@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "Texture.h"
 #include "Timer.h"
+#include "Wave.h"
 #include "Globals.h"
 #include "Constants.h"
 #include <SDL.h>
@@ -85,13 +86,12 @@ bool loadMedia()
 		return false;
 	}
 
-	if (!gEnemy.getTexture().loadFromFile("img/enemy_ship1.png", false))
+	if (!gEnemyTexture.loadFromFile("img/enemy_ship1.png", false))
 		return false;
 
-	gPlayer.setColliders();
+	gEnemyTexture.resize(gEnemyTexture.getWidth() * 0.4, gEnemyTexture.getHeight() * 0.4);
 
-	gEnemy.getTexture().resize(gEnemy.getTexture().getWidth() * 0.4, gEnemy.getTexture().getHeight() * 0.4);
-	gEnemy.setCollider();
+	gPlayer.setColliders();
 
 	return true;
 }
@@ -160,7 +160,7 @@ int main(int argc, char* argv[])
 
 				gPlayer.getTexture().render(gPlayer.getPosX(), gPlayer.getPosY());
 
-				gEnemy.getTexture().render(gEnemy.getPosX(), gEnemy.getPosY(), nullptr, 0, 0, 180);
+				gWave.render(nullptr, 0, 0, 180);
 
 				// Debug
 				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
@@ -172,9 +172,7 @@ int main(int argc, char* argv[])
 				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(5));
 
 				// Debug
-				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
-				SDL_RenderDrawRect(gWindow.getRenderer(), &gEnemy.getColliders().at(0));
-				SDL_RenderDrawRect(gWindow.getRenderer(), &gEnemy.getColliders().at(1));
+				gWave.renderColliders();
 
 				gPlayer.getWeapon().updateProjectiles();
 

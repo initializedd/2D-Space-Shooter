@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Texture.h"
+#include "Enemy.h"
 #include "Particle.h"
 #include "Weapon.h"
 #include "Pair.h"
@@ -35,8 +36,10 @@ public:
 	void shoot();
 	void animateExhaust(int flameFrames);
 
-	bool checkCollisionPosX(std::vector<SDL_Rect>& box);
-	bool checkCollisionPosY(std::vector<SDL_Rect>& box);
+	bool checkCollisionPosX(std::vector<Enemy>& enemies);
+	bool checkCollisionPosY(std::vector<Enemy>& enemies);
+
+	bool isDead();
 
 	std::vector<SDL_Rect>& getColliders();
 	Texture& getTexture();
