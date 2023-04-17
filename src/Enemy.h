@@ -33,12 +33,17 @@ public:
 
 	bool checkCollision(SDL_Rect& box);
 
+	bool isDead();
+	void reduceHealth(int damage);
+
 	std::vector<SDL_Rect>& getColliders();
 	Texture& getTexture();
 	int getPosX() const;
 	int getPosY() const;
+	int getHealth() const;
 
 	void setCollider();
+	void setTexture(Texture& texture);
 };
 
 #endif // !ENEMY_H

@@ -15,6 +15,8 @@ Enemy::Enemy(int x, int y)
 
 	m_colliders.push_back(gEnemyHeadCollision);
 	m_colliders.push_back(gEnemyBodyCollision);
+
+	m_health = 100;
 }
 
 Enemy::~Enemy()
@@ -44,11 +46,20 @@ bool Enemy::checkCollision(SDL_Rect& box)
 	return false;
 }
 
+bool Enemy::isDead()
+{
+	return m_health <= 0;
+}
+
+void Enemy::reduceHealth(int damage)
+{
+	m_health -= damage;
+}
+
 std::vector<SDL_Rect>& Enemy::getColliders()
 {
 	return m_colliders;
 }
-
 
 Texture& Enemy::getTexture()
 {
@@ -65,6 +76,11 @@ int Enemy::getPosY() const
 	return m_pos.y;
 }
 
+int Enemy::getHealth() const
+{
+	return m_health;
+}
+
 void Enemy::setCollider()
 {
 	m_colliders[0].x = gEnemyHeadCollision.x + m_pos.x;
@@ -72,4 +88,9 @@ void Enemy::setCollider()
 
 	m_colliders[1].x = gEnemyBodyCollision.x + m_pos.x;
 	m_colliders[1].y = gEnemyBodyCollision.y + m_pos.y;
+}
+
+void Enemy::setTexture(Texture& texture)
+{
+	m_texture = texture;
 }
