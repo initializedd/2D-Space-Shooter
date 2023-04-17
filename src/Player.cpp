@@ -104,7 +104,7 @@ void Player::move()
 
 	}
 	// Check if collision on X axis
-	else if (checkCollisionPosX(gEnemy.getColliders()))
+	else if (checkCollisionPosX(gWave.getEnemies()))
 	{
 		setColliders();
 	}
@@ -126,7 +126,7 @@ void Player::move()
 		setColliders();
 	}
 	// Check if collision on Y axis
-	else if (checkCollisionPosY(gEnemy.getColliders()))
+	else if (checkCollisionPosY(gWave.getEnemies()))
 	{
 		setColliders();
 	}
@@ -154,21 +154,24 @@ void Player::animateExhaust(int flameFrames)
 	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.41), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
 }
 
-bool Player::checkCollisionPosX(std::vector<SDL_Rect>& box)
+bool Player::checkCollisionPosX(std::vector<Enemy>& enemies)
 {
-	for (int i = 0; i < box.size(); ++i)
+	for (int i = 0; i < enemies.size(); ++i)
 	{
 		for (int j = 0; j < this->m_colliders.size(); ++j)
 		{
-			if (SDL_HasIntersection(&m_colliders[j], &box.at(i)))
+			for (int k = 0; k < 2; ++k)
 			{
-				if (m_pos.x <= gEnemy.getPosX())
-					m_pos.x = (gEnemy.getPosX() - (gEnemy.getPosX() - box.at(i).x)) - ((m_colliders[j].x - m_pos.x) + m_colliders[j].w);
+				if (SDL_HasIntersection(&m_colliders[j], &enemies.at(i).getColliders().at(k)))
+				{
+					if (m_pos.x <= enemies.at(i).getPosX())
+						m_pos.x = (enemies.at(i).getPosX() - (enemies.at(i).getPosX() - enemies.at(i).getColliders().at(k).x)) - ((m_colliders[j].x - m_pos.x) + m_colliders[j].w);
 
-				if (m_pos.x > gEnemy.getPosX())
-					m_pos.x = (box.at(i).x + box.at(i).w) - (m_colliders[j].x - m_pos.x);
+					if (m_pos.x > enemies.at(i).getPosX())
+						m_pos.x = (enemies.at(i).getColliders().at(k).x + enemies.at(i).getColliders().at(k).w) - (m_colliders[j].x - m_pos.x);
 
-				return true;
+					return true;
+				}
 			}
 		}
 	}
@@ -176,26 +179,34 @@ bool Player::checkCollisionPosX(std::vector<SDL_Rect>& box)
 	return false;
 }
 
-bool Player::checkCollisionPosY(std::vector<SDL_Rect>& box)
+bool Player::checkCollisionPosY(std::vector<Enemy>& enemies)
 {
-	for (int i = 0; i < box.size(); ++i)
+	for (int i = 0; i < enemies.size(); ++i)
 	{
 		for (int j = 0; j < this->m_colliders.size(); ++j)
 		{
-			if (SDL_HasIntersection(&m_colliders[j], &box.at(i)))
+			for (int k = 0; k < 2; ++k)
 			{
-				if (m_pos.y <= gEnemy.getPosY())
-					m_pos.y = (gEnemy.getPosY() - (gEnemy.getPosY() - box.at(i).y)) - ((m_colliders[j].y - m_pos.y) + m_colliders[j].h);
+				if (SDL_HasIntersection(&m_colliders[j], &enemies.at(i).getColliders().at(k)))
+				{
+					if (m_pos.y <= enemies.at(i).getPosY())
+						m_pos.y = (enemies.at(i).getPosY() - (enemies.at(i).getPosY() - enemies.at(i).getColliders().at(k).y)) - ((m_colliders[j].y - m_pos.y) + m_colliders[j].h);
 
-				if (m_pos.y > gEnemy.getPosY())
-					m_pos.y = (box.at(i).y + box.at(i).h) - (m_colliders[j].y - m_pos.y);
+					if (m_pos.y > enemies.at(i).getPosY())
+						m_pos.y = (enemies.at(i).getColliders().at(k).y + enemies.at(i).getColliders().at(k).h) - (m_colliders[j].y - m_pos.y);
 
-				return true;
+					return true;
+				}
 			}
 		}
 	}
 
 	return false;
+}
+
+bool Player::isDead()
+{
+	return m_health <= 0;
 }
 
 std::vector<SDL_Rect>& Player::getColliders()

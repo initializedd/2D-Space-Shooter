@@ -75,9 +75,9 @@ void Weapon::updateProjectiles()
 		{
 			m_leftProjectiles[i].setCollider(gLeftLaserHitBox);
 
-			for (int j = 0; j < gEnemy.getColliders().size(); ++j)
+			for (int j = 0; j < 2; ++j)
 			{
-				if (m_leftProjectiles[i].getPosY() < 0 - gProjectileTexture.getHeight() || m_leftProjectiles[i].checkCollision(gEnemy.getColliders().at(j)))
+				if (m_leftProjectiles[i].getPosY() < 0 - gProjectileTexture.getHeight() || m_leftProjectiles[i].checkCollision(gWave.getEnemies()))
 				{
 					m_leftProjectiles.erase(m_leftProjectiles.begin() + i);
 
@@ -96,6 +96,7 @@ void Weapon::updateProjectiles()
 					// Left Cannon Debug Info
 					printf("Left Cannon Pos X: %d\n", m_leftProjectiles[i].getPosX());
 					printf("Left Cannon Pos Y: %d\n", m_leftProjectiles[i].getPosY());
+					m_leftProjectiles[i].drawCollision();
 					#endif
 
 					m_leftProjectiles[i].move();
@@ -111,9 +112,9 @@ void Weapon::updateProjectiles()
 		{
 			m_rightProjectiles[i].setCollider(gRightLaserHitBox);
 
-			for (int j = 0; j < gEnemy.getColliders().size(); ++j)
+			for (int j = 0; j < 2; ++j)
 			{
-				if (m_rightProjectiles[i].getPosY() < 0 - gProjectileTexture.getHeight() || m_rightProjectiles[i].checkCollision(gEnemy.getColliders().at(j)))
+				if (m_rightProjectiles[i].getPosY() < 0 - gProjectileTexture.getHeight() || m_rightProjectiles[i].checkCollision(gWave.getEnemies()))
 				{
 					m_rightProjectiles.erase(m_rightProjectiles.begin() + i);
 
@@ -132,6 +133,7 @@ void Weapon::updateProjectiles()
 					// Right Cannon Debug Info
 					printf("Right Cannon Pos X: %d\n", m_rightProjectiles[i].getPosX());
 					printf("Right Cannon Pos Y: %d\n\n", m_rightProjectiles[i].getPosY());
+					m_rightProjectiles[i].drawCollision();
 					#endif
 
 					m_rightProjectiles[i].move();
