@@ -8,7 +8,9 @@ Projectile::Projectile()
 	, m_vel{}
 	, m_texture{}
 	, m_collider{}
+	, m_damage{}
 {
+	m_damage = 50;
 }
 
 Projectile::~Projectile()
@@ -20,18 +22,36 @@ void Projectile::move()
 	m_pos.y -= LASER_VEL;
 }
 
-bool Projectile::checkCollision(SDL_Rect& box)
+bool Projectile::checkCollision(std::vector<Enemy>& enemies)
+{
+	for (int i = 0; i < enemies.size(); ++i)
+	{
+		if (enemies.empty())
+			return false;
+
+		// Check for collision
+		if (SDL_HasIntersection(&this->getCollider(), &enemies.at(i).getColliders().at(0)) || SDL_HasIntersection(&this->getCollider(), &enemies.at(i).getColliders().at(1)))
+		{
+			if (!enemies.at(i).isDead())
+			{
+				enemies.at(i).reduceHealth(m_damage);
+				return true;
+			}
+			else
+				enemies.erase(enemies.begin() + i);
+				return true;
+
+		}
+	}
+
+	return false;
+}
+
+void Projectile::drawCollision()
 {
 	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
 	SDL_RenderDrawRect(gWindow.getRenderer(), &this->getCollider());
-
-	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
-	SDL_RenderDrawRect(gWindow.getRenderer(), &box);
-
-	// Check for collision
-	return SDL_HasIntersection(&this->getCollider(), &box);
 }
-
 
 int Projectile::getPosX() const
 {
