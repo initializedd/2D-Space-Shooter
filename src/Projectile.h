@@ -3,6 +3,9 @@
 
 #include "Texture.h"
 #include "Pair.h"
+#include <vector>
+
+class Enemy;
 
 class Projectile
 {
@@ -11,6 +14,7 @@ private:
 	Pair<int>		m_vel;
 	Texture			m_texture;
 	SDL_Rect		m_collider;
+	int				m_damage;
 
 public:
 	Projectile();
@@ -18,7 +22,8 @@ public:
 
 	void move();
 
-	bool checkCollision(SDL_Rect& box);
+	bool checkCollision(std::vector<Enemy>& enemies);
+	void drawCollision();
 
 	int getPosX() const;
 	int getPosY() const;
