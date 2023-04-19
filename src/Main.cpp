@@ -70,6 +70,12 @@ bool loadMedia()
 	if (!gProjectileTexture.loadFromFile("img/bullet.png", false))
 		return false;
 
+	if (!gExhaustParticle.getTexture().loadFromFile("img/fire_sprite.png", false))
+		return false;
+
+	gExhaustParticle.setClipsFromSprite(400, 400, 20);
+	gExhaustParticle.getTexture().resize(gExhaustParticle.getTexture().getWidth() * 0.015, gExhaustParticle.getTexture().getHeight() * 0.015);
+
 	if (!gLaserSound.loadChunk("audio/new laser.mp3"))
 		return false;
 
@@ -119,10 +125,10 @@ int main(int argc, char* argv[])
 			SDL_Event event;
 			bool quit = false;
 
-			/*Sound backgroundMusic{};
+			Sound backgroundMusic{};
 			backgroundMusic.loadMusic("audio/Orbital Colossus.mp3");
 			backgroundMusic.playMusic(-1);
-			Mix_VolumeMusic(15);*/
+			Mix_VolumeMusic(15);
 
 			int countedFrames = 0;
 			int flameFrames = 0;
@@ -160,19 +166,26 @@ int main(int argc, char* argv[])
 
 				gPlayer.getTexture().render(gPlayer.getPosX(), gPlayer.getPosY());
 
-				gWave.render(nullptr, 0, 0, 180);
+				for (int i = 0; i < gWave.getEnemies().size(); ++i)
+				{
+					gEnemyTexture.render(gWave.getEnemies().at(i).getPosX(), gWave.getEnemies().at(i).getPosY(), nullptr, 0, 0, 180);
+					gWave.getEnemies().at(i).animateExhaust(flameFrames);
+				}
 
 				// Debug
 				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
-				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(0));
-				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(1));
-				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(2));
-				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(3));
-				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(4));
-				SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(5));
+				for (int i = 0; i < gPlayer.getColliders().size(); ++i)
+				{
+					SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(i));
+				}
 
 				// Debug
-				gWave.renderColliders();
+				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
+				for (int i = 0; i < gWave.getEnemies().size(); ++i)
+				{
+					SDL_RenderDrawRect(gWindow.getRenderer(), &gWave.getEnemies().at(i).getColliders().at(0));
+					SDL_RenderDrawRect(gWindow.getRenderer(), &gWave.getEnemies().at(i).getColliders().at(1));
+				}
 
 				gPlayer.getWeapon().updateProjectiles();
 
