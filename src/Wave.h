@@ -14,9 +14,6 @@ public:
 	Wave();
 	~Wave();
 
-	void render(SDL_Rect* clip = nullptr, int scaleW = 0, int scaleH = 0, double angle = 0.0, SDL_Point* centre = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
-	void renderColliders();
-
 	std::vector<Enemy>& getEnemies();
 };
 
