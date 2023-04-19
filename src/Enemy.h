@@ -31,6 +31,8 @@ public:
 	void move();
 	void shoot();
 
+	void animateExhaust(int flameFrames);
+
 	bool checkCollision(SDL_Rect& box);
 
 	bool isDead();
@@ -38,12 +40,14 @@ public:
 
 	std::vector<SDL_Rect>& getColliders();
 	Texture& getTexture();
+	Particle& getParticle();
 	int getPosX() const;
 	int getPosY() const;
 	int getHealth() const;
+	int getWidth() const;
+	int getHeight() const;
 
 	void setCollider();
-	void setTexture(Texture& texture);
 };
 
 #endif // !ENEMY_H

@@ -33,6 +33,17 @@ void Enemy::shoot()
 	m_weapon.shoot();
 }
 
+void Enemy::animateExhaust(int flameFrames)
+{
+	SDL_Rect* currentClip = &gExhaustParticle.getClips()[flameFrames / 6];
+
+	// Left Exhaust
+	gExhaustParticle.getTexture().render(this->getPosX() + 37, this->getPosY() + 57, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight(), 0, nullptr, SDL_FLIP_HORIZONTAL);
+
+	// Right Exhaust
+	gExhaustParticle.getTexture().render(this->getPosX() + 115, this->getPosY() + 57, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
+}
+
 bool Enemy::checkCollision(SDL_Rect& box)
 {
 	this->setCollider();
@@ -66,6 +77,11 @@ Texture& Enemy::getTexture()
 	return m_texture;
 }
 
+Particle& Enemy::getParticle()
+{
+	return m_particle;
+}
+
 int Enemy::getPosX() const
 {
 	return m_pos.x;
@@ -81,6 +97,16 @@ int Enemy::getHealth() const
 	return m_health;
 }
 
+int Enemy::getWidth() const
+{
+	return m_width;
+}
+
+int Enemy::getHeight() const
+{
+	return m_height;
+}
+
 void Enemy::setCollider()
 {
 	m_colliders[0].x = gEnemyHeadCollision.x + m_pos.x;
@@ -88,9 +114,4 @@ void Enemy::setCollider()
 
 	m_colliders[1].x = gEnemyBodyCollision.x + m_pos.x;
 	m_colliders[1].y = gEnemyBodyCollision.y + m_pos.y;
-}
-
-void Enemy::setTexture(Texture& texture)
-{
-	m_texture = texture;
 }
