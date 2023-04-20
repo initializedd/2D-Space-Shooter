@@ -35,12 +35,9 @@ bool Projectile::checkCollision(std::vector<Enemy>& enemies)
 			if (!enemies.at(i).isDead())
 			{
 				enemies.at(i).reduceHealth(m_damage);
-				return true;
 			}
-			else
-				enemies.erase(enemies.begin() + i);
-				return true;
 
+			return true;
 		}
 	}
 

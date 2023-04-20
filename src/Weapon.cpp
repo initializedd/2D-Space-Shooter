@@ -63,7 +63,7 @@ void Weapon::shoot()
 	++m_rightDebugIndex;
 	#endif
 
-	gLaserSound.playChunk(-1, 0);
+	gLaserSound.playChunk(-1, 0, 100);
 }
 
 void Weapon::updateProjectiles()
