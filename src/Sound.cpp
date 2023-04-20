@@ -55,8 +55,10 @@ bool Sound::loadChunk(const char* path)
 	return true;
 }
 
-bool Sound::playChunk(int channel, int loops)
+bool Sound::playChunk(int channel, int loops, int volume)
 {
+	Mix_VolumeChunk(m_chunk, volume);
+
 	if (Mix_PlayChannel(channel, m_chunk, loops) == -1)
 	{
 		printf("Failed to play audio chunk on channel %d, Error: %s\n", channel, Mix_GetError());

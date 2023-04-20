@@ -33,8 +33,9 @@ void Enemy::shoot()
 	m_weapon.shoot();
 }
 
-void Enemy::animateExhaust(int flameFrames)
+void Enemy::exhaustAnimation()
 {
+	static int flameFrames = 0;
 	SDL_Rect* currentClip = &gExhaustParticle.getClips()[flameFrames / 6];
 
 	// Left Exhaust
@@ -42,6 +43,27 @@ void Enemy::animateExhaust(int flameFrames)
 
 	// Right Exhaust
 	gExhaustParticle.getTexture().render(this->getPosX() + 115, this->getPosY() + 57, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
+
+	++flameFrames;
+	if (flameFrames / 6 >= 6)
+	{
+		flameFrames = 0;
+	}
+}
+
+void Enemy::deathAnimation()
+{
+	static int explosionFrames = 0;
+	SDL_Rect* currentClip = &gExplosionParticle.getClips()[explosionFrames / 12];
+
+	//gExplosionParticle.getTexture().render(this->getPosX(), this->getPosY(), currentClip, gExplosionParticle.getTexture().getWidth(), gExplosionParticle.getTexture().getHeight());
+	gExplosionParticle.getTexture().render(0, 0, currentClip, gExplosionParticle.getTexture().getWidth(), gExplosionParticle.getTexture().getHeight());
+
+	++explosionFrames;
+	if (explosionFrames / 12 >= 12)
+	{
+		explosionFrames = 0;
+	}
 }
 
 bool Enemy::checkCollision(SDL_Rect& box)

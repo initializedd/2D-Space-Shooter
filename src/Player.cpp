@@ -137,8 +137,9 @@ void Player::shoot()
 	m_weapon.shoot();
 }
 
-void Player::animateExhaust(int flameFrames)
+void Player::exhaustAnimation()
 {
+	static int flameFrames = 0;
 	SDL_Rect* currentClip = &m_particle.getClips()[flameFrames / 6];
 
 	// Left Exhaust
@@ -152,6 +153,12 @@ void Player::animateExhaust(int flameFrames)
 
 	// Right Exhaust
 	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.41), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
+
+	++flameFrames;
+	if (flameFrames / 6 >= 6)
+	{
+		flameFrames = 0;
+	}
 }
 
 bool Player::checkCollisionPosX(std::vector<Enemy>& enemies)
