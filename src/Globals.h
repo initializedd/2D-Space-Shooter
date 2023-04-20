@@ -17,6 +17,8 @@ inline Wave						gWave{};
 inline Texture					gEnemyTexture{};
 
 inline Particle					gExhaustParticle{};
+inline Sound					gExplosionSound{};
+inline Particle					gExplosionParticle{};
 
 inline Texture					gBackgroundTexture{};
 inline SDL_Surface*				gWindowIconTexture{};
