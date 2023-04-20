@@ -34,7 +34,7 @@ public:
 
 	void move();
 	void shoot();
-	void animateExhaust(int flameFrames);
+	void exhaustAnimation();
 
 	bool checkCollisionPosX(std::vector<Enemy>& enemies);
 	bool checkCollisionPosY(std::vector<Enemy>& enemies);

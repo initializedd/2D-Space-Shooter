@@ -17,7 +17,7 @@ public:
 	bool playMusic(int loops);
 
 	bool loadChunk(const char* path);
-	bool playChunk(int channel, int loops);
+	bool playChunk(int channel, int loops, int volume);
 };
 
 #endif // !SOUND_H

@@ -31,7 +31,8 @@ public:
 	void move();
 	void shoot();
 
-	void animateExhaust(int flameFrames);
+	void exhaustAnimation();
+	void deathAnimation();
 
 	bool checkCollision(SDL_Rect& box);
 

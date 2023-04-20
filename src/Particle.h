@@ -8,7 +8,7 @@ class Particle
 {
 private:
 	Texture			m_texture;
-	SDL_Rect		m_clips[6];
+	SDL_Rect		m_clips[12];
 
 public:
 	Particle();
@@ -17,7 +17,7 @@ public:
 	Texture& getTexture();
 	SDL_Rect* getClips();
 
-	void setClipsFromSprite(int width, int height, int padding);
+	void setClipsFromSprite(int width, int height, int padding, int rows, int cols);
 };
 
 #endif // !PARTICLE_H
