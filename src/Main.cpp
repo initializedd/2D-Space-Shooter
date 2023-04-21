@@ -73,13 +73,13 @@ bool loadMedia()
 	if (!gExhaustParticle.getTexture().loadFromFile("img/fire_sprite.png", false))
 		return false;
 
-	gExhaustParticle.setClipsFromSprite(400, 400, 20, 2, 3);
-	gExhaustParticle.getTexture().resize(gExhaustParticle.getTexture().getWidth() * 0.015, gExhaustParticle.getTexture().getHeight() * 0.015);
+	gExhaustParticle.setClipsFromSprite(400, 400, 40, 6);
+	gExhaustParticle.getTexture().resize(400 * 0.05, 400 * 0.05);
 
 	if (!gExplosionParticle.getTexture().loadFromFile("img/explosion_sprite.png", false))
 		return false;
 
-	gExplosionParticle.getClips()[0].x = 20;
+	/*gExplosionParticle.getClips()[0].x = 20;
 	gExplosionParticle.getClips()[0].y = 20;
 	gExplosionParticle.getClips()[0].w = 96;
 	gExplosionParticle.getClips()[0].h = 96;
@@ -137,10 +137,10 @@ bool loadMedia()
 	gExplosionParticle.getClips()[11].x = 428;
 	gExplosionParticle.getClips()[11].y = 292;
 	gExplosionParticle.getClips()[11].w = 96;
-	gExplosionParticle.getClips()[11].h = 96;
+	gExplosionParticle.getClips()[11].h = 96;*/
 
-	//gExplosionParticle.setClipsFromSprite(96, 96, 20, 3, 4);
-	//gExplosionParticle.getTexture().resize(gExplosionParticle.getTexture().getWidth() * 0.015, gExplosionParticle.getTexture().getHeight() * 0.015);
+	gExplosionParticle.setClipsFromSprite(96, 96, 40, 12);
+	gExplosionParticle.getTexture().resize(96, 96);
 
 	if (!gLaserSound.loadChunk("audio/new laser.mp3"))
 		return false;
@@ -151,8 +151,8 @@ bool loadMedia()
 	if (!gPlayer.getParticle().getTexture().loadFromFile("img/fire_sprite.png", false))
 		return false;
 
-	gPlayer.getParticle().setClipsFromSprite(400, 400, 20, 2, 3);
-	gPlayer.getParticle().getTexture().resize(gPlayer.getParticle().getTexture().getWidth() * 0.015, gPlayer.getParticle().getTexture().getHeight() * 0.015);
+	gPlayer.getParticle().setClipsFromSprite(400, 400, 40, 6);
+	gPlayer.getParticle().getTexture().resize(400 * 0.05, 400 * 0.05);
 
 	gFuturaFont = TTF_OpenFont("font/futura.ttf", 28);
 	if (!gFuturaFont)
@@ -194,10 +194,10 @@ int main(int argc, char* argv[])
 			SDL_Event event;
 			bool quit = false;
 
-			Sound backgroundMusic{};
+			/*Sound backgroundMusic{};
 			backgroundMusic.loadMusic("audio/Orbital Colossus.mp3");
 			backgroundMusic.playMusic(-1);
-			Mix_VolumeMusic(10);
+			Mix_VolumeMusic(10);*/
 
 			int countedFrames = 0;
 			int flameFrames = 0;
@@ -239,8 +239,11 @@ int main(int argc, char* argv[])
 
 				for (int i = 0; i < gWave.getEnemies().size(); ++i)
 				{
-					gEnemyTexture.render(gWave.getEnemies().at(i).getPosX(), gWave.getEnemies().at(i).getPosY(), nullptr, 0, 0, 180);
-					gWave.getEnemies().at(i).exhaustAnimation();
+					if (!gWave.getEnemies().at(i).isDead())
+					{
+						gWave.getEnemies().at(i).exhaustAnimation();
+						gEnemyTexture.render(gWave.getEnemies().at(i).getPosX(), gWave.getEnemies().at(i).getPosY(), nullptr, 0, 0, 180);
+					}
 				}
 
 				// Debug
@@ -264,18 +267,9 @@ int main(int argc, char* argv[])
 				{
 					if (gWave.getEnemies().at(i).isDead())
 					{
-						gExplosionSound.playChunk(-1, 0, 10);
-
-						Pair<int> pos{ gWave.getEnemies().at(i).getPosX(), gWave.getEnemies().at(i).getPosY() };
-						deathPos.push_back(pos);
-
-						gWave.getEnemies().erase(gWave.getEnemies().begin() + i);
+						if (gWave.getEnemies().at(i).deathAnimation() / 12 >= 12)
+							gWave.getEnemies().erase(gWave.getEnemies().begin() + i);
 					}
-				}
-
-				for (int i = 0; i < deathPos.size(); ++i)
-				{
-					//deathPos.at(i).deathAnimation();
 				}
 
 				gFpsTextTexture.render(SCREEN_WIDTH - gFpsTextTexture.getWidth(), 0);
