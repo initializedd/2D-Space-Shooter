@@ -31,19 +31,13 @@ SDL_Rect* Particle::getClips()
  * @param[in] height of textures within sprite
  * @param[in] padding of textures within sprite
  */
-void Particle::setClipsFromSprite(int width, int height, int padding, int rows, int cols)
-
+void Particle::setClipsFromSprite(int width, int height, int padding, int elements)
 {
-	for (int row = 0; row < rows; ++row)
+	for (int i = 0; i < elements; ++i)
 	{
-		for (int col = 0; col < cols; ++col)
-		{
-			int i = row * cols + col;
-
-			m_clips[i].x = col * (width + padding) + 10;
-			m_clips[i].y = row * (height + padding) + 10;
-			m_clips[i].w = width;
-			m_clips[i].h = height;
-		}
+		m_clips[i].x = i * (width + padding) + (padding / 2);
+		m_clips[i].y = padding / 2;
+		m_clips[i].w = width;
+		m_clips[i].h = height;
 	}
 }

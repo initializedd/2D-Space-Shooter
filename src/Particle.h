@@ -17,7 +17,7 @@ public:
 	Texture& getTexture();
 	SDL_Rect* getClips();
 
-	void setClipsFromSprite(int width, int height, int padding, int rows, int cols);
+	void setClipsFromSprite(int width, int height, int padding, int elements);
 };
 
 #endif // !PARTICLE_H
