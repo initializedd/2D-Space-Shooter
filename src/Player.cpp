@@ -3,15 +3,7 @@
 #include "Constants.h"
 
 Player::Player()
-	: m_texture{}
-	, m_width{}
-	, m_height{}
-	, m_pos{}
-	, m_vel{}
-	, m_colliders{}
-	, m_health{}
-	, m_particle{}
-	, m_weapon{}
+	: m_flameFrames{}
 {
 	m_colliders.push_back(gHeadCollision);
 	m_colliders.push_back(gLeftWingCollision);
@@ -101,7 +93,6 @@ void Player::move()
 	{
 		m_pos.x = SCREEN_WIDTH - m_texture.getWidth();
 		setColliders();
-
 	}
 	// Check if collision on X axis
 	else if (checkCollisionPosX(gWave.getEnemies()))
@@ -129,35 +120,6 @@ void Player::move()
 	else if (checkCollisionPosY(gWave.getEnemies()))
 	{
 		setColliders();
-	}
-}
-
-void Player::shoot()
-{
-	m_weapon.shoot();
-}
-
-void Player::exhaustAnimation()
-{
-	static int flameFrames = 0;
-	SDL_Rect* currentClip = &m_particle.getClips()[flameFrames / 6];
-
-	// Left Exhaust
-	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 5.6), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
-
-	// Middle Left Exhaust
-	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 2.9), this->getPosY() + this->getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
-
-	// Middle Right Exhaust
-	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.83), this->getPosY() + this->getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
-
-	// Right Exhaust
-	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.41), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
-
-	++flameFrames;
-	if (flameFrames / 6 >= 6)
-	{
-		flameFrames = 0;
 	}
 }
 
@@ -211,39 +173,27 @@ bool Player::checkCollisionPosY(std::vector<Enemy>& enemies)
 	return false;
 }
 
-bool Player::isDead()
+void Player::exhaustAnimation()
 {
-	return m_health <= 0;
-}
+	SDL_Rect* currentClip = &m_particle.getClips()[m_flameFrames / 6];
 
-std::vector<SDL_Rect>& Player::getColliders()
-{
-	return m_colliders;
-}
+	// Left Exhaust
+	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 6.1), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
 
-Texture& Player::getTexture()
-{
-	return m_texture;
-}
+	// Middle Left Exhaust
+	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 3.03), this->getPosY() + this->getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
 
-Particle& Player::getParticle()
-{
-	return m_particle;
-}
+	// Middle Right Exhaust
+	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.83), this->getPosY() + this->getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
 
-Weapon& Player::getWeapon()
-{
-	return m_weapon;
-}
+	// Right Exhaust
+	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.41), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
 
-int Player::getPosX() const
-{
-	return m_pos.x;
-}
-
-int Player::getPosY() const
-{
-	return m_pos.y;
+	++m_flameFrames;
+	if (m_flameFrames / 6 >= 6)
+	{
+		m_flameFrames = 0;
+	}
 }
 
 void Player::setColliders()
