@@ -2,13 +2,8 @@
 #include "Globals.h"
 
 Enemy::Enemy(int x, int y)
-	: m_texture{}
-	, m_width{}
-	, m_height{}
-	, m_vel{}
-	, m_health{}
-	, m_particle{}
-	, m_weapon{}
+	: m_flameFrames{}
+	, m_explosionFrames{}
 {
 	m_pos.x = x;
 	m_pos.y = y;
@@ -23,110 +18,34 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::move()
-{
-
-}
-
-void Enemy::shoot()
-{
-	m_weapon.shoot();
-}
-
 void Enemy::exhaustAnimation()
 {
-	static int flameFrames = 0;
-	SDL_Rect* currentClip = &gExhaustParticle.getClips()[flameFrames / 6];
+	SDL_Rect* currentClip = &gExhaustParticle.getClips()[m_flameFrames / 6];
 
 	// Left Exhaust
-	gExhaustParticle.getTexture().render(this->getPosX() + 37, this->getPosY() + 57, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight(), 0, nullptr, SDL_FLIP_HORIZONTAL);
+	gExhaustParticle.getTexture().render(this->getPosX() + 35, this->getPosY() + 49, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight(), 0, nullptr, SDL_FLIP_HORIZONTAL);
 
 	// Right Exhaust
-	gExhaustParticle.getTexture().render(this->getPosX() + 115, this->getPosY() + 57, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
+	gExhaustParticle.getTexture().render(this->getPosX() + 115, this->getPosY() + 49, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
 
-	++flameFrames;
-	if (flameFrames / 6 >= 6)
+	++m_flameFrames;
+	if (m_flameFrames / 6 >= 6)
 	{
-		flameFrames = 0;
+		m_flameFrames = 0;
 	}
 }
 
-void Enemy::deathAnimation()
+int Enemy::deathAnimation()
 {
-	static int explosionFrames = 0;
-	SDL_Rect* currentClip = &gExplosionParticle.getClips()[explosionFrames / 12];
+	SDL_Rect* currentClip = &gExplosionParticle.getClips()[m_explosionFrames / 12];
 
-	//gExplosionParticle.getTexture().render(this->getPosX(), this->getPosY(), currentClip, gExplosionParticle.getTexture().getWidth(), gExplosionParticle.getTexture().getHeight());
-	gExplosionParticle.getTexture().render(0, 0, currentClip, gExplosionParticle.getTexture().getWidth(), gExplosionParticle.getTexture().getHeight());
+	int explosionPosX = (this->getPosX() + gEnemyTexture.getWidth() / 2) - gExplosionParticle.getTexture().getWidth() / 2;
+	int explosionPosY = (this->getPosY() + gEnemyTexture.getHeight() / 2) - gExplosionParticle.getTexture().getHeight() / 2;
 
-	++explosionFrames;
-	if (explosionFrames / 12 >= 12)
-	{
-		explosionFrames = 0;
-	}
-}
+	gExplosionParticle.getTexture().render(explosionPosX, explosionPosY, currentClip, gExplosionParticle.getTexture().getWidth(), gExplosionParticle.getTexture().getHeight());
 
-bool Enemy::checkCollision(SDL_Rect& box)
-{
-	this->setCollider();
-
-	for (int i = 0; i < this->getColliders().size(); ++i)
-	{
-		if (SDL_HasIntersection(&this->getColliders().at(i), &box))
-			return true;
-	}
-
-	return false;
-}
-
-bool Enemy::isDead()
-{
-	return m_health <= 0;
-}
-
-void Enemy::reduceHealth(int damage)
-{
-	m_health -= damage;
-}
-
-std::vector<SDL_Rect>& Enemy::getColliders()
-{
-	return m_colliders;
-}
-
-Texture& Enemy::getTexture()
-{
-	return m_texture;
-}
-
-Particle& Enemy::getParticle()
-{
-	return m_particle;
-}
-
-int Enemy::getPosX() const
-{
-	return m_pos.x;
-}
-
-int Enemy::getPosY() const
-{
-	return m_pos.y;
-}
-
-int Enemy::getHealth() const
-{
-	return m_health;
-}
-
-int Enemy::getWidth() const
-{
-	return m_width;
-}
-
-int Enemy::getHeight() const
-{
-	return m_height;
+	++m_explosionFrames;
+	return m_explosionFrames;
 }
 
 void Enemy::setCollider()
