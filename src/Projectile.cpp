@@ -32,11 +32,14 @@ bool Projectile::checkCollision(std::vector<Enemy>& enemies)
 		// Check for collision
 		if (SDL_HasIntersection(&this->getCollider(), &enemies.at(i).getColliders().at(0)) || SDL_HasIntersection(&this->getCollider(), &enemies.at(i).getColliders().at(1)))
 		{
-			enemies.at(i).reduceHealth(m_damage);
-
-			if (enemies.at(i).isDead())
+			if (!enemies.at(i).isDead())
 			{
-				gExplosionSound.playChunk(-1, 0, 10);
+				enemies.at(i).reduceHealth(m_damage);
+
+				if (enemies.at(i).isDead())
+				{
+					gExplosionSound.playChunk(-1, 0, 10);
+				}
 			}
 
 			return true;
