@@ -175,7 +175,7 @@ bool Player::checkCollisionPosY(std::vector<Enemy>& enemies)
 
 void Player::exhaustAnimation()
 {
-	SDL_Rect* currentClip = &m_particle.getClips()[m_flameFrames / 6];
+	SDL_Rect* currentClip = &m_particle.getClips()[m_flameFrames / 3];
 
 	// Left Exhaust
 	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 6.1), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
@@ -190,7 +190,7 @@ void Player::exhaustAnimation()
 	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.41), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
 
 	++m_flameFrames;
-	if (m_flameFrames / 6 >= 6)
+	if (m_flameFrames / 3 >= 6)
 	{
 		m_flameFrames = 0;
 	}
