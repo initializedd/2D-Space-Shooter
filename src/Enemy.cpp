@@ -20,7 +20,7 @@ Enemy::~Enemy()
 
 void Enemy::exhaustAnimation()
 {
-	SDL_Rect* currentClip = &gExhaustParticle.getClips()[m_flameFrames / 6];
+	SDL_Rect* currentClip = &gExhaustParticle.getClips()[m_flameFrames / 3];
 
 	// Left Exhaust
 	gExhaustParticle.getTexture().render(this->getPosX() + 35, this->getPosY() + 49, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight(), 0, nullptr, SDL_FLIP_HORIZONTAL);
@@ -29,7 +29,7 @@ void Enemy::exhaustAnimation()
 	gExhaustParticle.getTexture().render(this->getPosX() + 115, this->getPosY() + 49, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
 
 	++m_flameFrames;
-	if (m_flameFrames / 6 >= 6)
+	if (m_flameFrames / 3 >= 6)
 	{
 		m_flameFrames = 0;
 	}
@@ -37,7 +37,7 @@ void Enemy::exhaustAnimation()
 
 int Enemy::deathAnimation()
 {
-	SDL_Rect* currentClip = &gExplosionParticle.getClips()[m_explosionFrames / 12];
+	SDL_Rect* currentClip = &gExplosionParticle.getClips()[m_explosionFrames / 2];
 
 	int explosionPosX = (this->getPosX() + gEnemyTexture.getWidth() / 2) - gExplosionParticle.getTexture().getWidth() / 2;
 	int explosionPosY = (this->getPosY() + gEnemyTexture.getHeight() / 2) - gExplosionParticle.getTexture().getHeight() / 2;

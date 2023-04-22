@@ -194,10 +194,10 @@ int main(int argc, char* argv[])
 			SDL_Event event;
 			bool quit = false;
 
-			/*Sound backgroundMusic{};
+			Sound backgroundMusic{};
 			backgroundMusic.loadMusic("audio/Orbital Colossus.mp3");
 			backgroundMusic.playMusic(-1);
-			Mix_VolumeMusic(10);*/
+			Mix_VolumeMusic(10);
 
 			int countedFrames = 0;
 			int flameFrames = 0;
@@ -247,19 +247,19 @@ int main(int argc, char* argv[])
 				}
 
 				// Debug
-				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
+				/*SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
 				for (int i = 0; i < gPlayer.getColliders().size(); ++i)
 				{
 					SDL_RenderDrawRect(gWindow.getRenderer(), &gPlayer.getColliders().at(i));
-				}
+				}*/
 
 				// Debug
-				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
+				/*SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
 				for (int i = 0; i < gWave.getEnemies().size(); ++i)
 				{
 					SDL_RenderDrawRect(gWindow.getRenderer(), &gWave.getEnemies().at(i).getColliders().at(0));
 					SDL_RenderDrawRect(gWindow.getRenderer(), &gWave.getEnemies().at(i).getColliders().at(1));
-				}
+				}*/
 
 				gPlayer.getWeapon().updateProjectiles();
 
@@ -267,7 +267,7 @@ int main(int argc, char* argv[])
 				{
 					if (gWave.getEnemies().at(i).isDead())
 					{
-						if (gWave.getEnemies().at(i).deathAnimation() / 12 >= 12)
+						if (gWave.getEnemies().at(i).deathAnimation() / 2 >= 12)
 							gWave.getEnemies().erase(gWave.getEnemies().begin() + i);
 					}
 				}
