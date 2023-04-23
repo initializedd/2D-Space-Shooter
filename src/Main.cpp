@@ -223,6 +223,11 @@ int main(int argc, char* argv[])
 
 				gPlayer.move();
 
+				for (int i = 0; i < gWave.getEnemies().size(); ++i)
+				{
+					gWave.getEnemies().at(i).move();
+				}
+
 				gWindow.calculateFPS(fpsTimer, countedFrames);
 
 				if (!gFpsTextTexture.loadFromRenderedText(gWindow.getFPS().str().c_str(), textColor))
