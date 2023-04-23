@@ -9,7 +9,7 @@ Wave::Wave()
 	{
 		Enemy enemy{ i * 200, 0 };
 		
-		enemy.setCollider();
+		enemy.setColliders();
 		
 		m_enemies.push_back(enemy);
 	}
