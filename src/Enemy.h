@@ -13,10 +13,15 @@ public:
 	Enemy(int x, int y);
 	~Enemy();
 
+	void move();
+
+	bool checkCollisionPosX(std::vector<Enemy>& enemies);
+	bool checkCollisionPosY(std::vector<Enemy>& enemies);
+
 	void exhaustAnimation();
 	int deathAnimation();
 
-	void setCollider();
+	void setColliders();
 };
 
 #endif // !ENEMY_H
