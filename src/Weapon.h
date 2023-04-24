@@ -22,9 +22,10 @@ public:
 	Weapon();
 	~Weapon();
 
-	void shoot();
+	void shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, int delay);
 
-	void updateProjectiles();
+	void updatePlayerProjectiles();
+	void updateEnemyProjectiles();
 
 	std::string& getName();
 	int getDamage() const;
