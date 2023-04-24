@@ -44,7 +44,7 @@ void Player::handleEvent(SDL_Event& event)
 				break;
 
 			case SDLK_SPACE:
-				shoot();
+				shoot(250);
 				break;
 
 		}
@@ -215,4 +215,10 @@ void Player::setColliders()
 
 	m_colliders[5].x = gExhaustCollision.x + m_pos.x;
 	m_colliders[5].y = gExhaustCollision.y + m_pos.y;
+
+	m_leftCannonPos.x = 31 + m_pos.x;
+	m_leftCannonPos.y = 0 + m_pos.y;
+
+	m_rightCannonPos.x = 61 + m_pos.x;
+	m_rightCannonPos.y = 1 + m_pos.y;
 }
