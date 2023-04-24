@@ -17,18 +17,15 @@ Projectile::~Projectile()
 {
 }
 
-void Projectile::move()
+void Projectile::move(int vel)
 {
-	m_pos.y -= LASER_VEL;
+	m_pos.y -= vel;
 }
 
 bool Projectile::checkCollision(std::vector<Enemy>& enemies)
 {
 	for (int i = 0; i < enemies.size(); ++i)
 	{
-		if (enemies.empty())
-			return false;
-
 		// Check for collision
 		if (SDL_HasIntersection(&this->getCollider(), &enemies.at(i).getColliders().at(0)) || SDL_HasIntersection(&this->getCollider(), &enemies.at(i).getColliders().at(1)))
 		{
@@ -37,6 +34,30 @@ bool Projectile::checkCollision(std::vector<Enemy>& enemies)
 				enemies.at(i).reduceHealth(m_damage);
 
 				if (enemies.at(i).isDead())
+				{
+					gExplosionSound.playChunk(-1, 0, 10);
+				}
+			}
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool Projectile::checkCollision(Player& player)
+{
+	for (int i = 0; i < player.getColliders().size(); ++i)
+	{
+		// Check for collision
+		if (SDL_HasIntersection(&this->getCollider(), &player.getColliders().at(i)))
+		{
+			if (!player.isDead())
+			{
+				player.reduceHealth(m_damage);
+
+				if (player.isDead())
 				{
 					gExplosionSound.playChunk(-1, 0, 10);
 				}
