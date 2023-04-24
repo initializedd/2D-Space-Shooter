@@ -17,6 +17,9 @@ protected:
 	Pair<int>				m_pos;
 	Pair<int>				m_vel;
 
+	Pair<int>				m_leftCannonPos;
+	Pair<int>				m_rightCannonPos;
+
 	std::vector<SDL_Rect>	m_colliders;
 
 	int						m_health;
@@ -30,7 +33,7 @@ public:
 	~Entity();
 
 	virtual void move();
-	void shoot();
+	virtual void shoot(int delay);
 
 	void reduceHealth(int damage);
 	bool isDead();

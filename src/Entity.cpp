@@ -7,6 +7,8 @@ Entity::Entity()
 	, m_height{}
 	, m_pos{}
 	, m_vel{}
+	, m_leftCannonPos{}
+	, m_rightCannonPos{}
 	, m_colliders{}
 	, m_health{}
 	, m_particle{}
@@ -49,9 +51,9 @@ void Entity::move()
 	}
 }
 
-void Entity::shoot()
+void Entity::shoot(int delay)
 {
-	m_weapon.shoot();
+	m_weapon.shoot(m_leftCannonPos, m_rightCannonPos, delay);
 }
 
 void Entity::reduceHealth(int damage)
