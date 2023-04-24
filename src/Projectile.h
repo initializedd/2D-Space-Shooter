@@ -6,6 +6,7 @@
 #include <vector>
 
 class Enemy;
+class Player;
 
 class Projectile
 {
@@ -20,9 +21,11 @@ public:
 	Projectile();
 	~Projectile();
 
-	void move();
+	void move(int vel);
 
 	bool checkCollision(std::vector<Enemy>& enemies);
+	bool checkCollision(Player& player);
+
 	void drawCollision();
 
 	int getPosX() const;
