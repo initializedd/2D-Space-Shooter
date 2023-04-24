@@ -79,66 +79,6 @@ bool loadMedia()
 	if (!gExplosionParticle.getTexture().loadFromFile("img/explosion_sprite.png", false))
 		return false;
 
-	/*gExplosionParticle.getClips()[0].x = 20;
-	gExplosionParticle.getClips()[0].y = 20;
-	gExplosionParticle.getClips()[0].w = 96;
-	gExplosionParticle.getClips()[0].h = 96;
-
-	gExplosionParticle.getClips()[1].x = 156;
-	gExplosionParticle.getClips()[1].y = 20;
-	gExplosionParticle.getClips()[1].w = 96;
-	gExplosionParticle.getClips()[1].h = 96;
-
-	gExplosionParticle.getClips()[2].x = 20;
-	gExplosionParticle.getClips()[2].y = 156;
-	gExplosionParticle.getClips()[2].w = 96;
-	gExplosionParticle.getClips()[2].h = 96;
-
-	gExplosionParticle.getClips()[3].x = 156;
-	gExplosionParticle.getClips()[3].y = 156;
-	gExplosionParticle.getClips()[3].w = 96;
-	gExplosionParticle.getClips()[3].h = 96;
-
-	gExplosionParticle.getClips()[4].x = 292;
-	gExplosionParticle.getClips()[4].y = 20;
-	gExplosionParticle.getClips()[4].w = 96;
-	gExplosionParticle.getClips()[4].h = 96;
-
-	gExplosionParticle.getClips()[5].x = 292;
-	gExplosionParticle.getClips()[5].y = 156;
-	gExplosionParticle.getClips()[5].w = 96;
-	gExplosionParticle.getClips()[5].h = 96;
-
-	gExplosionParticle.getClips()[6].x = 20;
-	gExplosionParticle.getClips()[6].y = 292;
-	gExplosionParticle.getClips()[6].w = 96;
-	gExplosionParticle.getClips()[6].h = 96;
-
-	gExplosionParticle.getClips()[7].x = 156;
-	gExplosionParticle.getClips()[7].y = 292;
-	gExplosionParticle.getClips()[7].w = 96;
-	gExplosionParticle.getClips()[7].h = 96;
-
-	gExplosionParticle.getClips()[8].x = 292;
-	gExplosionParticle.getClips()[8].y = 292;
-	gExplosionParticle.getClips()[8].w = 96;
-	gExplosionParticle.getClips()[8].h = 96;
-
-	gExplosionParticle.getClips()[9].x = 428;
-	gExplosionParticle.getClips()[9].y = 20;
-	gExplosionParticle.getClips()[9].w = 96;
-	gExplosionParticle.getClips()[9].h = 96;
-
-	gExplosionParticle.getClips()[10].x = 428;
-	gExplosionParticle.getClips()[10].y = 156;
-	gExplosionParticle.getClips()[10].w = 96;
-	gExplosionParticle.getClips()[10].h = 96;
-
-	gExplosionParticle.getClips()[11].x = 428;
-	gExplosionParticle.getClips()[11].y = 292;
-	gExplosionParticle.getClips()[11].w = 96;
-	gExplosionParticle.getClips()[11].h = 96;*/
-
 	gExplosionParticle.setClipsFromSprite(96, 96, 40, 12);
 	gExplosionParticle.getTexture().resize(96, 96);
 
@@ -223,11 +163,6 @@ int main(int argc, char* argv[])
 
 				gPlayer.move();
 
-				for (int i = 0; i < gWave.getEnemies().size(); ++i)
-				{
-					gWave.getEnemies().at(i).move();
-				}
-
 				gWindow.calculateFPS(fpsTimer, countedFrames);
 
 				if (!gFpsTextTexture.loadFromRenderedText(gWindow.getFPS().str().c_str(), textColor))
@@ -246,8 +181,10 @@ int main(int argc, char* argv[])
 				{
 					if (!gWave.getEnemies().at(i).isDead())
 					{
+						gWave.getEnemies().at(i).move();
 						gWave.getEnemies().at(i).exhaustAnimation();
 						gEnemyTexture.render(gWave.getEnemies().at(i).getPosX(), gWave.getEnemies().at(i).getPosY(), nullptr, 0, 0, 180);
+						gWave.getEnemies().at(i).shoot(500);
 					}
 				}
 
@@ -266,7 +203,7 @@ int main(int argc, char* argv[])
 					SDL_RenderDrawRect(gWindow.getRenderer(), &gWave.getEnemies().at(i).getColliders().at(1));
 				}*/
 
-				gPlayer.getWeapon().updateProjectiles();
+				gPlayer.getWeapon().updatePlayerProjectiles();
 
 				for (int i = 0; i < gWave.getEnemies().size(); ++i)
 				{
@@ -274,6 +211,10 @@ int main(int argc, char* argv[])
 					{
 						if (gWave.getEnemies().at(i).deathAnimation() / 2 >= 12)
 							gWave.getEnemies().erase(gWave.getEnemies().begin() + i);
+					}
+					else
+					{
+						gWave.getEnemies().at(i).getWeapon().updateEnemyProjectiles();
 					}
 				}
 
