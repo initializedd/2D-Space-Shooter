@@ -14,6 +14,7 @@ public:
 	~Enemy();
 
 	void move();
+	void shoot(int delay);
 
 	bool checkCollisionPosX(std::vector<Enemy>& enemies);
 	bool checkCollisionPosY(std::vector<Enemy>& enemies);
