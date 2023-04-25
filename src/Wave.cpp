@@ -4,15 +4,9 @@
 Wave::Wave()
 	: m_enemies{}
 	, m_wave{}
+	, m_waveTexture{}
+	, m_waveText{}
 {
-	for (int i = 0; i < 3; ++i)
-	{
-		Enemy enemy{ i * 200, 0 };
-		
-		enemy.setColliders();
-		
-		m_enemies.push_back(enemy);
-	}
 }
 
 Wave::~Wave()
@@ -23,7 +17,44 @@ Wave::~Wave()
 	}
 }
 
+void Wave::createWave()
+{
+	if (m_enemies.empty())
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			Enemy enemy{ i * 200, 0 };
+
+			enemy.setColliders();
+
+			m_enemies.push_back(enemy);
+		}
+
+		++m_wave;
+	}
+}
+
+bool Wave::displayWave()
+{
+	m_waveText.str("Wave: " + std::to_string((m_wave)));
+
+	if (!m_waveTexture.loadFromRenderedText(m_waveText.str().c_str(), SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
+		return false;
+
+	return true;
+}
+
 std::vector<Enemy>& Wave::getEnemies()
 {
 	return m_enemies;
+}
+
+Texture& Wave::getWaveTexture()
+{
+	return m_waveTexture;
+}
+
+int Wave::getWave()
+{
+	return m_wave;
 }
