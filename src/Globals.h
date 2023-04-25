@@ -11,7 +11,7 @@
 
 inline Window					gWindow{};
 
-inline Player					gPlayer{};
+inline Player					gPlayer{SCREEN_WIDTH / 2, SCREEN_HEIGHT};
 inline Wave						gWave{};
 
 inline Texture					gEnemyTexture{};

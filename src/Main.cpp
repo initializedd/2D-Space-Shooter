@@ -161,8 +161,6 @@ int main(int argc, char* argv[])
 					gPlayer.handleEvent(event);
 				}
 
-				gPlayer.move();
-
 				gWindow.calculateFPS(fpsTimer, countedFrames);
 
 				if (!gFpsTextTexture.loadFromRenderedText(gWindow.getFPS().str().c_str(), textColor))
@@ -173,9 +171,15 @@ int main(int argc, char* argv[])
 
 				gBackgroundTexture.render(0, 0);
 
-				gPlayer.exhaustAnimation();
+				if (!gPlayer.isDead())
+				{
+					gPlayer.move();
+					gPlayer.exhaustAnimation();
+					gPlayer.getTexture().render(gPlayer.getPosX(), gPlayer.getPosY());
+					gPlayer.getWeapon().updatePlayerProjectiles();
+				}
 
-				gPlayer.getTexture().render(gPlayer.getPosX(), gPlayer.getPosY());
+				gWave.createWave();
 
 				for (int i = 0; i < gWave.getEnemies().size(); ++i)
 				{
@@ -185,6 +189,12 @@ int main(int argc, char* argv[])
 						gWave.getEnemies().at(i).exhaustAnimation();
 						gEnemyTexture.render(gWave.getEnemies().at(i).getPosX(), gWave.getEnemies().at(i).getPosY(), nullptr, 0, 0, 180);
 						gWave.getEnemies().at(i).shoot(500);
+						gWave.getEnemies().at(i).getWeapon().updateEnemyProjectiles();
+					}
+					else
+					{
+						if (gWave.getEnemies().at(i).deathAnimation() / 2 >= 12)
+							gWave.getEnemies().erase(gWave.getEnemies().begin() + i);
 					}
 				}
 
@@ -203,20 +213,15 @@ int main(int argc, char* argv[])
 					SDL_RenderDrawRect(gWindow.getRenderer(), &gWave.getEnemies().at(i).getColliders().at(1));
 				}*/
 
-				gPlayer.getWeapon().updatePlayerProjectiles();
+				if (gPlayer.displayHealth())
+					gPlayer.getHealhTexture().render(0, SCREEN_HEIGHT - gPlayer.getHealhTexture().getHeight());
+				else
+					break;
 
-				for (int i = 0; i < gWave.getEnemies().size(); ++i)
-				{
-					if (gWave.getEnemies().at(i).isDead())
-					{
-						if (gWave.getEnemies().at(i).deathAnimation() / 2 >= 12)
-							gWave.getEnemies().erase(gWave.getEnemies().begin() + i);
-					}
-					else
-					{
-						gWave.getEnemies().at(i).getWeapon().updateEnemyProjectiles();
-					}
-				}
+				if (gWave.displayWave())
+					gWave.getWaveTexture().render(0, SCREEN_HEIGHT - gPlayer.getHealhTexture().getHeight() - gWave.getWaveTexture().getHeight());
+				else
+					break;
 
 				gFpsTextTexture.render(SCREEN_WIDTH - gFpsTextTexture.getWidth(), 0);
 
