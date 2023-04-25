@@ -25,6 +25,7 @@ protected:
 	int						m_health;
 
 	Particle				m_particle;
+	int						m_explosionFrames;
 
 	Weapon					m_weapon;
 
@@ -35,6 +36,8 @@ public:
 	virtual void move();
 	virtual void shoot(int delay);
 
+	int deathAnimation();
+
 	void reduceHealth(int damage);
 	bool isDead();
 
@@ -42,6 +45,7 @@ public:
 	Texture& getTexture();
 	Particle& getParticle();
 	Weapon& getWeapon();
+	int getHealth() const;
 	int getPosX() const;
 	int getPosY() const;
 };

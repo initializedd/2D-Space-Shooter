@@ -3,7 +3,6 @@
 
 Enemy::Enemy(int x, int y)
 	: m_flameFrames{}
-	, m_explosionFrames{}
 {
 	m_pos.x = x;
 	m_pos.y = y;
@@ -73,7 +72,8 @@ void Enemy::move()
 
 void Enemy::shoot(int delay)
 {
-	m_weapon.shoot(m_leftCannonPos, m_rightCannonPos, delay);
+	if (m_canShoot)
+		m_weapon.shoot(m_leftCannonPos, m_rightCannonPos, delay);
 }
 
 bool Enemy::checkCollisionPosX(std::vector<Enemy>& enemies)
@@ -88,19 +88,13 @@ bool Enemy::checkCollisionPosX(std::vector<Enemy>& enemies)
 				{
 					if (SDL_HasIntersection(&m_colliders[j], &enemies.at(i).getColliders().at(k)))
 					{
-						/*if (m_pos.x <= enemies.at(i).getPosX())
-						{
-							m_pos.x = (enemies.at(i).getPosX() - (enemies.at(i).getPosX() - enemies.at(i).getColliders().at(k).x)) - ((m_colliders[j].x - m_pos.x) + m_colliders[j].w);
-							m_vel.x = -ENEMY_VEL;
-						}
+						m_canShoot = false;
 
-						if (m_pos.x > enemies.at(i).getPosX())
-						{
-							m_pos.x = (enemies.at(i).getColliders().at(k).x + enemies.at(i).getColliders().at(k).w) - (m_colliders[j].x - m_pos.x);
-							m_vel.x = ENEMY_VEL;
-						}*/
-						
 						return true;
+					}
+					else
+					{
+						m_canShoot = true;
 					}
 				}
 			}
@@ -159,19 +153,6 @@ void Enemy::exhaustAnimation()
 	{
 		m_flameFrames = 0;
 	}
-}
-
-int Enemy::deathAnimation()
-{
-	SDL_Rect* currentClip = &gExplosionParticle.getClips()[m_explosionFrames / 2];
-
-	int explosionPosX = (this->getPosX() + gEnemyTexture.getWidth() / 2) - gExplosionParticle.getTexture().getWidth() / 2;
-	int explosionPosY = (this->getPosY() + gEnemyTexture.getHeight() / 2) - gExplosionParticle.getTexture().getHeight() / 2;
-
-	gExplosionParticle.getTexture().render(explosionPosX, explosionPosY, currentClip, gExplosionParticle.getTexture().getWidth(), gExplosionParticle.getTexture().getHeight());
-
-	++m_explosionFrames;
-	return m_explosionFrames;
 }
 
 void Enemy::setColliders()

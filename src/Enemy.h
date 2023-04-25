@@ -3,11 +3,11 @@
 
 #include "Entity.h"
 
-class Enemy : public virtual Entity
+class Enemy : public Entity
 {
 private:
 	int				m_flameFrames;
-	int				m_explosionFrames;
+	bool			m_canShoot;
 
 public:
 	Enemy(int x, int y);
@@ -20,7 +20,6 @@ public:
 	bool checkCollisionPosY(std::vector<Enemy>& enemies);
 
 	void exhaustAnimation();
-	int deathAnimation();
 
 	void setColliders();
 };

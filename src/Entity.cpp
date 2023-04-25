@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "Globals.h"
 #include "Constants.h"
 
 Entity::Entity()
@@ -12,6 +13,7 @@ Entity::Entity()
 	, m_colliders{}
 	, m_health{}
 	, m_particle{}
+	, m_explosionFrames{}
 	, m_weapon{}
 {
 }
@@ -56,6 +58,19 @@ void Entity::shoot(int delay)
 	m_weapon.shoot(m_leftCannonPos, m_rightCannonPos, delay);
 }
 
+int Entity::deathAnimation()
+{
+	SDL_Rect* currentClip = &gExplosionParticle.getClips()[m_explosionFrames / 2];
+
+	int explosionPosX = (this->getPosX() + gEnemyTexture.getWidth() / 2) - gExplosionParticle.getTexture().getWidth() / 2;
+	int explosionPosY = (this->getPosY() + gEnemyTexture.getHeight() / 2) - gExplosionParticle.getTexture().getHeight() / 2;
+
+	gExplosionParticle.getTexture().render(explosionPosX, explosionPosY, currentClip, gExplosionParticle.getTexture().getWidth(), gExplosionParticle.getTexture().getHeight());
+
+	++m_explosionFrames;
+	return m_explosionFrames;
+}
+
 void Entity::reduceHealth(int damage)
 {
 	m_health -= damage;
@@ -84,6 +99,11 @@ Particle& Entity::getParticle()
 Weapon& Entity::getWeapon()
 {
 	return m_weapon;
+}
+
+int Entity::getHealth() const
+{
+	return m_health;
 }
 
 int Entity::getPosX() const
