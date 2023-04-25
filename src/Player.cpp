@@ -2,15 +2,22 @@
 #include "Globals.h"
 #include "Constants.h"
 
-Player::Player()
+Player::Player(int x, int y)
 	: m_flameFrames{}
+	, m_healthTexture{}
+	, m_healthText{}
 {
+	m_pos.x = x;
+	m_pos.y = y;
+
 	m_colliders.push_back(gHeadCollision);
 	m_colliders.push_back(gLeftWingCollision);
 	m_colliders.push_back(gRightWingCollision);
 	m_colliders.push_back(gBodyCollision);
 	m_colliders.push_back(gLowerCollision);
 	m_colliders.push_back(gExhaustCollision);
+
+	m_health = 1000;
 }
 
 Player::~Player()
@@ -194,6 +201,24 @@ void Player::exhaustAnimation()
 	{
 		m_flameFrames = 0;
 	}
+}
+
+bool Player::displayHealth()
+{
+	if (m_health > 0)
+		m_healthText.str("Health: " + std::to_string((m_health)));
+	else
+		m_healthText.str("Dead");
+
+	if (!m_healthTexture.loadFromRenderedText(m_healthText.str().c_str(), SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
+		return false;
+
+	return true;
+}
+
+Texture& Player::getHealhTexture()
+{
+	return m_healthTexture;
 }
 
 void Player::setColliders()
