@@ -19,7 +19,7 @@ Weapon::~Weapon()
 {
 }
 
-void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, int delay)
+void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay)
 {
 	if (!m_lastShot.isStarted())
 	{

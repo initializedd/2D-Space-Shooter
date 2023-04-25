@@ -22,7 +22,7 @@ public:
 	Weapon();
 	~Weapon();
 
-	void shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, int delay);
+	void shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay);
 
 	void updatePlayerProjectiles();
 	void updateEnemyProjectiles();
