@@ -41,7 +41,7 @@ void Enemy::move()
 
 		m_vel.x = -ENEMY_VEL;
 	}
-	// Check if collision on X axis
+	// Check for collision on X axis
 	else if (checkCollisionPosX(gWave.getEnemies()))
 	{
 		setColliders();
@@ -63,7 +63,7 @@ void Enemy::move()
 		m_pos.y = SCREEN_HEIGHT - gEnemyTexture.getHeight() - m_particle.getTexture().getHeight();
 		setColliders();
 	}
-	// Check if collision on Y axis
+	// Check for collision on Y axis
 	else if (checkCollisionPosY(gWave.getEnemies()))
 	{
 		setColliders();
@@ -138,13 +138,14 @@ bool Enemy::checkCollisionPosY(std::vector<Enemy>& enemies)
 
 void Enemy::exhaustAnimation()
 {
+	gExhaustParticle.getTexture().resize(400 * 0.035, 400 * 0.035);
 	SDL_Rect* currentClip = &gExhaustParticle.getClips()[m_flameFrames / 3];
 
 	// Left Exhaust
-	gExhaustParticle.getTexture().render(this->getPosX() + 35, this->getPosY() + 49, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight(), 0, nullptr, SDL_FLIP_HORIZONTAL);
+	gExhaustParticle.getTexture().render(this->getPosX() + 41, this->getPosY() + 55, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight(), 0, nullptr, SDL_FLIP_HORIZONTAL);
 
 	// Right Exhaust
-	gExhaustParticle.getTexture().render(this->getPosX() + 115, this->getPosY() + 49, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
+	gExhaustParticle.getTexture().render(this->getPosX() + 115, this->getPosY() + 55, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
 
 	++m_flameFrames;
 	if (m_flameFrames / 3 >= 6)

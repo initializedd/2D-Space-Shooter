@@ -101,7 +101,7 @@ void Player::move()
 		m_pos.x = SCREEN_WIDTH - m_texture.getWidth();
 		setColliders();
 	}
-	// Check if collision on X axis
+	// Check for collision on X axis
 	else if (checkCollisionPosX(gWave.getEnemies()))
 	{
 		setColliders();
@@ -123,7 +123,7 @@ void Player::move()
 		m_pos.y = SCREEN_HEIGHT - m_texture.getHeight() - m_particle.getTexture().getHeight();
 		setColliders();
 	}
-	// Check if collision on Y axis
+	// Check for collision on Y axis
 	else if (checkCollisionPosY(gWave.getEnemies()))
 	{
 		setColliders();
@@ -184,17 +184,23 @@ void Player::exhaustAnimation()
 {
 	SDL_Rect* currentClip = &m_particle.getClips()[m_flameFrames / 3];
 
+	// Resize texture to fit outer exhaust dimensions
+	m_particle.getTexture().resize(400 * 0.047, 400 * 0.05);
+
 	// Left Exhaust
-	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 6.1), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
+	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 6.0), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
+
+	// Right Exhaust
+	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.4), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
+
+	// Resize texture to fit middle exhaust dimensions
+	m_particle.getTexture().resize(400 * 0.05, 400 * 0.05);
 
 	// Middle Left Exhaust
 	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 3.03), this->getPosY() + this->getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
 
 	// Middle Right Exhaust
 	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.83), this->getPosY() + this->getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
-
-	// Right Exhaust
-	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.41), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
 
 	++m_flameFrames;
 	if (m_flameFrames / 3 >= 6)
