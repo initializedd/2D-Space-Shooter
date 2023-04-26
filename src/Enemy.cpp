@@ -92,11 +92,9 @@ bool Enemy::checkCollisionPosX(std::vector<Enemy>& enemies)
 
 						return true;
 					}
-					else
-					{
-						m_canShoot = true;
-					}
 				}
+
+				m_canShoot = true;
 			}
 		}
 	}
