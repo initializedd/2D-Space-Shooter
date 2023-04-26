@@ -74,7 +74,6 @@ bool loadMedia()
 		return false;
 
 	gExhaustParticle.setClipsFromSprite(400, 400, 40, 6);
-	gExhaustParticle.getTexture().resize(400 * 0.05, 400 * 0.05);
 
 	if (!gExplosionParticle.getTexture().loadFromFile("img/explosion_sprite.png", false))
 		return false;
