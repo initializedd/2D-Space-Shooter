@@ -2,7 +2,6 @@
 #include "Globals.h"
 #include "Constants.h"
 #include <SDL_image.h>
-#include <SDL_ttf.h>
 #include <cstdio>
 
 Texture::Texture()
@@ -100,11 +99,11 @@ bool Texture::loadFromFile(const char* path, const bool flag, const Uint8 red, c
 	return true;
 }
 
-bool Texture::loadFromRenderedText(const char* text, SDL_Color textColor)
+bool Texture::loadFromRenderedText(const char* text, TTF_Font* font, SDL_Color textColor)
 {
 	free();
 
-	SDL_Surface* surface = TTF_RenderText_Solid(gFuturaFont, text, textColor);
+	SDL_Surface* surface = TTF_RenderText_Solid(font, text, textColor);
 	if (!surface)
 	{
 		printf("Failed to render text solid to surface, Error: %s\n", TTF_GetError());

@@ -18,7 +18,7 @@ public:
 	~Wave();
 
 	void createWave();
-	bool displayWave();
+	bool displayWaveNum();
 
 	std::vector<Enemy>& getEnemies();
 	Texture& getWaveTexture();
