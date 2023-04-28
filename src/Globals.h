@@ -11,6 +11,8 @@
 
 inline Window					gWindow{};
 
+inline Texture					gMainMenuTexture{};
+
 inline Player					gPlayer{SCREEN_WIDTH / 2, SCREEN_HEIGHT};
 inline Wave						gWave{};
 

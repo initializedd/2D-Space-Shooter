@@ -216,7 +216,7 @@ bool Player::displayHealth()
 	else
 		m_healthText.str("Dead");
 
-	if (!m_healthTexture.loadFromRenderedText(m_healthText.str().c_str(), SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
+	if (!m_healthTexture.loadFromRenderedText(m_healthText.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
 		return false;
 
 	return true;
