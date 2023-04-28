@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Menu.h"
 #include "Texture.h"
 #include "Timer.h"
 #include "Wave.h"
@@ -48,6 +49,11 @@ bool init()
 
 bool loadMedia()
 {
+	if (!gMainMenuTexture.loadFromFile("img/mainmenu_bg.jpg", false))
+		return false;
+
+	gMainMenuTexture.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
 	if (!gBackgroundTexture.loadFromFile("img/space_bg.png", false))
 		return false;
 
@@ -130,16 +136,28 @@ int main(int argc, char* argv[])
 	{
 		if (loadMedia())
 		{
-			SDL_Event event;
-			bool quit = false;
+			bool quitGame = false;
 
+			SDL_Event eventMenu;
+			bool quitMenu = false;
+
+			Menu mainMenu{};
+			mainMenu.getButton().createButton("Play", gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF));
+			mainMenu.getButton().setRect(200, 100, 100, 100);
+
+			while (!mainMenu.isQuit())
+			{
+				mainMenu.displayMenu(eventMenu, quitGame);
+			}
+
+			SDL_Event event;
+			
 			Sound backgroundMusic{};
 			backgroundMusic.loadMusic("audio/Orbital Colossus.mp3");
 			backgroundMusic.playMusic(-1);
 			Mix_VolumeMusic(10);
 
 			int countedFrames = 0;
-			int flameFrames = 0;
 
 			Timer fpsTimer;
 			fpsTimer.start();
@@ -148,13 +166,13 @@ int main(int argc, char* argv[])
 
 			std::vector<Pair<int>> deathPos{};
 
-			while (!quit)
+			while (!quitGame)
 			{
 				while (SDL_PollEvent(&event) != 0)
 				{
 					if (event.type == SDL_QUIT)
 					{
-						quit = true;
+						quitGame = true;
 					}
 
 					gPlayer.handleEvent(event);
@@ -162,7 +180,7 @@ int main(int argc, char* argv[])
 
 				gWindow.calculateFPS(fpsTimer, countedFrames);
 
-				if (!gFpsTextTexture.loadFromRenderedText(gWindow.getFPS().str().c_str(), textColor))
+				if (!gFpsTextTexture.loadFromRenderedText(gWindow.getFPS().str().c_str(), gFuturaFont, textColor))
 					return false;
 
 				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
@@ -217,7 +235,7 @@ int main(int argc, char* argv[])
 				else
 					break;
 
-				if (gWave.displayWave())
+				if (gWave.displayWaveNum())
 					gWave.getWaveTexture().render(0, SCREEN_HEIGHT - gPlayer.getHealhTexture().getHeight() - gWave.getWaveTexture().getHeight());
 				else
 					break;
