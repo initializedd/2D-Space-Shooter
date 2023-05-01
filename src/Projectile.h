@@ -8,6 +8,12 @@
 class Enemy;
 class Player;
 
+enum ProjectileType
+{
+	LEFT_PROJECTILE,
+	RIGHT_PROJECTILE
+};
+
 class Projectile
 {
 private:
@@ -27,6 +33,7 @@ public:
 	bool checkCollision(Player& player);
 
 	void drawCollision();
+	void debug(ProjectileType type);
 
 	int getPosX() const;
 	int getPosY() const;

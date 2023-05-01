@@ -2,7 +2,7 @@
 #include "Globals.h"
 #include "Constants.h"
 
-//#define DEBUG
+#define DEBUG
 
 Weapon::Weapon()
 	: m_name{}
@@ -40,10 +40,7 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned i
 
 	#if defined(DEBUG)
 	// Left Cannon Debug Info
-	printf("Left Cannon Pos X: %d\n", m_leftProjectiles.at(m_leftDebugIndex).getCollider().x);
-	printf("Left Cannon Pos Y: %d\n", m_leftProjectiles.at(m_leftDebugIndex).getCollider().y);
-	printf("Left Cannon Width: %d\n", m_leftProjectiles.at(m_leftDebugIndex).getCollider().w);
-	printf("Left Cannon Height: %d\n\n", m_leftProjectiles.at(m_leftDebugIndex).getCollider().h);
+	//leftCannon.debug(LEFT_PROJECTILE);
 	++m_leftDebugIndex;
 	#endif
 
@@ -56,10 +53,7 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned i
 
 	#if defined(DEBUG)
 	// Right Cannon Debug Info
-	printf("Right Cannon Pos X: %d\n", m_rightProjectiles.at(m_rightDebugIndex).getCollider().x);
-	printf("Right Cannon Pos Y: %d\n", m_rightProjectiles.at(m_rightDebugIndex).getCollider().y);
-	printf("Right Cannon Width: %d\n", m_rightProjectiles.at(m_rightDebugIndex).getCollider().w);
-	printf("Right Cannon Height: %d\n\n", m_rightProjectiles.at(m_rightDebugIndex).getCollider().h);
+	//rightCannon.debug(RIGHT_PROJECTILE);
 	++m_rightDebugIndex;
 	#endif
 
@@ -92,9 +86,7 @@ void Weapon::updatePlayerProjectiles()
 
 				#if defined(DEBUG)
 				// Left Cannon Debug Info
-				printf("Left Cannon Pos X: %d\n", m_leftProjectiles[i].getPosX());
-				printf("Left Cannon Pos Y: %d\n", m_leftProjectiles[i].getPosY());
-				m_leftProjectiles[i].drawCollision();
+				m_leftProjectiles[i].debug(LEFT_PROJECTILE);
 				#endif
 
 				m_leftProjectiles[i].move(LASER_VEL);
@@ -127,9 +119,7 @@ void Weapon::updatePlayerProjectiles()
 
 				#if defined(DEBUG)
 				// Right Cannon Debug Info
-				printf("Right Cannon Pos X: %d\n", m_rightProjectiles[i].getPosX());
-				printf("Right Cannon Pos Y: %d\n\n", m_rightProjectiles[i].getPosY());
-				m_rightProjectiles[i].drawCollision();
+				m_rightProjectiles[i].debug(RIGHT_PROJECTILE);
 				#endif
 
 				m_rightProjectiles[i].move(LASER_VEL);
@@ -164,9 +154,7 @@ void Weapon::updateEnemyProjectiles()
 
 				#if defined(DEBUG)
 				// Left Cannon Debug Info
-				printf("Left Cannon Pos X: %d\n", m_leftProjectiles[i].getPosX());
-				printf("Left Cannon Pos Y: %d\n", m_leftProjectiles[i].getPosY());
-				m_leftProjectiles[i].drawCollision();
+				m_leftProjectiles[i].debug(LEFT_PROJECTILE);
 				#endif
 
 				m_leftProjectiles[i].move(-LASER_VEL);
@@ -198,9 +186,7 @@ void Weapon::updateEnemyProjectiles()
 
 				#if defined(DEBUG)
 				// Right Cannon Debug Info
-				printf("Right Cannon Pos X: %d\n", m_rightProjectiles[i].getPosX());
-				printf("Right Cannon Pos Y: %d\n\n", m_rightProjectiles[i].getPosY());
-				m_rightProjectiles[i].drawCollision();
+				m_rightProjectiles[i].debug(RIGHT_PROJECTILE);
 				#endif
 
 				m_rightProjectiles[i].move(-LASER_VEL);

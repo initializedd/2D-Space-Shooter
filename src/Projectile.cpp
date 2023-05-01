@@ -76,6 +76,30 @@ void Projectile::drawCollision()
 	SDL_RenderDrawRect(gWindow.getRenderer(), &this->getCollider());
 }
 
+void Projectile::debug(ProjectileType type)
+{
+	std::stringstream pos;
+	pos.str(std::to_string(m_collider.x) + ',' + std::to_string(m_collider.y));
+
+	Texture cannonPos{};
+	cannonPos.loadFromRenderedText(pos.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF));
+	cannonPos.resize(cannonPos.getWidth() / 2, cannonPos.getHeight() / 2);
+	
+
+	switch (type)
+	{
+	case LEFT_PROJECTILE:
+		cannonPos.render(m_collider.x - cannonPos.getWidth() - 1, m_collider.y - cannonPos.getHeight());
+		break;
+
+	case RIGHT_PROJECTILE:
+		cannonPos.render(m_collider.x + m_collider.w, m_collider.y - cannonPos.getHeight());
+		break;
+	}
+
+	this->drawCollision();
+}
+
 int Projectile::getPosX() const
 {
 	return m_pos.x;
