@@ -30,6 +30,8 @@ bool Sound::loadMusic(const char* path)
 		printf("Failed to load %s into music, Error: %s\n", path, Mix_GetError());
 		return false;
 	}
+
+	return true;
 }
 
 bool Sound::playMusic(int loops)
