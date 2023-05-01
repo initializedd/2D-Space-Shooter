@@ -137,7 +137,7 @@ void Weapon::updateEnemyProjectiles()
 		{
 			m_leftProjectiles[i].setCollider(gLeftLaserHitBox);
 
-			if (m_leftProjectiles[i].getPosY() < 0 - gProjectileTexture.getHeight() || m_leftProjectiles[i].checkCollision(gPlayer))
+			if (m_leftProjectiles[i].getPosY() > SCREEN_HEIGHT || m_leftProjectiles[i].checkCollision(gPlayer))
 			{
 				m_leftProjectiles.erase(m_leftProjectiles.begin() + i);
 
@@ -169,7 +169,7 @@ void Weapon::updateEnemyProjectiles()
 		{
 			m_rightProjectiles[i].setCollider(gRightLaserHitBox);
 
-			if (m_rightProjectiles[i].getPosY() < 0 - gProjectileTexture.getHeight() || m_rightProjectiles[i].checkCollision(gPlayer))
+			if (m_rightProjectiles[i].getPosY() > SCREEN_HEIGHT || m_rightProjectiles[i].checkCollision(gPlayer))
 			{
 				m_rightProjectiles.erase(m_rightProjectiles.begin() + i);
 
