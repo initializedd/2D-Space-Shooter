@@ -142,8 +142,14 @@ int main(int argc, char* argv[])
 			bool quitMenu = false;
 
 			Menu mainMenu{};
-			mainMenu.getButton().createButton("Play", gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF));
-			mainMenu.getButton().setRect(200, 100, 100, 100);
+
+			for (int i = PLAY; i < TOTAL_BUTTONS; ++i)
+			{
+				Button button{};
+
+				button.createButton(static_cast<MainMenuButtons>(i), gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF));
+				mainMenu.getButtons().push_back(button);
+			}
 
 			while (!mainMenu.isQuit())
 			{
@@ -151,7 +157,7 @@ int main(int argc, char* argv[])
 			}
 
 			SDL_Event event;
-			
+
 			Sound backgroundMusic{};
 			backgroundMusic.loadMusic("audio/Orbital Colossus.mp3");
 			backgroundMusic.playMusic(-1);
