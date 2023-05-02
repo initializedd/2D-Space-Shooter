@@ -2,12 +2,13 @@
 #define MENU_H
 
 #include "Button.h"
+#include <vector>
 
 class Menu
 {
 private:
-	Button				m_button;
-	bool				m_quit;
+	std::vector<Button>			m_buttons;
+	bool						m_quit;
 
 public:
 	Menu();
@@ -15,8 +16,9 @@ public:
 
 	void displayMenu(SDL_Event& event, bool& quitGame);
 
-	Button& getButton();
 	bool isQuit();
+
+	std::vector<Button>& getButtons();
 };
 
 #endif // !MENU_H
