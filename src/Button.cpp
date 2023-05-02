@@ -5,8 +5,10 @@
 
 Button::Button()
 	: m_rect{}
-	, m_texture{}
+	, m_text{}
 	, m_font{}
+	, m_texture{}
+	, m_type{}
 	, m_selected{}
 	, m_inside{}
 {
@@ -17,12 +19,34 @@ Button::~Button()
 
 }
 
-bool Button::createButton(const char* text, TTF_Font* font, SDL_Color color)
+void Button::createButton(MainMenuButtons type, TTF_Font* font, SDL_Color color)
 {
-	if (!m_texture.loadFromRenderedText(text, font, color))
-		return false;
+	switch (type)
+	{
+		case PLAY:
+			m_type = PLAY;
+			m_text = "Play";
+			setRect(200, 100, 200, 50);
+			break;
 
-	return true;
+		case CUSTOMISE:
+			m_type = CUSTOMISE;
+			m_text = "Customise";
+			setRect(200, 175, 200, 50);
+			break;
+
+		case OPTIONS:
+			m_type = OPTIONS;
+			m_text = "Options";
+			setRect(200, 250, 200, 50);
+			break;
+
+		default:
+			m_type = TOTAL_BUTTONS;
+			break;
+	}
+
+	m_texture.loadFromRenderedText(m_text.c_str(), font, color);
 }
 
 void Button::handleEvent(SDL_Event& event)
@@ -31,7 +55,7 @@ void Button::handleEvent(SDL_Event& event)
 	{
 		int x, y;
 		SDL_GetMouseState(&x, &y);
-		
+
 		m_inside = true;
 
 		if (x < m_rect.x || x > m_rect.x + m_rect.w)
@@ -42,7 +66,7 @@ void Button::handleEvent(SDL_Event& event)
 
 		if (m_inside)
 		{
-			switch(event.type)
+			switch (event.type)
 			{
 				case SDL_MOUSEMOTION:
 					printf("Mouse hovering...\n");
@@ -66,7 +90,7 @@ void Button::renderButton()
 	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderDrawRect(gWindow.getRenderer(), &m_rect);
 
-	m_texture.render(m_rect.x + (m_rect.w / 2) - m_texture.getWidth() / 2, m_rect.y + (m_rect.h / 2) - (m_texture.getHeight() / 2));
+	m_texture.render(m_rect.x + (m_rect.w / 2) - (m_texture.getWidth() / 2), m_rect.y + (m_rect.h / 2) - (m_texture.getHeight() / 2));
 }
 
 void Button::setRect(int x, int y, int w, int h)
