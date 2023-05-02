@@ -3,7 +3,7 @@
 #include "Globals.h"
 
 Menu::Menu()
-	: m_button{}
+	: m_buttons{}
 	, m_quit{}
 {
 }
@@ -23,10 +23,13 @@ void Menu::displayMenu(SDL_Event& event, bool& quitGame)
 			quitGame = true;
 		}
 
-		m_button.handleEvent(event);
-
-		if (m_button.isSelected())
-			m_quit = true;
+		for (int i = 0; i < m_buttons.size(); ++i)
+		{
+			m_buttons.at(i).handleEvent(event);
+			
+			if (m_buttons.at(i).isSelected())
+				m_quit = true;
+		}
 	}
 
 	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
@@ -34,17 +37,20 @@ void Menu::displayMenu(SDL_Event& event, bool& quitGame)
 
 	gMainMenuTexture.render(0, 0);
 
-	m_button.renderButton();
+	for (int i = 0; i < m_buttons.size(); ++i)
+	{
+		m_buttons.at(i).renderButton();
+	}
 
 	SDL_RenderPresent(gWindow.getRenderer());
-}
-
-Button& Menu::getButton()
-{
-	return m_button;
 }
 
 bool Menu::isQuit()
 {
 	return m_quit;
+}
+
+std::vector<Button>& Menu::getButtons()
+{
+	return m_buttons;
 }
