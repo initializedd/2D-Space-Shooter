@@ -10,7 +10,8 @@ Button::Button()
 	, m_texture{}
 	, m_type{}
 	, m_selected{}
-	, m_inside{}
+	, m_down{}
+	, m_hover{}
 {
 }
 
@@ -56,15 +57,15 @@ void Button::handleEvent(SDL_Event& event)
 		int x, y;
 		SDL_GetMouseState(&x, &y);
 
-		m_inside = true;
+		m_hover = true;
 
 		if (x < m_rect.x || x > m_rect.x + m_rect.w)
-			m_inside = false;
+			m_hover = false;
 
 		else if (y < m_rect.y || y > m_rect.y + m_rect.h)
-			m_inside = false;
+			m_hover = false;
 
-		if (m_inside)
+		if (m_hover)
 		{
 			switch (event.type)
 			{
@@ -74,6 +75,7 @@ void Button::handleEvent(SDL_Event& event)
 
 				case SDL_MOUSEBUTTONDOWN:
 					printf("Mouse button down...\n");
+					m_down = true;
 					break;
 
 				case SDL_MOUSEBUTTONUP:
@@ -82,15 +84,34 @@ void Button::handleEvent(SDL_Event& event)
 					break;
 			}
 		}
+		else
+		{
+			m_down = false;
+			m_selected = false;
+		}
 	}
 }
 
 void Button::renderButton()
 {
-	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+	if (m_hover)
+	{
+		SDL_SetRenderDrawColor(gWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0x22);
+		SDL_RenderFillRect(gWindow.getRenderer(), &m_rect);
+	}
+
+	SDL_SetRenderDrawColor(gWindow.getRenderer(), m_hover ? 0x00 : 0xFF, 0xFF, m_hover ? 0x00 : 0xFF, 0xFF);
 	SDL_RenderDrawRect(gWindow.getRenderer(), &m_rect);
 
-	m_texture.render(m_rect.x + (m_rect.w / 2) - (m_texture.getWidth() / 2), m_rect.y + (m_rect.h / 2) - (m_texture.getHeight() / 2));
+	int x = m_rect.x + (m_rect.w / 2) - (m_texture.getWidth() / 2);
+	int y = m_rect.y + (m_rect.h / 2) - (m_texture.getHeight() / 2);
+
+	if (m_down) 
+	{
+		y += 2;
+	}
+
+	m_texture.render(x, y);
 }
 
 void Button::setRect(int x, int y, int w, int h)
