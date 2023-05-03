@@ -61,9 +61,9 @@ bool Projectile::checkCollision(Player& player)
 				{
 					gExplosionSound.playChunk(-1, 0, 10);
 				}
-			}
 
-			return true;
+				return true;
+			}
 		}
 	}
 
@@ -84,17 +84,17 @@ void Projectile::debug(ProjectileType type)
 	Texture cannonPos{};
 	cannonPos.loadFromRenderedText(pos.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF));
 	cannonPos.resize(cannonPos.getWidth() / 2, cannonPos.getHeight() / 2);
-	
+
 
 	switch (type)
 	{
-	case LEFT_PROJECTILE:
-		cannonPos.render(m_collider.x - cannonPos.getWidth() - 1, m_collider.y - cannonPos.getHeight());
-		break;
+		case LEFT_PROJECTILE:
+			cannonPos.render(m_collider.x - cannonPos.getWidth() - 1, m_collider.y - cannonPos.getHeight());
+			break;
 
-	case RIGHT_PROJECTILE:
-		cannonPos.render(m_collider.x + m_collider.w, m_collider.y - cannonPos.getHeight());
-		break;
+		case RIGHT_PROJECTILE:
+			cannonPos.render(m_collider.x + m_collider.w, m_collider.y - cannonPos.getHeight());
+			break;
 	}
 
 	this->drawCollision();
