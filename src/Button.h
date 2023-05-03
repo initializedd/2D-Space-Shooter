@@ -24,7 +24,8 @@ private:
 	Texture					m_texture;
 	MainMenuButtons			m_type;
 	bool					m_selected;
-	bool					m_inside;
+	bool					m_down;
+	bool					m_hover;
 
 public:
 	Button();
