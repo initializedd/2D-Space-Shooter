@@ -52,6 +52,7 @@ bool Window::createRenderer()
 			return false;
 		}
 
+		SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
 		SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	}
 
