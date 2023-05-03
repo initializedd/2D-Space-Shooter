@@ -62,8 +62,8 @@ int Entity::deathAnimation()
 {
 	SDL_Rect* currentClip = &gExplosionParticle.getClips()[m_explosionFrames / 2];
 
-	int explosionPosX = (this->getPosX() + gEnemyTexture.getWidth() / 2) - gExplosionParticle.getTexture().getWidth() / 2;
-	int explosionPosY = (this->getPosY() + gEnemyTexture.getHeight() / 2) - gExplosionParticle.getTexture().getHeight() / 2;
+	int explosionPosX = (m_pos.x + gEnemyTexture.getWidth() / 2) - gExplosionParticle.getTexture().getWidth() / 2;
+	int explosionPosY = (m_pos.y + gEnemyTexture.getHeight() / 2) - gExplosionParticle.getTexture().getHeight() / 2;
 
 	gExplosionParticle.getTexture().render(explosionPosX, explosionPosY, currentClip, gExplosionParticle.getTexture().getWidth(), gExplosionParticle.getTexture().getHeight());
 

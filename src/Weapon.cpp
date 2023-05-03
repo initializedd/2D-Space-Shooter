@@ -2,8 +2,6 @@
 #include "Globals.h"
 #include "Constants.h"
 
-#define DEBUG
-
 Weapon::Weapon()
 	: m_name{}
 	, m_damage{}
@@ -38,7 +36,7 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned i
 
 	m_leftProjectiles.push_back(leftCannon);
 
-	#if defined(DEBUG)
+	#if defined(_DEBUG)
 	// Left Cannon Debug Info
 	//leftCannon.debug(LEFT_PROJECTILE);
 	++m_leftDebugIndex;
@@ -51,7 +49,7 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned i
 
 	m_rightProjectiles.push_back(rightCannon);
 
-	#if defined(DEBUG)
+	#if defined(_DEBUG)
 	// Right Cannon Debug Info
 	//rightCannon.debug(RIGHT_PROJECTILE);
 	++m_rightDebugIndex;
@@ -73,7 +71,7 @@ void Weapon::updatePlayerProjectiles()
 			{
 				m_leftProjectiles.erase(m_leftProjectiles.begin() + i);
 
-				#if defined(DEBUG)
+				#if defined(_DEBUG)
 				printf("Left Cannon Destroyed!\n");
 				--m_leftDebugIndex;
 				#endif
@@ -84,7 +82,7 @@ void Weapon::updatePlayerProjectiles()
 			{
 				gProjectileTexture.render(m_leftProjectiles[i].getPosX(), m_leftProjectiles[i].getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, 90);
 
-				#if defined(DEBUG)
+				#if defined(_DEBUG)
 				// Left Cannon Debug Info
 				m_leftProjectiles[i].debug(LEFT_PROJECTILE);
 				#endif
@@ -106,7 +104,7 @@ void Weapon::updatePlayerProjectiles()
 			{
 				m_rightProjectiles.erase(m_rightProjectiles.begin() + i);
 
-				#if defined(DEBUG)
+				#if defined(_DEBUG)
 				printf("Right Cannon Destroyed!\n");
 				--m_rightDebugIndex;
 				#endif
@@ -117,7 +115,7 @@ void Weapon::updatePlayerProjectiles()
 			{
 				gProjectileTexture.render(m_rightProjectiles[i].getPosX(), m_rightProjectiles[i].getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, -90);
 
-				#if defined(DEBUG)
+				#if defined(_DEBUG)
 				// Right Cannon Debug Info
 				m_rightProjectiles[i].debug(RIGHT_PROJECTILE);
 				#endif
@@ -141,7 +139,7 @@ void Weapon::updateEnemyProjectiles()
 			{
 				m_leftProjectiles.erase(m_leftProjectiles.begin() + i);
 
-				#if defined(DEBUG)
+				#if defined(_DEBUG)
 				printf("Left Cannon Destroyed!\n");
 				--m_leftDebugIndex;
 				#endif
@@ -152,7 +150,7 @@ void Weapon::updateEnemyProjectiles()
 			{
 				gProjectileTexture.render(m_leftProjectiles[i].getPosX(), m_leftProjectiles[i].getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, 90);
 
-				#if defined(DEBUG)
+				#if defined(_DEBUG)
 				// Left Cannon Debug Info
 				m_leftProjectiles[i].debug(LEFT_PROJECTILE);
 				#endif
@@ -173,7 +171,7 @@ void Weapon::updateEnemyProjectiles()
 			{
 				m_rightProjectiles.erase(m_rightProjectiles.begin() + i);
 
-				#if defined(DEBUG)
+				#if defined(_DEBUG)
 				printf("Right Cannon Destroyed!\n");
 				--m_rightDebugIndex;
 				#endif
@@ -184,7 +182,7 @@ void Weapon::updateEnemyProjectiles()
 			{
 				gProjectileTexture.render(m_rightProjectiles[i].getPosX(), m_rightProjectiles[i].getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, -90);
 
-				#if defined(DEBUG)
+				#if defined(_DEBUG)
 				// Right Cannon Debug Info
 				m_rightProjectiles[i].debug(RIGHT_PROJECTILE);
 				#endif

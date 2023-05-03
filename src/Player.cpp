@@ -185,7 +185,7 @@ void Player::exhaustAnimation()
 	SDL_Rect* currentClip = &m_particle.getClips()[m_flameFrames / 3];
 
 	// Resize texture to fit outer exhaust dimensions
-	m_particle.getTexture().resize(400 * 0.047, 400 * 0.05);
+	m_particle.getTexture().scale(400 * 0.047, 400 * 0.05);
 
 	// Left Exhaust
 	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 6.0), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
@@ -194,7 +194,7 @@ void Player::exhaustAnimation()
 	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.4), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
 
 	// Resize texture to fit middle exhaust dimensions
-	m_particle.getTexture().resize(400 * 0.05, 400 * 0.05);
+	m_particle.getTexture().scale(400 * 0.05, 400 * 0.05);
 
 	// Middle Left Exhaust
 	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 3.03), this->getPosY() + this->getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);

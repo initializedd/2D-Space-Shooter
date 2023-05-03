@@ -138,7 +138,7 @@ bool Enemy::checkCollisionPosY(std::vector<Enemy>& enemies)
 
 void Enemy::exhaustAnimation()
 {
-	gExhaustParticle.getTexture().resize(400 * 0.035, 400 * 0.035);
+	gExhaustParticle.getTexture().scale(400 * 0.035, 400 * 0.035);
 	SDL_Rect* currentClip = &gExhaustParticle.getClips()[m_flameFrames / 3];
 
 	// Left Exhaust
