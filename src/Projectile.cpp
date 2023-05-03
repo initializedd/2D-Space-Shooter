@@ -27,13 +27,13 @@ bool Projectile::checkCollision(std::vector<Enemy>& enemies)
 	for (int i = 0; i < enemies.size(); ++i)
 	{
 		// Check for collision
-		if (SDL_HasIntersection(&this->getCollider(), &enemies.at(i).getColliders().at(0)) || SDL_HasIntersection(&this->getCollider(), &enemies.at(i).getColliders().at(1)))
+		if (SDL_HasIntersection(&this->getCollider(), &enemies[i].getColliders()[0]) || SDL_HasIntersection(&this->getCollider(), &enemies[i].getColliders()[1]))
 		{
-			if (!enemies.at(i).isDead())
+			if (!enemies[i].isDead())
 			{
-				enemies.at(i).reduceHealth(m_damage);
+				enemies[i].reduceHealth(m_damage);
 
-				if (enemies.at(i).isDead())
+				if (enemies[i].isDead())
 				{
 					gExplosionSound.playChunk(-1, 0, 10);
 				}
@@ -51,7 +51,7 @@ bool Projectile::checkCollision(Player& player)
 	for (int i = 0; i < player.getColliders().size(); ++i)
 	{
 		// Check for collision
-		if (SDL_HasIntersection(&this->getCollider(), &player.getColliders().at(i)))
+		if (SDL_HasIntersection(&this->getCollider(), &player.getColliders()[i]))
 		{
 			if (!player.isDead())
 			{

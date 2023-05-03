@@ -84,9 +84,9 @@ bool Enemy::checkCollisionPosX(std::vector<Enemy>& enemies)
 		{
 			for (int k = 0; k < 2; ++k)
 			{
-				if (&enemies.at(i) != this)
+				if (&enemies[i] != this)
 				{
-					if (SDL_HasIntersection(&m_colliders[j], &enemies.at(i).getColliders().at(k)))
+					if (SDL_HasIntersection(&m_colliders[j], &enemies[i].getColliders()[k]))
 					{
 						m_canShoot = false;
 
@@ -110,9 +110,9 @@ bool Enemy::checkCollisionPosY(std::vector<Enemy>& enemies)
 		{
 			for (int k = 0; k < 2; ++k)
 			{
-				if (&enemies.at(i) != this)
+				if (&enemies[i] != this)
 				{
-					if (SDL_HasIntersection(&m_colliders[j], &enemies.at(i).getColliders().at(k)))
+					if (SDL_HasIntersection(&m_colliders[j], &enemies[i].getColliders()[k]))
 					{
 						/*if (m_pos.y <= enemies.at(i).getPosY())
 						{

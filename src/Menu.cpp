@@ -25,9 +25,9 @@ void Menu::displayMenu(SDL_Event& event, bool& quitGame)
 
 		for (int i = 0; i < m_buttons.size(); ++i)
 		{
-			m_buttons.at(i).handleEvent(event);
+			m_buttons[i].handleEvent(event);
 			
-			if (m_buttons.at(i).isSelected())
+			if (m_buttons[i].isSelected())
 				m_quit = true;
 		}
 	}
@@ -39,7 +39,7 @@ void Menu::displayMenu(SDL_Event& event, bool& quitGame)
 
 	for (int i = 0; i < m_buttons.size(); ++i)
 	{
-		m_buttons.at(i).renderButton();
+		m_buttons[i].renderButton();
 	}
 
 	SDL_RenderPresent(gWindow.getRenderer());

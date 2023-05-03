@@ -138,13 +138,13 @@ bool Player::checkCollisionPosX(std::vector<Enemy>& enemies)
 		{
 			for (int k = 0; k < 2; ++k)
 			{
-				if (SDL_HasIntersection(&m_colliders[j], &enemies.at(i).getColliders().at(k)))
+				if (SDL_HasIntersection(&m_colliders[j], &enemies[i].getColliders()[k]))
 				{
-					if (m_pos.x <= enemies.at(i).getPosX())
-						m_pos.x = (enemies.at(i).getPosX() - (enemies.at(i).getPosX() - enemies.at(i).getColliders().at(k).x)) - ((m_colliders[j].x - m_pos.x) + m_colliders[j].w);
+					if (m_pos.x <= enemies[i].getPosX())
+						m_pos.x = (enemies[i].getPosX() - (enemies[i].getPosX() - enemies[i].getColliders()[k].x)) - ((m_colliders[j].x - m_pos.x) + m_colliders[j].w);
 
-					if (m_pos.x > enemies.at(i).getPosX())
-						m_pos.x = (enemies.at(i).getColliders().at(k).x + enemies.at(i).getColliders().at(k).w) - (m_colliders[j].x - m_pos.x);
+					if (m_pos.x > enemies[i].getPosX())
+						m_pos.x = (enemies[i].getColliders()[k].x + enemies[i].getColliders()[k].w) - (m_colliders[j].x - m_pos.x);
 
 					return true;
 				}
@@ -163,13 +163,13 @@ bool Player::checkCollisionPosY(std::vector<Enemy>& enemies)
 		{
 			for (int k = 0; k < 2; ++k)
 			{
-				if (SDL_HasIntersection(&m_colliders[j], &enemies.at(i).getColliders().at(k)))
+				if (SDL_HasIntersection(&m_colliders[j], &enemies[i].getColliders()[k]))
 				{
-					if (m_pos.y <= enemies.at(i).getPosY())
-						m_pos.y = (enemies.at(i).getPosY() - (enemies.at(i).getPosY() - enemies.at(i).getColliders().at(k).y)) - ((m_colliders[j].y - m_pos.y) + m_colliders[j].h);
+					if (m_pos.y <= enemies[i].getPosY())
+						m_pos.y = (enemies[i].getPosY() - (enemies[i].getPosY() - enemies[i].getColliders()[k].y)) - ((m_colliders[j].y - m_pos.y) + m_colliders[j].h);
 
-					if (m_pos.y > enemies.at(i).getPosY())
-						m_pos.y = (enemies.at(i).getColliders().at(k).y + enemies.at(i).getColliders().at(k).h) - (m_colliders[j].y - m_pos.y);
+					if (m_pos.y > enemies[i].getPosY())
+						m_pos.y = (enemies[i].getColliders()[k].y + enemies[i].getColliders()[k].h) - (m_colliders[j].y - m_pos.y);
 
 					return true;
 				}
