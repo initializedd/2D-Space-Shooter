@@ -186,7 +186,7 @@ void Texture::render(int x, int y, SDL_Rect* clip, int scaleW, int scaleH, doubl
 	SDL_RenderCopyEx(gWindow.getRenderer(), m_texture->texture, clip, &render_quad, angle, centre, flip);
 }
 
-void Texture::resize(int width, int height)
+void Texture::scale(int width, int height)
 {
 	m_width = width;
 	m_height = height;
@@ -221,6 +221,7 @@ int Texture::getWidth()
 {
 	return m_width;
 }
+
 int Texture::getHeight()
 {
 	return m_height;

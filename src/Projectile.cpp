@@ -26,20 +26,23 @@ bool Projectile::checkCollision(std::vector<Enemy>& enemies)
 {
 	for (int i = 0; i < enemies.size(); ++i)
 	{
-		// Check for collision
-		if (SDL_HasIntersection(&this->getCollider(), &enemies[i].getColliders()[0]) || SDL_HasIntersection(&this->getCollider(), &enemies[i].getColliders()[1]))
+		for ( int j = 0; j < enemies[i].getColliders().size(); ++j)
 		{
-			if (!enemies[i].isDead())
+			// Check for collision
+			if (SDL_HasIntersection(&this->getCollider(), &enemies[i].getColliders()[j]))
 			{
-				enemies[i].reduceHealth(m_damage);
-
-				if (enemies[i].isDead())
+				if (!enemies[i].isDead())
 				{
-					gExplosionSound.playChunk(-1, 0, 10);
-				}
-			}
+					enemies[i].reduceHealth(m_damage);
 
-			return true;
+					if (enemies[i].isDead())
+					{
+						gExplosionSound.playChunk(-1, 0, 10);
+					}
+				}
+
+				return true;
+			}
 		}
 	}
 
@@ -55,6 +58,7 @@ bool Projectile::checkCollision(Player& player)
 		{
 			if (!player.isDead())
 			{
+				printf("Player health reduced !!!!\n");
 				player.reduceHealth(m_damage);
 
 				if (player.isDead())
@@ -83,7 +87,7 @@ void Projectile::debug(ProjectileType type)
 
 	Texture cannonPos{};
 	cannonPos.loadFromRenderedText(pos.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF));
-	cannonPos.resize(cannonPos.getWidth() / 2, cannonPos.getHeight() / 2);
+	cannonPos.scale(cannonPos.getWidth() / 2, cannonPos.getHeight() / 2);
 
 
 	switch (type)
