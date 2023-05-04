@@ -247,6 +247,7 @@ void Player::setColliders()
 	m_colliders[5].x = gExhaustCollision.x + m_pos.x;
 	m_colliders[5].y = gExhaustCollision.y + m_pos.y;
 
+	// Player projectile pos
 	m_leftCannonPos.x = 31 + m_pos.x;
 	m_leftCannonPos.y = 0 + m_pos.y;
 
