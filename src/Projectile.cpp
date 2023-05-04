@@ -79,17 +79,17 @@ void Projectile::updateCollider()
 	switch(m_type)
 	{
 		case LEFT_PROJECTILE:
-			m_collider.x = m_pos.x + gLeftLaserHitBox.x;
-			m_collider.y = m_pos.y + gLeftLaserHitBox.y;
-			m_collider.w = gLeftLaserHitBox.w;
-			m_collider.h = gLeftLaserHitBox.h;
+			m_collider.x = m_pos.x + gLeftProjectileHitBox.x;
+			m_collider.y = m_pos.y + gLeftProjectileHitBox.y;
+			m_collider.w = gLeftProjectileHitBox.w;
+			m_collider.h = gLeftProjectileHitBox.h;
 			break;
 
 		case RIGHT_PROJECTILE:
-			m_collider.x = m_pos.x + gRightLaserHitBox.x;
-			m_collider.y = m_pos.y + gRightLaserHitBox.y;
-			m_collider.w = gRightLaserHitBox.w;
-			m_collider.h = gRightLaserHitBox.h;
+			m_collider.x = m_pos.x + gRightProjectileHitBox.x;
+			m_collider.y = m_pos.y + gRightProjectileHitBox.y;
+			m_collider.w = gRightProjectileHitBox.w;
+			m_collider.h = gRightProjectileHitBox.h;
 			break;
 	}
 }
@@ -105,19 +105,19 @@ void Projectile::debug()
 	std::stringstream pos;
 	pos.str(std::to_string(m_collider.x) + ',' + std::to_string(m_collider.y));
 
-	Texture cannonPos{};
-	cannonPos.loadFromRenderedText(pos.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF));
-	cannonPos.scale(cannonPos.getWidth() / 2, cannonPos.getHeight() / 2);
+	Texture projectilePos{};
+	projectilePos.loadFromRenderedText(pos.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF));
+	projectilePos.scale(projectilePos.getWidth() / 2, projectilePos.getHeight() / 2);
 
 
 	switch (m_type)
 	{
 		case LEFT_PROJECTILE:
-			cannonPos.render(m_collider.x - cannonPos.getWidth() - 1, m_collider.y - cannonPos.getHeight());
+			projectilePos.render(m_collider.x - projectilePos.getWidth() - 1, m_collider.y - projectilePos.getHeight());
 			break;
 
 		case RIGHT_PROJECTILE:
-			cannonPos.render(m_collider.x + m_collider.w, m_collider.y - cannonPos.getHeight());
+			projectilePos.render(m_collider.x + m_collider.w, m_collider.y - projectilePos.getHeight());
 			break;
 	}
 
