@@ -17,11 +17,12 @@ enum ProjectileType
 class Projectile
 {
 private:
-	Pair<int>		m_pos;
-	Pair<int>		m_vel;
-	Texture			m_texture;
-	SDL_Rect		m_collider;
-	int				m_damage;
+	Pair<int>				m_pos;
+	Pair<int>				m_vel;
+	Texture					m_texture;
+	ProjectileType			m_type;
+	SDL_Rect				m_collider;
+	int						m_damage;
 
 public:
 	Projectile();
@@ -31,23 +32,24 @@ public:
 
 	bool checkCollision(std::vector<Enemy>& enemies);
 	bool checkCollision(Player& player);
+	void updateCollider();
 
 	void drawCollision();
-	void debug(ProjectileType type);
+	void debug();
 
 	int getPosX() const;
 	int getPosY() const;
 	int getVelX() const;
 	int getVelY() const;
 	Texture& getTexture();
+	ProjectileType getType();
 	SDL_Rect& getCollider();
 
-	void setPosX(int x);
-	void setPosY(int y);
-	void setVelX(int x);
-	void setVelY(int y);
+	void setPos(Pair<int> pos);
+	void setVel(Pair<int> vel);
 	void setTexture(Texture& texture);
-	void setCollider(SDL_Rect& box);
+	void setType(ProjectileType type);
+	void setCollider(SDL_Rect box);
 };
 
 #endif // !PROJECTILE_H

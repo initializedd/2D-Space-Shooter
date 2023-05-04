@@ -7,6 +7,7 @@ Projectile::Projectile()
 	: m_pos{}
 	, m_vel{}
 	, m_texture{}
+	, m_type{}
 	, m_collider{}
 	, m_damage{}
 {
@@ -58,7 +59,6 @@ bool Projectile::checkCollision(Player& player)
 		{
 			if (!player.isDead())
 			{
-				printf("Player health reduced !!!!\n");
 				player.reduceHealth(m_damage);
 
 				if (player.isDead())
@@ -74,13 +74,33 @@ bool Projectile::checkCollision(Player& player)
 	return false;
 }
 
+void Projectile::updateCollider()
+{
+	switch(m_type)
+	{
+		case LEFT_PROJECTILE:
+			m_collider.x = m_pos.x + gLeftLaserHitBox.x;
+			m_collider.y = m_pos.y + gLeftLaserHitBox.y;
+			m_collider.w = gLeftLaserHitBox.w;
+			m_collider.h = gLeftLaserHitBox.h;
+			break;
+
+		case RIGHT_PROJECTILE:
+			m_collider.x = m_pos.x + gRightLaserHitBox.x;
+			m_collider.y = m_pos.y + gRightLaserHitBox.y;
+			m_collider.w = gRightLaserHitBox.w;
+			m_collider.h = gRightLaserHitBox.h;
+			break;
+	}
+}
+
 void Projectile::drawCollision()
 {
 	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
 	SDL_RenderDrawRect(gWindow.getRenderer(), &this->getCollider());
 }
 
-void Projectile::debug(ProjectileType type)
+void Projectile::debug()
 {
 	std::stringstream pos;
 	pos.str(std::to_string(m_collider.x) + ',' + std::to_string(m_collider.y));
@@ -90,7 +110,7 @@ void Projectile::debug(ProjectileType type)
 	cannonPos.scale(cannonPos.getWidth() / 2, cannonPos.getHeight() / 2);
 
 
-	switch (type)
+	switch (m_type)
 	{
 		case LEFT_PROJECTILE:
 			cannonPos.render(m_collider.x - cannonPos.getWidth() - 1, m_collider.y - cannonPos.getHeight());
@@ -129,29 +149,26 @@ Texture& Projectile::getTexture()
 	return m_texture;
 }
 
+ProjectileType Projectile::getType()
+{
+	return m_type;
+}
+
 SDL_Rect& Projectile::getCollider()
 {
 	return m_collider;
 }
 
-void Projectile::setPosX(int x)
+void Projectile::setPos(Pair<int> pos)
 {
-	m_pos.x = x;
+	m_pos.x = pos.x;
+	m_pos.y = pos.y;
 }
 
-void Projectile::setPosY(int y)
+void Projectile::setVel(Pair<int> vel)
 {
-	m_pos.y = y;
-}
-
-void Projectile::setVelX(int x)
-{
-	m_vel.x = x;
-}
-
-void Projectile::setVelY(int y)
-{
-	m_vel.y = y;
+	m_vel.x = vel.x;
+	m_vel.y = vel.y;
 }
 
 void Projectile::setTexture(Texture& texture)
@@ -159,10 +176,12 @@ void Projectile::setTexture(Texture& texture)
 	m_texture = texture;
 }
 
-void Projectile::setCollider(SDL_Rect& box)
+void Projectile::setType(ProjectileType type)
 {
-	m_collider.x = m_pos.x + box.x;
-	m_collider.y = m_pos.y + box.y;
-	m_collider.w = box.w;
-	m_collider.h = box.h;
+	m_type = type;
+}
+
+void Projectile::setCollider(SDL_Rect box)
+{
+	m_collider = box;
 }
