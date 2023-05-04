@@ -3,6 +3,7 @@
 
 Enemy::Enemy(int x, int y)
 	: m_flameFrames{}
+	, m_canShoot{}
 {
 	m_pos.x = x;
 	m_pos.y = y;
@@ -162,6 +163,7 @@ void Enemy::setColliders()
 	m_colliders[1].x = gEnemyBodyCollision.x + m_pos.x;
 	m_colliders[1].y = gEnemyBodyCollision.y + m_pos.y;
 
+	// Enemy projectile pos
 	m_leftCannonPos.x = 42 + m_pos.x;
 	m_leftCannonPos.y = 89 + m_pos.y;
 
