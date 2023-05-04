@@ -19,7 +19,7 @@ public:
 	Weapon();
 	~Weapon();
 
-	void shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay);
+	void shoot(Pair<int> leftProjectilePos, Pair<int> rightProjectilePos, unsigned int delay);
 
 	void updatePlayerProjectiles();
 	void updateEnemyProjectiles();

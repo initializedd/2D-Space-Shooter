@@ -74,7 +74,7 @@ void Enemy::move()
 void Enemy::shoot(int delay)
 {
 	if (m_canShoot)
-		m_weapon.shoot(m_leftCannonPos, m_rightCannonPos, delay);
+		m_weapon.shoot(m_leftProjectilePos, m_rightProjectilePos, delay);
 }
 
 bool Enemy::checkCollisionPosX(std::vector<Enemy>& enemies)
@@ -164,9 +164,9 @@ void Enemy::setColliders()
 	m_colliders[1].y = gEnemyBodyCollision.y + m_pos.y;
 
 	// Enemy projectile pos
-	m_leftCannonPos.x = 42 + m_pos.x;
-	m_leftCannonPos.y = 89 + m_pos.y;
+	m_leftProjectilePos.x = 42 + m_pos.x;
+	m_leftProjectilePos.y = 89 + m_pos.y;
 
-	m_rightCannonPos.x = 70 + m_pos.x;
-	m_rightCannonPos.y = 90 + m_pos.y;
+	m_rightProjectilePos.x = 70 + m_pos.x;
+	m_rightProjectilePos.y = 90 + m_pos.y;
 }

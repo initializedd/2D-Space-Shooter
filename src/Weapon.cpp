@@ -14,7 +14,7 @@ Weapon::~Weapon()
 {
 }
 
-void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay)
+void Weapon::shoot(Pair<int> leftProjectilePos, Pair<int> rightProjectilePos, unsigned int delay)
 {
 	if (!m_lastShot.isStarted())
 	{
@@ -26,26 +26,25 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned i
 	}
 	m_lastShot.start();
 
-	Projectile leftCannon{};
-	leftCannon.setPos(leftCannonPos);
-	leftCannon.setType(LEFT_PROJECTILE);
-	leftCannon.setCollider(gLeftLaserHitBox);
+	Projectile leftProjectile{};
+	leftProjectile.setPos(leftProjectilePos);
+	leftProjectile.setType(LEFT_PROJECTILE);
+	leftProjectile.setCollider(gLeftProjectileHitBox);
 
-	m_projectiles.push_back(leftCannon);
+	m_projectiles.push_back(leftProjectile);
 
-	Projectile rightCannon{};
-	rightCannon.setPos(rightCannonPos);
-	rightCannon.setType(RIGHT_PROJECTILE);
-	rightCannon.setCollider(gRightLaserHitBox);
+	Projectile rightProjectile{};
+	rightProjectile.setPos(rightProjectilePos);
+	rightProjectile.setType(RIGHT_PROJECTILE);
+	rightProjectile.setCollider(gRightProjectileHitBox);
 
-	m_projectiles.push_back(rightCannon);
+	m_projectiles.push_back(rightProjectile);
 
 	gLaserSound.playChunk(-1, 0, 100);
 }
 
 void Weapon::updatePlayerProjectiles()
 {
-	// Cannon
 	if (!m_projectiles.empty())
 	{
 		for (int i = 0; i < m_projectiles.size(); ++i)
@@ -63,7 +62,7 @@ void Weapon::updatePlayerProjectiles()
 				gProjectileTexture.render(m_projectiles[i].getPosX(), m_projectiles[i].getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, 90);
 
 				#if defined(_DEBUG)
-				// Cannon Debug Info
+				// Projectile Debug Info
 				m_projectiles[i].debug();
 				#endif
 
@@ -76,7 +75,6 @@ void Weapon::updatePlayerProjectiles()
 
 void Weapon::updateEnemyProjectiles()
 {
-	// Cannon
 	if (!m_projectiles.empty())
 	{
 		for (int i = 0; i < m_projectiles.size(); ++i)
@@ -94,7 +92,7 @@ void Weapon::updateEnemyProjectiles()
 				gProjectileTexture.render(m_projectiles[i].getPosX(), m_projectiles[i].getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, 90);
 
 				#if defined(_DEBUG)
-				// Cannon Debug Info
+				// Projectile Debug Info
 				m_projectiles[i].debug();
 				#endif
 

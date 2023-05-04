@@ -32,10 +32,10 @@ inline Sound					gExplosionSound{};
 
 // Projectiles
 inline Texture					gProjectileTexture{};
-inline Sound					gLaserSound{};
-inline SDL_Rect					gRedLaserClip{ 18, 13, 58, 41 };
-inline SDL_Rect					gLeftLaserHitBox{ 26, 7, 4, 27 };
-inline SDL_Rect					gRightLaserHitBox{26, 6, 4, 27};
+inline Sound					gProjectileSound{};
+inline SDL_Rect					gRedProjectileClip{ 18, 13, 58, 41 };
+inline SDL_Rect					gLeftProjectileHitBox{ 26, 7, 4, 27 };
+inline SDL_Rect					gRightProjectileHitBox{26, 6, 4, 27};
 
 // Player
 inline Player					gPlayer{ SCREEN_WIDTH / 2, SCREEN_HEIGHT };

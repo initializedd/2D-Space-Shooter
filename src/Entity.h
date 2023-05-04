@@ -17,8 +17,8 @@ protected:
 	Pair<int>				m_pos;
 	Pair<int>				m_vel;
 
-	Pair<int>				m_leftCannonPos;
-	Pair<int>				m_rightCannonPos;
+	Pair<int>				m_leftProjectilePos;
+	Pair<int>				m_rightProjectilePos;
 
 	std::vector<SDL_Rect>	m_colliders;
 
