@@ -40,7 +40,7 @@ void Weapon::shoot(Pair<int> leftProjectilePos, Pair<int> rightProjectilePos, un
 
 	m_projectiles.push_back(rightProjectile);
 
-	gLaserSound.playChunk(-1, 0, 100);
+	gProjectileSound.playChunk(-1, 0, 100);
 }
 
 void Weapon::updatePlayerProjectiles()
@@ -59,7 +59,7 @@ void Weapon::updatePlayerProjectiles()
 			}
 			else
 			{
-				gProjectileTexture.render(m_projectiles[i].getPosX(), m_projectiles[i].getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, 90);
+				gProjectileTexture.render(m_projectiles[i].getPosX(), m_projectiles[i].getPosY(), &gRedProjectileClip, gRedProjectileClip.w, gRedProjectileClip.h, 90);
 
 				#if defined(_DEBUG)
 				// Projectile Debug Info
@@ -89,7 +89,7 @@ void Weapon::updateEnemyProjectiles()
 			}
 			else
 			{
-				gProjectileTexture.render(m_projectiles[i].getPosX(), m_projectiles[i].getPosY(), &gRedLaserClip, gRedLaserClip.w, gRedLaserClip.h, 90);
+				gProjectileTexture.render(m_projectiles[i].getPosX(), m_projectiles[i].getPosY(), &gRedProjectileClip, gRedProjectileClip.w, gRedProjectileClip.h, 90);
 
 				#if defined(_DEBUG)
 				// Projectile Debug Info
