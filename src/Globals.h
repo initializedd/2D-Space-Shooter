@@ -37,8 +37,13 @@ inline SDL_Rect					gRedProjectileClip{ 18, 13, 58, 41 };
 inline SDL_Rect					gLeftProjectileHitBox{ 26, 7, 4, 27 };
 inline SDL_Rect					gRightProjectileHitBox{26, 6, 4, 27};
 
+// Entities
+inline std::vector<Entity*>		gEnts;
+inline int						ENTITY_ID{};
+
 // Player
-inline Player					gPlayer{ SCREEN_WIDTH / 2, SCREEN_HEIGHT };
+inline Player*					gPlayer{ new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT) };
+inline int						NUM_OF_PLAYERS{};
 
 // Player Collision
 inline SDL_Rect					gHeadCollision{ 56, 23, 38, 55 };
