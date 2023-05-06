@@ -7,6 +7,11 @@ Player::Player(int x, int y)
 	, m_healthTexture{}
 	, m_healthText{}
 {
+	m_type = PLAYER;
+	m_weapon = m_type;
+	
+	m_id = ENTITY_ID;
+
 	m_pos.x = x;
 	m_pos.y = y;
 
@@ -18,10 +23,15 @@ Player::Player(int x, int y)
 	m_colliders.push_back(gExhaustCollision);
 
 	m_health = 1000;
+
+	++NUM_OF_PLAYERS;
+	++ENTITY_ID;
 }
 
 Player::~Player()
 {
+	--NUM_OF_PLAYERS;
+	--ENTITY_ID;
 }
 
 void Player::handleEvent(SDL_Event& event)
@@ -81,103 +91,6 @@ void Player::handleEvent(SDL_Event& event)
 				break;
 		}
 	}
-}
-
-void Player::move()
-{
-	// Update X position based on its X velocity
-	m_pos.x += m_vel.x;
-	setColliders();
-
-	// Check if outside of left screen boundary
-	if (m_pos.x <= 0)
-	{
-		m_pos.x = 0;
-		setColliders();
-	}
-	// Check if outside of right screen boundary
-	else if (m_pos.x + m_texture.getWidth() >= SCREEN_WIDTH)
-	{
-		m_pos.x = SCREEN_WIDTH - m_texture.getWidth();
-		setColliders();
-	}
-	// Check for collision on X axis
-	else if (checkCollisionPosX(gWave.getEnemies()))
-	{
-		setColliders();
-	}
-
-	// Update Y position based on its Y velocity
-	m_pos.y += m_vel.y;
-	setColliders();
-
-	// Check if outside of top screen boundary
-	if (m_pos.y <= 0)
-	{
-		m_pos.y = 0;
-		setColliders();
-	}
-	// Check if outside of bottom screen boundary
-	else if (m_pos.y + m_texture.getHeight() + m_particle.getTexture().getHeight() >= SCREEN_HEIGHT)
-	{
-		m_pos.y = SCREEN_HEIGHT - m_texture.getHeight() - m_particle.getTexture().getHeight();
-		setColliders();
-	}
-	// Check for collision on Y axis
-	else if (checkCollisionPosY(gWave.getEnemies()))
-	{
-		setColliders();
-	}
-}
-
-bool Player::checkCollisionPosX(std::vector<Enemy>& enemies)
-{
-	for (int i = 0; i < enemies.size(); ++i)
-	{
-		for (int j = 0; j < this->m_colliders.size(); ++j)
-		{
-			for (int k = 0; k < 2; ++k)
-			{
-				if (SDL_HasIntersection(&m_colliders[j], &enemies[i].getColliders()[k]))
-				{
-					if (m_pos.x <= enemies[i].getPosX())
-						m_pos.x = (enemies[i].getPosX() - (enemies[i].getPosX() - enemies[i].getColliders()[k].x)) - ((m_colliders[j].x - m_pos.x) + m_colliders[j].w);
-
-					if (m_pos.x > enemies[i].getPosX())
-						m_pos.x = (enemies[i].getColliders()[k].x + enemies[i].getColliders()[k].w) - (m_colliders[j].x - m_pos.x);
-
-					return true;
-				}
-			}
-		}
-	}
-
-	return false;
-}
-
-bool Player::checkCollisionPosY(std::vector<Enemy>& enemies)
-{
-	for (int i = 0; i < enemies.size(); ++i)
-	{
-		for (int j = 0; j < this->m_colliders.size(); ++j)
-		{
-			for (int k = 0; k < 2; ++k)
-			{
-				if (SDL_HasIntersection(&m_colliders[j], &enemies[i].getColliders()[k]))
-				{
-					if (m_pos.y <= enemies[i].getPosY())
-						m_pos.y = (enemies[i].getPosY() - (enemies[i].getPosY() - enemies[i].getColliders()[k].y)) - ((m_colliders[j].y - m_pos.y) + m_colliders[j].h);
-
-					if (m_pos.y > enemies[i].getPosY())
-						m_pos.y = (enemies[i].getColliders()[k].y + enemies[i].getColliders()[k].h) - (m_colliders[j].y - m_pos.y);
-
-					return true;
-				}
-			}
-		}
-	}
-
-	return false;
 }
 
 void Player::exhaustAnimation()

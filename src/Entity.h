@@ -7,9 +7,19 @@
 #include "Pair.h"
 #include <vector>
 
+enum EntityType
+{
+	ENTITY,
+	PLAYER,
+	ENEMY,
+	TOTAL_ENTITY
+};
+
 class Entity
 {
 protected:
+	EntityType				m_type;
+	int						m_id;
 	Texture					m_texture;
 	int						m_width;
 	int						m_height;
@@ -28,6 +38,7 @@ protected:
 	int						m_explosionFrames;
 
 	Weapon					m_weapon;
+	bool					m_canShoot;
 
 public:
 	Entity();
@@ -36,7 +47,11 @@ public:
 	virtual void move();
 	virtual void shoot(int delay);
 
-	int deathAnimation();
+	bool checkCollisionPosX(std::vector<Entity*>& ents);
+	bool checkCollisionPosY(std::vector<Entity*>& ents);
+
+	virtual int deathAnimation();
+	virtual void exhaustAnimation() = 0;
 
 	void reduceHealth(int damage);
 	bool isDead();
@@ -45,9 +60,12 @@ public:
 	Texture& getTexture();
 	Particle& getParticle();
 	Weapon& getWeapon();
+	int getType() const;
 	int getHealth() const;
 	int getPosX() const;
 	int getPosY() const;
+
+	virtual void setColliders() = 0;
 };
 
 #endif // !ENTITY_H
