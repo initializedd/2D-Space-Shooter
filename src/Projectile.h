@@ -5,8 +5,8 @@
 #include "Pair.h"
 #include <vector>
 
-class Enemy;
-class Player;
+class Entity;
+enum EntityType;
 
 enum ProjectileType
 {
@@ -30,8 +30,7 @@ public:
 
 	void move(int vel);
 
-	bool checkCollision(std::vector<Enemy>& enemies);
-	bool checkCollision(Player& player);
+	bool checkCollision(std::vector<Entity*>& ents, EntityType ownerType);
 	void updateCollider();
 
 	void drawCollision();

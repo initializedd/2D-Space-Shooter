@@ -2,8 +2,9 @@
 #include "Globals.h"
 #include "Constants.h"
 
-Weapon::Weapon()
-	: m_name{}
+Weapon::Weapon(EntityType ownerType)
+	: m_ownerType{ ownerType }
+	, m_name{}
 	, m_damage{}
 	, m_projectiles{}
 	, m_lastShot{}
@@ -43,45 +44,34 @@ void Weapon::shoot(Pair<int> leftProjectilePos, Pair<int> rightProjectilePos, un
 	gProjectileSound.playChunk(-1, 0, 100);
 }
 
-void Weapon::updatePlayerProjectiles()
+void Weapon::updateProjectiles()
 {
 	if (!m_projectiles.empty())
 	{
-		for (int i = 0; i < m_projectiles.size(); ++i)
+		int velocity{};
+		int offset{};
+		bool (*comparisonPtr)(int, int) { nullptr };
+
+		switch (m_ownerType)
 		{
-			m_projectiles[i].updateCollider();
-
-			if (m_projectiles[i].getPosY() < 0 - gProjectileTexture.getHeight() || m_projectiles[i].checkCollision(gWave.getEnemies()))
-			{
-				m_projectiles.erase(m_projectiles.begin() + i);
-
+			case PLAYER:
+				velocity = LASER_VEL;
+				comparisonPtr = &isless;
+				offset = 0 - gProjectileTexture.getHeight();
 				break;
-			}
-			else
-			{
-				gProjectileTexture.render(m_projectiles[i].getPosX(), m_projectiles[i].getPosY(), &gRedProjectileClip, gRedProjectileClip.w, gRedProjectileClip.h, 90);
 
-				#if defined(_DEBUG)
-				// Projectile Debug Info
-				m_projectiles[i].debug();
-				#endif
-
-				m_projectiles[i].move(LASER_VEL);
-			}
-
+			case ENEMY:
+				velocity = -LASER_VEL;
+				comparisonPtr = &isgreater;
+				offset = SCREEN_HEIGHT;
+				break;
 		}
-	}
-}
 
-void Weapon::updateEnemyProjectiles()
-{
-	if (!m_projectiles.empty())
-	{
 		for (int i = 0; i < m_projectiles.size(); ++i)
 		{
 			m_projectiles[i].updateCollider();
 
-			if (m_projectiles[i].getPosY() > SCREEN_HEIGHT || m_projectiles[i].checkCollision(gPlayer))
+			if (comparisonPtr && comparisonPtr(m_projectiles[i].getPosY(), offset) || m_projectiles[i].checkCollision(gEnts, m_ownerType))
 			{
 				m_projectiles.erase(m_projectiles.begin() + i);
 
@@ -96,8 +86,9 @@ void Weapon::updateEnemyProjectiles()
 				m_projectiles[i].debug();
 				#endif
 
-				m_projectiles[i].move(-LASER_VEL);
+				m_projectiles[i].move(velocity);
 			}
+
 		}
 	}
 }
@@ -105,6 +96,11 @@ void Weapon::updateEnemyProjectiles()
 std::string& Weapon::getName()
 {
 	return m_name;
+}
+
+std::vector<Projectile>& Weapon::getProjectiles()
+{
+	return m_projectiles;
 }
 
 int Weapon::getDamage() const
