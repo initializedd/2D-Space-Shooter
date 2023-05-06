@@ -11,23 +11,31 @@ Wave::Wave()
 
 Wave::~Wave()
 {
-	for (int i = 0; i < m_enemies.size(); ++i)
+	for (int i = NUM_OF_PLAYERS; i < gEnts.size(); ++i)
 	{
-		m_enemies.erase(m_enemies.begin() + i);
+		delete gEnts[i];
+		gEnts.erase(gEnts.begin() + i);
 	}
 }
 
 void Wave::createWave()
 {
-	if (m_enemies.empty())
+	if (gEnts.size() <= NUM_OF_PLAYERS)
 	{
 		for (int i = 0; i < 3; ++i)
 		{
-			Enemy enemy{ i * 200, 0 };
+			Enemy* enemy = new Enemy( i * 200, 0 );
 
-			enemy.setColliders();
+			if (!enemy->getTexture().loadFromFile(("img/enemy_ship1.png"), false))
+			{
+				delete enemy;
+				break;
+			}
 
-			m_enemies.push_back(enemy);
+			enemy->getTexture().scale(enemy->getTexture().getWidth() * 0.4, enemy->getTexture().getHeight() * 0.4);
+			enemy->setColliders();
+
+			gEnts.push_back(enemy);
 		}
 
 		++m_wave;
