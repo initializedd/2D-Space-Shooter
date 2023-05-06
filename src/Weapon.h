@@ -7,24 +7,27 @@
 #include <string>
 #include <vector>
 
+enum EntityType;
+
 class Weapon
 {
 private:
+	EntityType												m_ownerType;
 	std::string												m_name;
 	int														m_damage;
 	std::vector<Projectile>									m_projectiles;
 	Timer													m_lastShot;
 
 public:
-	Weapon();
+	Weapon(EntityType ownerType);
 	~Weapon();
 
 	void shoot(Pair<int> leftProjectilePos, Pair<int> rightProjectilePos, unsigned int delay);
 
-	void updatePlayerProjectiles();
-	void updateEnemyProjectiles();
+	void updateProjectiles();
 
 	std::string& getName();
+	std::vector<Projectile>& getProjectiles();
 	int getDamage() const;
 };
 
