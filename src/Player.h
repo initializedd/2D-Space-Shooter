@@ -17,10 +17,6 @@ public:
 	~Player();
 
 	void handleEvent(SDL_Event& event);
-	void move();
-
-	bool checkCollisionPosX(std::vector<Enemy>& enemies);
-	bool checkCollisionPosY(std::vector<Enemy>& enemies);
 
 	void exhaustAnimation();
 	bool displayHealth();
