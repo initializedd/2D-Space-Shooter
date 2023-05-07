@@ -32,16 +32,36 @@ void Enemy::shoot(int delay)
 		m_weapon.shoot(m_leftProjectilePos, m_rightProjectilePos, delay);
 }
 
+void Enemy::update(int i)
+{
+ 	if (!isDead())
+	{
+		move();
+		exhaustAnimation();
+		getTexture().render(m_pos.x, m_pos.y, nullptr, 0, 0, 180);
+		shoot(500);
+		getWeapon().updateProjectiles();
+	}
+	else
+	{
+		if (deathAnimation() / 2 >= 12)
+		{
+			delete this;
+			gEnts.erase(gEnts.begin() + i);
+		}
+	}
+}
+
 void Enemy::exhaustAnimation()
 {
 	gExhaustParticle.getTexture().scale(400 * 0.035, 400 * 0.035);
 	SDL_Rect* currentClip = &gExhaustParticle.getClips()[m_flameFrames / 3];
 
 	// Left Exhaust
-	gExhaustParticle.getTexture().render(this->getPosX() + 41, this->getPosY() + 55, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight(), 0, nullptr, SDL_FLIP_HORIZONTAL);
+	gExhaustParticle.getTexture().render(m_pos.x + 41, m_pos.y + 55, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight(), 0, nullptr, SDL_FLIP_HORIZONTAL);
 
 	// Right Exhaust
-	gExhaustParticle.getTexture().render(this->getPosX() + 115, this->getPosY() + 55, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
+	gExhaustParticle.getTexture().render(m_pos.x + 115, m_pos.y + 55, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
 
 	++m_flameFrames;
 	if (m_flameFrames / 3 >= 6)

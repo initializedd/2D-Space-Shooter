@@ -93,6 +93,28 @@ void Player::handleEvent(SDL_Event& event)
 	}
 }
 
+void Player::update(int i)
+{
+	if (!isDead())
+	{
+		move();
+		exhaustAnimation();
+		getTexture().render(m_pos.x, m_pos.y);
+		getWeapon().updateProjectiles();
+
+		if (displayHealth())
+			getHealhTexture().render(0, SCREEN_HEIGHT - getHealhTexture().getHeight());
+	}
+	else
+	{
+		if (deathAnimation() / 2 >= 12)
+		{
+			delete this;
+			gEnts.erase(gEnts.begin() + i);
+		}
+	}
+}
+
 void Player::exhaustAnimation()
 {
 	SDL_Rect* currentClip = &m_particle.getClips()[m_flameFrames / 3];
@@ -101,19 +123,19 @@ void Player::exhaustAnimation()
 	m_particle.getTexture().scale(400 * 0.047, 400 * 0.05);
 
 	// Left Exhaust
-	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 6.0), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
+	m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 6.0), m_pos.y + (m_texture.getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
 
 	// Right Exhaust
-	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.4), this->getPosY() + (this->getTexture().getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
+	m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 1.4), m_pos.y + (m_texture.getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
 
 	// Resize texture to fit middle exhaust dimensions
 	m_particle.getTexture().scale(400 * 0.05, 400 * 0.05);
 
 	// Middle Left Exhaust
-	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 3.03), this->getPosY() + this->getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
+	m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 3.03), m_pos.y + m_texture.getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
 
 	// Middle Right Exhaust
-	m_particle.getTexture().render(this->getPosX() + (this->getTexture().getWidth() / 1.83), this->getPosY() + this->getTexture().getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
+	m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 1.83), m_pos.y + m_texture.getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
 
 	++m_flameFrames;
 	if (m_flameFrames / 3 >= 6)
