@@ -23,6 +23,17 @@ void Projectile::move(int vel)
 	m_pos.y -= vel;
 }
 
+bool Projectile::checkScreenBoundary(SDL_Rect&& screen)
+{
+	// Checks if projectile is outside the screen
+	if (!SDL_HasIntersection(&m_collider, &screen))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 bool Projectile::checkCollision(std::vector<Entity*>& ents, EntityType ownerType)
 {
 	for (int i = 0; i < ents.size(); ++i)
@@ -33,7 +44,7 @@ bool Projectile::checkCollision(std::vector<Entity*>& ents, EntityType ownerType
 		for ( int j = 0; j < ents[i]->getColliders().size(); ++j)
 		{
 			// Check for collision
-			if (SDL_HasIntersection(&this->getCollider(), &ents[i]->getColliders()[j]))
+			if (SDL_HasIntersection(&m_collider, &ents[i]->getColliders()[j]))
 			{
 				if (!ents[i]->isDead())
 				{
@@ -76,7 +87,7 @@ void Projectile::updateCollider()
 void Projectile::drawCollision()
 {
 	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
-	SDL_RenderDrawRect(gWindow.getRenderer(), &this->getCollider());
+	SDL_RenderDrawRect(gWindow.getRenderer(), &m_collider);
 }
 
 void Projectile::debug()
@@ -100,7 +111,7 @@ void Projectile::debug()
 			break;
 	}
 
-	this->drawCollision();
+	drawCollision();
 }
 
 int Projectile::getPosX() const

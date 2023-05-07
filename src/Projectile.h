@@ -30,6 +30,7 @@ public:
 
 	void move(int vel);
 
+	bool checkScreenBoundary(SDL_Rect&& screen);
 	bool checkCollision(std::vector<Entity*>& ents, EntityType ownerType);
 	void updateCollider();
 
