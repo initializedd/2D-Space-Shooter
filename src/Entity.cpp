@@ -142,6 +142,16 @@ bool Entity::checkCollisionPosY(std::vector<Entity*>& ents)
 	return false;
 }
 
+#if defined(_DEBUG)
+void Entity::debug()
+{
+	for (int i = 0; i < m_colliders.size(); ++i)
+	{
+		SDL_RenderDrawRect(gWindow.getRenderer(), &m_colliders[i]);
+	}
+}
+#endif
+
 void Entity::shoot(int delay)
 {
 	if (m_canShoot)

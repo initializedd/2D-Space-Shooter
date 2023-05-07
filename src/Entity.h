@@ -46,9 +46,11 @@ public:
 
 	virtual void move();
 	virtual void shoot(int delay);
+	virtual void update(int i) = 0;
 
 	bool checkCollisionPosX(std::vector<Entity*>& ents);
 	bool checkCollisionPosY(std::vector<Entity*>& ents);
+	void debug();
 
 	virtual int deathAnimation();
 	virtual void exhaustAnimation() = 0;
