@@ -13,6 +13,7 @@ public:
 	~Enemy();
 
 	void shoot(int delay);
+	void update(int i);
 
 	void exhaustAnimation();
 
