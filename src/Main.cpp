@@ -108,7 +108,6 @@ bool loadMedia()
 
 	/*if (!gEnemyTexture.loadFromFile("img/enemy_ship1.png", false))
 		return false;
-
 	gEnemyTexture.scale(gEnemyTexture.getWidth() * 0.4, gEnemyTexture.getHeight() * 0.4);*/
 
 	gPlayer->setColliders();
@@ -118,10 +117,13 @@ bool loadMedia()
 
 void free()
 {
-	for (int i = 0; i < NUM_OF_PLAYERS; ++i) 
+	for (int i = 0; i < gEnts.size(); ++i)
 	{
-		delete gEnts[i];
-		gEnts.erase(gEnts.begin() + i);
+		if (gEnts[i])
+		{
+			delete gEnts[i];
+			gEnts.erase(gEnts.begin() + i);
+		}
 	}
 
 	SDL_FreeSurface(gWindowIconTexture);
@@ -196,59 +198,27 @@ int main(int argc, char* argv[])
 					return false;
 
 				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
-				SDL_RenderClear(gWindow.getRenderer());
+				SDL_RenderClear(gWindow.getRenderer()); 
 
 				gBackgroundTexture.render(0, 0);
 
-				// Players
-				for (int i = 0; i < NUM_OF_PLAYERS; ++i)
-				{
-					if (!gEnts[i]->isDead())
-					{
-						gEnts[i]->move();
-						gEnts[i]->exhaustAnimation();
-						gEnts[i]->getTexture().render(gPlayer->getPosX(), gPlayer->getPosY());
-						gEnts[i]->getWeapon().updateProjectiles();
-					}
-				}
-
 				gWave.createWave();
 
-				// Enemys
-				for (int i = NUM_OF_PLAYERS; i < gEnts.size(); ++i)
+				// Update Entity
+				for (int i = 0; i < gEnts.size(); ++i)
 				{
-					if (!gEnts[i]->isDead())
-					{
-						gEnts[i]->move();
-						gEnts[i]->exhaustAnimation();
-						gEnts[i]->getTexture().render(gEnts[i]->getPosX(), gEnts[i]->getPosY(), nullptr, 0, 0, 180);
-						gEnts[i]->shoot(500);
-						gEnts[i]->getWeapon().updateProjectiles();
-					}
-					else
-					{
-						if (gEnts[i]->deathAnimation() / 2 >= 12)
-							gEnts.erase(gEnts.begin() + i);
-					}
+					gEnts[i]->update(i);
 				}
 
 				// Entity Debug Colliders
 				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
 				for (int i = 0; i < gEnts.size(); ++i)
 				{
-					for (int j = 0; j < gEnts[i]->getColliders().size(); ++j)
-					{
-						SDL_RenderDrawRect(gWindow.getRenderer(), &gEnts[i]->getColliders()[j]);
-					}
+					gEnts[i]->debug();
 				}
 
-				if (gPlayer->displayHealth())
-					gPlayer->getHealhTexture().render(0, SCREEN_HEIGHT - gPlayer->getHealhTexture().getHeight());
-				else
-					break;
-
 				if (gWave.displayWaveNum())
-					gWave.getWaveTexture().render(0, SCREEN_HEIGHT - gPlayer->getHealhTexture().getHeight() - gWave.getWaveTexture().getHeight());
+					gWave.getWaveTexture().render(0, SCREEN_HEIGHT - 74);
 				else
 					break;
 
