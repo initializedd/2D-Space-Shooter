@@ -49,21 +49,15 @@ void Weapon::updateProjectiles()
 	if (!m_projectiles.empty())
 	{
 		int velocity{};
-		int offset{};
-		bool (*comparisonPtr)(int, int) { nullptr };
 
 		switch (m_ownerType)
 		{
 			case PLAYER:
 				velocity = LASER_VEL;
-				comparisonPtr = &isless;
-				offset = 0 - gProjectileTexture.getHeight();
 				break;
 
 			case ENEMY:
 				velocity = -LASER_VEL;
-				comparisonPtr = &isgreater;
-				offset = SCREEN_HEIGHT;
 				break;
 		}
 
@@ -71,7 +65,7 @@ void Weapon::updateProjectiles()
 		{
 			m_projectiles[i].updateCollider();
 
-			if (comparisonPtr && comparisonPtr(m_projectiles[i].getPosY(), offset) || m_projectiles[i].checkCollision(gEnts, m_ownerType))
+			if (m_projectiles[i].checkScreenBoundary(SDL_Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)) || m_projectiles[i].checkCollision(gEnts, m_ownerType))
 			{
 				m_projectiles.erase(m_projectiles.begin() + i);
 
