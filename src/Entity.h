@@ -47,6 +47,7 @@ public:
 	virtual void move();
 	virtual void shoot(int delay);
 	virtual void update(int i) = 0;
+	virtual void handleEvent(SDL_Event& event);
 
 	bool checkCollisionPosX(std::vector<Entity*>& ents);
 	bool checkCollisionPosY(std::vector<Entity*>& ents);
