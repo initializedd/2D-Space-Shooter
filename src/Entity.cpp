@@ -78,6 +78,10 @@ void Entity::move()
 	}
 }
 
+void Entity::handleEvent(SDL_Event& event)
+{
+}
+
 bool Entity::checkCollisionPosX(std::vector<Entity*>& ents)
 {
 	for (int i = 0; i < ents.size(); ++i)
