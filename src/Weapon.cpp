@@ -68,7 +68,6 @@ void Weapon::updateProjectiles()
 			if (m_projectiles[i].checkScreenBoundary(SDL_Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)) || m_projectiles[i].checkCollision(gEnts, m_ownerType))
 			{
 				m_projectiles.erase(m_projectiles.begin() + i);
-
 				break;
 			}
 			else
