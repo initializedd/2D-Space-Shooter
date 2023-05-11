@@ -16,6 +16,7 @@ private:
 	};
 
 	TextureRef*					m_texture;
+	SDL_Rect					m_clips[33];
 	int							m_width;
 	int							m_height;
 	SDL_Surface*				m_surfacePixels;
@@ -34,11 +35,13 @@ public:
 	bool loadFromRenderedText(const char* text, TTF_Font* font, SDL_Color textColor);
 
 	void render(int x, int y, SDL_Rect* clip = nullptr, int scaleW = 0, int scaleH = 0, double angle = 0.0, SDL_Point* centre = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
+	void setClipsFromSprite(int width, int height, int padding, int elements);
 	void scale(int width, int height);
 	void free();
 	void swap(TextureRef*& first, TextureRef*& second) noexcept;
 
 	SDL_Texture* getTexture();
+	SDL_Rect* getClips();
 	int getWidth();
 	int getHeight();
 };

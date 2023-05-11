@@ -6,6 +6,7 @@
 
 Texture::Texture()
 	: m_texture{}
+	, m_clips{}
 	, m_width{}
 	, m_height{}
 	, m_surfacePixels{}
@@ -186,6 +187,17 @@ void Texture::render(int x, int y, SDL_Rect* clip, int scaleW, int scaleH, doubl
 	SDL_RenderCopyEx(gWindow.getRenderer(), m_texture->texture, clip, &render_quad, angle, centre, flip);
 }
 
+void Texture::setClipsFromSprite(int width, int height, int padding, int elements)
+{
+	for (int i = 0; i < elements; ++i)
+	{
+		m_clips[i].x = i * (width + padding) + (padding / 2);
+		m_clips[i].y = padding / 2;
+		m_clips[i].w = width;
+		m_clips[i].h = height;
+	}
+}
+
 void Texture::scale(int width, int height)
 {
 	m_width = width;
@@ -215,6 +227,11 @@ void Texture::swap(TextureRef*& first, TextureRef*& second) noexcept
 SDL_Texture* Texture::getTexture()
 {
 	return m_texture->texture;
+}
+
+SDL_Rect* Texture::getClips()
+{
+	return m_clips;
 }
 
 int Texture::getWidth()
