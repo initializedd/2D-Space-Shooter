@@ -6,8 +6,8 @@
 class Timer
 {
 private:
-	Uint32				m_startTicks;
-	Uint32				m_pausedTicks;
+	Uint64				m_startTicks;
+	Uint64				m_pausedTicks;
 	
 	bool				m_started;
 	bool				m_paused;
@@ -21,7 +21,7 @@ public:
 	void pause();
 	void unpause();
 
-	Uint32 getTicks();
+	Uint64 getTicks();
 
 	bool isStarted();
 	bool isPaused();
