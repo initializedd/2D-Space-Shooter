@@ -4,9 +4,9 @@
 #include <concepts>
 
 template <typename T>
-concept Integer = std::is_integral_v<int>;
+concept Number = std::is_integral_v<int> || std::is_floating_point_v<double>;
 
-template <Integer T>
+template <Number T>
 struct Pair
 {
 	T x;
