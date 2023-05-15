@@ -17,7 +17,7 @@ enum ProjectileType
 class Projectile
 {
 private:
-	Pair<int>				m_pos;
+	Pair<double>			m_pos;
 	Pair<int>				m_vel;
 	Texture					m_texture;
 	ProjectileType			m_type;
@@ -28,7 +28,7 @@ public:
 	Projectile();
 	~Projectile();
 
-	void move(int vel);
+	void move(int vel, double dt);
 
 	bool checkScreenBoundary(SDL_Rect&& screen);
 	bool checkCollision(std::vector<Entity*>& ents, EntityType ownerType);

@@ -44,7 +44,7 @@ void Weapon::shoot(Pair<int> leftProjectilePos, Pair<int> rightProjectilePos, un
 	gProjectileSound.playChunk(-1, 0, 100);
 }
 
-void Weapon::updateProjectiles()
+void Weapon::updateProjectiles(double dt)
 {
 	if (!m_projectiles.empty())
 	{
@@ -79,7 +79,7 @@ void Weapon::updateProjectiles()
 				m_projectiles[i].debug();
 				#endif
 
-				m_projectiles[i].move(velocity);
+				m_projectiles[i].move(velocity, dt);
 			}
 
 		}

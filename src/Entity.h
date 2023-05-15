@@ -24,7 +24,7 @@ protected:
 	int						m_width;
 	int						m_height;
 
-	Pair<int>				m_pos;
+	Pair<double>			m_pos;
 	Pair<int>				m_vel;
 
 	Pair<int>				m_leftProjectilePos;
@@ -44,17 +44,17 @@ public:
 	Entity();
 	~Entity();
 
-	virtual void move();
+	virtual void move(double dt);
 	virtual void shoot(int delay);
-	virtual void update(int i) = 0;
+	virtual void update(int i, double dt) = 0;
 	virtual void handleEvent(SDL_Event& event);
 
 	bool checkCollisionPosX(std::vector<Entity*>& ents);
 	bool checkCollisionPosY(std::vector<Entity*>& ents);
 	void debug();
 
-	virtual int deathAnimation();
-	virtual void exhaustAnimation() = 0;
+	virtual int deathAnimation(double dt);
+	virtual void exhaustAnimation(double dt) = 0;
 
 	void reduceHealth(int damage);
 	bool isDead();

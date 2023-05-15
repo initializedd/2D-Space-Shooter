@@ -32,19 +32,19 @@ void Enemy::shoot(int delay)
 		m_weapon.shoot(m_leftProjectilePos, m_rightProjectilePos, delay);
 }
 
-void Enemy::update(int i)
+void Enemy::update(int i, double dt)
 {
  	if (!isDead())
 	{
-		move();
-		exhaustAnimation();
+		move(dt);
+		exhaustAnimation(dt);
 		getTexture().render(m_pos.x, m_pos.y, nullptr, 0, 0, 180);
 		shoot(500);
-		getWeapon().updateProjectiles();
+		getWeapon().updateProjectiles(dt);
 	}
 	else
 	{
-		if (deathAnimation() / 2 >= 12)
+		if (deathAnimation(dt) / 2 >= 12)
 		{
 			delete this;
 			gEnts.erase(gEnts.begin() + i);
@@ -52,7 +52,7 @@ void Enemy::update(int i)
 	}
 }
 
-void Enemy::exhaustAnimation()
+void Enemy::exhaustAnimation(double dt)
 {
 	gExhaustParticle.getTexture().scale(400 * 0.035, 400 * 0.035);
 	SDL_Rect* currentClip = &gExhaustParticle.getClips()[m_flameFrames / 3];

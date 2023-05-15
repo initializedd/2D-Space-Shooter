@@ -180,8 +180,14 @@ int main(int argc, char* argv[])
 
 			gEnts.push_back(gPlayer);
 
+			Timer deltaTimer;
+			double dt = 0.0;
+
 			while (!quitGame)
 			{
+				dt = deltaTimer.getTicks() / 1000.0;
+				deltaTimer.start();
+
 				while (SDL_PollEvent(&event) != 0)
 				{
 					if (event.type == SDL_QUIT)
@@ -189,7 +195,10 @@ int main(int argc, char* argv[])
 						quitGame = true;
 					}
 
-					gPlayer->handleEvent(event);
+					for (int i = 0; i < gEnts.size(); ++i)
+					{
+						gEnts[i]->handleEvent(event);
+					}
 				}
 
 				gWindow.calculateFPS(fpsTimer, countedFrames);
@@ -207,7 +216,7 @@ int main(int argc, char* argv[])
 				// Update Entity
 				for (int i = 0; i < gEnts.size(); ++i)
 				{
-					gEnts[i]->update(i);
+					gEnts[i]->update(i, dt);
 				}
 
 				// Entity Debug Colliders
@@ -225,7 +234,7 @@ int main(int argc, char* argv[])
 				gFpsTextTexture.render(SCREEN_WIDTH - gFpsTextTexture.getWidth(), 0);
 
 				SDL_RenderPresent(gWindow.getRenderer());
-
+			
 				++countedFrames;
 			}
 		}

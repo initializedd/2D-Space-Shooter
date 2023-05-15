@@ -13,9 +13,9 @@ public:
 	~Enemy();
 
 	void shoot(int delay);
-	void update(int i);
+	void update(int i, double dt);
 
-	void exhaustAnimation();
+	void exhaustAnimation(double dt);
 
 	void setColliders();
 };
