@@ -8,8 +8,7 @@ Ship::Ship()
 	, m_leftProjectilePos{}
 	, m_rightProjectilePos{}
 {
-	std::string dir{ "C:/Users/Brian/Desktop/2D Space Shooter/2D-Space-Shooter/bin/" };
-	m_texture.loadFromFile((dir + "img/player_ships_sprite.png").c_str(), false);
+	m_texture.loadFromFile("img/player_ships_sprite.png", false);
 
 	setClipsFromSprite(128, 160, 40, 33);
 }
@@ -34,7 +33,7 @@ Texture& Ship::getTexture()
 	return m_texture;
 }
 
-SDL_Rect[] Ship::getClips()
+SDL_Rect* Ship::getClips()
 {
 	return m_clips;
 }

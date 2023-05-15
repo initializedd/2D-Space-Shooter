@@ -26,7 +26,7 @@ public:
 	void setClipsFromSprite(int width, int height, int padding, int elements);
 
 	Texture& getTexture();
-	std::vector<SDL_Rect>& getClips();
+	SDL_Rect* getClips();
 };
 
 #endif // !SHIP_H
