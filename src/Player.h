@@ -17,9 +17,9 @@ public:
 	~Player();
 
 	void handleEvent(SDL_Event& event);
-	void update(int i);
+	void update(int i, double dt);
 
-	void exhaustAnimation();
+	void exhaustAnimation(double dt);
 	bool displayHealth();
 
 	Texture& getHealhTexture();

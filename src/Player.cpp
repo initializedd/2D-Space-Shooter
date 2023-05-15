@@ -51,7 +51,7 @@ void Player::handleEvent(SDL_Event& event)
 				break;
 
 			case SDLK_LEFT:
-			case SDLK_a:
+			case SDLK_a: 
 				m_vel.x -= PLAYER_VEL;
 				break;
 
@@ -93,21 +93,21 @@ void Player::handleEvent(SDL_Event& event)
 	}
 }
 
-void Player::update(int i)
+void Player::update(int i, double dt)
 {
 	if (!isDead())
 	{
-		move();
-		exhaustAnimation();
+		move(dt);
+		exhaustAnimation(dt);
 		getTexture().render(m_pos.x, m_pos.y);
-		getWeapon().updateProjectiles();
+		getWeapon().updateProjectiles(dt);
 
 		if (displayHealth())
 			getHealhTexture().render(0, SCREEN_HEIGHT - getHealhTexture().getHeight());
 	}
 	else
 	{
-		if (deathAnimation() / 2 >= 12)
+		if (deathAnimation(dt) / 2 >= 12)
 		{
 			delete this;
 			gEnts.erase(gEnts.begin() + i);
@@ -115,7 +115,7 @@ void Player::update(int i)
 	}
 }
 
-void Player::exhaustAnimation()
+void Player::exhaustAnimation(double dt)
 {
 	SDL_Rect* currentClip = &m_particle.getClips()[m_flameFrames / 3];
 

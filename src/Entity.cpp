@@ -25,16 +25,16 @@ Entity::~Entity()
 {
 }
 
-void Entity::move()
+void Entity::move(double dt)
 {
 	// Update X position based on its X velocity
-	m_pos.x += m_vel.x;
+	m_pos.x += m_vel.x * dt;
 	setColliders();
 
 	// Check if outside of left screen boundary
-	if (m_pos.x <= 0)
+	if (m_pos.x <= 0.0)
 	{
-		m_pos.x = 0;
+		m_pos.x = 0.0;
 		setColliders();
 
 		if (m_type == ENEMY)
@@ -56,13 +56,13 @@ void Entity::move()
 	}
 
 	// Update Y position based on its Y velocity
-	m_pos.y += m_vel.y;
+	m_pos.y += m_vel.y * dt;
 	setColliders();
 
 	// Check if outside of top screen boundary
-	if (m_pos.y <= 0)
+	if (m_pos.y <= 0.0)
 	{
-		m_pos.y = 0;
+		m_pos.y = 0.0;
 		setColliders();
 	}
 	// Check if outside of bottom screen boundary
@@ -162,9 +162,9 @@ void Entity::shoot(int delay)
 		m_weapon.shoot(m_leftProjectilePos, m_rightProjectilePos, delay);
 }
 
-int Entity::deathAnimation()
+int Entity::deathAnimation(double dt)
 {
-	SDL_Rect* currentClip = &gExplosionParticle.getClips()[m_explosionFrames / 2];
+	SDL_Rect* currentClip = &gExplosionParticle.getClips()[(int)(m_explosionFrames * dt) / 2];
 
 	int explosionPosX = (m_pos.x + m_texture.getWidth() / 2) - gExplosionParticle.getTexture().getWidth() / 2;
 	int explosionPosY = (m_pos.y + m_texture.getHeight() / 2) - gExplosionParticle.getTexture().getHeight() / 2;

@@ -18,9 +18,9 @@ Projectile::~Projectile()
 {
 }
 
-void Projectile::move(int vel)
+void Projectile::move(int vel, double dt)
 {
-	m_pos.y -= vel;
+	m_pos.y -= vel * dt;
 }
 
 bool Projectile::checkScreenBoundary(SDL_Rect&& screen)
