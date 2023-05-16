@@ -15,7 +15,7 @@ Weapon::~Weapon()
 {
 }
 
-void Weapon::shoot(Pair<int> leftProjectilePos, Pair<int> rightProjectilePos, unsigned int delay)
+void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay)
 {
 	if (!m_lastShot.isStarted())
 	{
@@ -28,16 +28,16 @@ void Weapon::shoot(Pair<int> leftProjectilePos, Pair<int> rightProjectilePos, un
 	m_lastShot.start();
 
 	Projectile leftProjectile{};
-	leftProjectile.setPos(leftProjectilePos);
+	leftProjectile.setPos(leftCannonPos);
 	leftProjectile.setType(LEFT_PROJECTILE);
-	leftProjectile.setCollider(gLeftProjectileHitBox);
+	leftProjectile.updateCollider();
 
 	m_projectiles.push_back(leftProjectile);
 
 	Projectile rightProjectile{};
-	rightProjectile.setPos(rightProjectilePos);
+	rightProjectile.setPos(rightCannonPos);
 	rightProjectile.setType(RIGHT_PROJECTILE);
-	rightProjectile.setCollider(gRightProjectileHitBox);
+	rightProjectile.updateCollider();
 
 	m_projectiles.push_back(rightProjectile);
 
@@ -63,25 +63,32 @@ void Weapon::updateProjectiles(double dt)
 
 		for (int i = 0; i < m_projectiles.size(); ++i)
 		{
-			m_projectiles[i].updateCollider();
-
-			if (m_projectiles[i].checkScreenBoundary(SDL_Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)) || m_projectiles[i].checkCollision(gEnts, m_ownerType))
+			if (m_projectiles[i].checkScreenBoundary() || m_projectiles[i].checkCollision(gEnts, m_ownerType))
 			{
 				m_projectiles.erase(m_projectiles.begin() + i);
 				break;
 			}
 			else
 			{
-				gProjectileTexture.render(m_projectiles[i].getPosX(), m_projectiles[i].getPosY(), &gRedProjectileClip, gRedProjectileClip.w, gRedProjectileClip.h, 90);
-
-				#if defined(_DEBUG)
-				// Projectile Debug Info
-				m_projectiles[i].debug();
-				#endif
-
 				m_projectiles[i].move(velocity, dt);
+				m_projectiles[i].updateCollider();
 			}
+		}
+	}
+}
 
+void Weapon::renderProjectiles()
+{
+	if (!m_projectiles.empty())
+	{
+		for (int i = 0; i < m_projectiles.size(); ++i)
+		{
+			gProjectileTexture.render(m_projectiles[i].getPosX(), m_projectiles[i].getPosY(), &gRedProjectileClip, gRedProjectileClip.w, gRedProjectileClip.h, 90);
+			
+			#if defined(_DEBUG)
+			// Projectile Debug Info
+			m_projectiles[i].debug();
+			#endif
 		}
 	}
 }

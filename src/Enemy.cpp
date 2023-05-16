@@ -18,6 +18,8 @@ Enemy::Enemy(int x, int y)
 
 	m_health = 100;
 
+	gExhaustParticle.getTexture().scale(400 * 0.035, 400 * 0.035);
+
 	++ENTITY_ID;
 }
 
@@ -26,25 +28,19 @@ Enemy::~Enemy()
 	--ENTITY_ID;
 }
 
-void Enemy::shoot(int delay)
-{
-	if (m_canShoot)
-		m_weapon.shoot(m_leftProjectilePos, m_rightProjectilePos, delay);
-}
-
 void Enemy::update(int i, double dt)
 {
- 	if (!isDead())
+	getWeapon().updateProjectiles(dt);
+
+	if (!isDead())
 	{
 		move(dt);
 		exhaustAnimation(dt);
-		getTexture().render(m_pos.x, m_pos.y, nullptr, 0, 0, 180);
 		shoot(500);
-		getWeapon().updateProjectiles(dt);
 	}
 	else
 	{
-		if (deathAnimation(dt) / 2 >= 12)
+		if (deathAnimation(dt) && m_weapon.getProjectiles().empty())
 		{
 			delete this;
 			gEnts.erase(gEnts.begin() + i);
@@ -52,16 +48,32 @@ void Enemy::update(int i, double dt)
 	}
 }
 
+void Enemy::render()
+{
+	if (!isDead())
+	{
+		// Ship Texture
+		m_texture.render(m_pos.x, m_pos.y, nullptr, 0, 0, 180);
+
+		// Left Ship Exhaust
+		gExhaustParticle.getTexture().render(m_pos.x + 41, m_pos.y + 55, m_currentExhaustClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight(), 0, nullptr, SDL_FLIP_HORIZONTAL);
+
+		// Right Ship Exhaust
+		gExhaustParticle.getTexture().render(m_pos.x + 115, m_pos.y + 55, m_currentExhaustClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
+	}
+
+	// Projejctiles
+	m_weapon.renderProjectiles();
+
+	if (isDead())
+	{
+		renderDeathAnimation();
+	}
+}
+
 void Enemy::exhaustAnimation(double dt)
 {
-	gExhaustParticle.getTexture().scale(400 * 0.035, 400 * 0.035);
-	SDL_Rect* currentClip = &gExhaustParticle.getClips()[m_flameFrames / 3];
-
-	// Left Exhaust
-	gExhaustParticle.getTexture().render(m_pos.x + 41, m_pos.y + 55, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight(), 0, nullptr, SDL_FLIP_HORIZONTAL);
-
-	// Right Exhaust
-	gExhaustParticle.getTexture().render(m_pos.x + 115, m_pos.y + 55, currentClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
+	m_currentExhaustClip = &gExhaustParticle.getClips()[m_flameFrames / 3];
 
 	++m_flameFrames;
 	if (m_flameFrames / 3 >= 6)
@@ -77,11 +89,15 @@ void Enemy::setColliders()
 
 	m_colliders[1].x = gEnemyBodyCollision.x + m_pos.x;
 	m_colliders[1].y = gEnemyBodyCollision.y + m_pos.y;
+}
 
-	// Enemy projectile pos
-	m_leftProjectilePos.x = 42 + m_pos.x;
-	m_leftProjectilePos.y = 89 + m_pos.y;
+void Enemy::setCannonColliders()
+{
+	// Enemy left cannon pos
+	m_leftCannonPos.x = 42 + m_pos.x;
+	m_leftCannonPos.y = 89 + m_pos.y;
 
-	m_rightProjectilePos.x = 70 + m_pos.x;
-	m_rightProjectilePos.y = 90 + m_pos.y;
+	// Enemy right cannon pos
+	m_rightCannonPos.x = 70 + m_pos.x;
+	m_rightCannonPos.y = 90 + m_pos.y;
 }

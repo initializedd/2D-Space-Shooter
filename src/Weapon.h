@@ -25,6 +25,7 @@ public:
 	void shoot(Pair<int> leftProjectilePos, Pair<int> rightProjectilePos, unsigned int delay);
 
 	void updateProjectiles(double dt);
+	void renderProjectiles();
 
 	std::string& getName();
 	std::vector<Projectile>& getProjectiles();
