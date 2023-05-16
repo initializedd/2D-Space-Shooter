@@ -18,6 +18,7 @@ public:
 
 	void handleEvent(SDL_Event& event);
 	void update(int i, double dt);
+	void render();
 
 	void exhaustAnimation(double dt);
 	bool displayHealth();
@@ -25,6 +26,7 @@ public:
 	Texture& getHealhTexture();
 
 	void setColliders();
+	void setCannonColliders();
 };
 
 #endif // !PLAYER_H

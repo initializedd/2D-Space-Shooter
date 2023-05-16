@@ -12,12 +12,13 @@ public:
 	Enemy(int x, int y);
 	~Enemy();
 
-	void shoot(int delay);
 	void update(int i, double dt);
+	void render();
 
 	void exhaustAnimation(double dt);
 
 	void setColliders();
+	void setCannonColliders();
 };
 
 #endif // !ENEMY_H

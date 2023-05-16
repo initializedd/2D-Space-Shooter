@@ -95,19 +95,16 @@ void Player::handleEvent(SDL_Event& event)
 
 void Player::update(int i, double dt)
 {
+	getWeapon().updateProjectiles(dt);
+
 	if (!isDead())
 	{
 		move(dt);
 		exhaustAnimation(dt);
-		getTexture().render(m_pos.x, m_pos.y);
-		getWeapon().updateProjectiles(dt);
-
-		if (displayHealth())
-			getHealhTexture().render(0, SCREEN_HEIGHT - getHealhTexture().getHeight());
 	}
 	else
 	{
-		if (deathAnimation(dt) / 2 >= 12)
+		if (deathAnimation(dt) && m_weapon.getProjectiles().empty())
 		{
 			delete this;
 			gEnts.erase(gEnts.begin() + i);
@@ -115,27 +112,47 @@ void Player::update(int i, double dt)
 	}
 }
 
+void Player::render()
+{
+	if (!isDead())
+	{
+		// Ship Texture
+		m_texture.render(m_pos.x, m_pos.y);
+
+		// Resize texture to fit outer ship exhaust dimensions
+		m_particle.getTexture().scale(400 * 0.047, 400 * 0.05);
+
+		// Left Ship Exhaust
+		m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 6.0), m_pos.y + (m_texture.getHeight() / 1.15), m_currentExhaustClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
+
+		// Right Ship Exhaust
+		m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 1.4), m_pos.y + (m_texture.getHeight() / 1.15), m_currentExhaustClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
+
+		// Resize texture to fit middle ship exhaust dimensions
+		m_particle.getTexture().scale(400 * 0.05, 400 * 0.05);
+
+		// Middle Left Ship Exhaust
+		m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 3.03), m_pos.y + m_texture.getHeight(), m_currentExhaustClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
+
+		// Middle Right Ship Exhaust
+		m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 1.83), m_pos.y + m_texture.getHeight(), m_currentExhaustClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
+	}
+
+	// Projejctiles
+	m_weapon.renderProjectiles();
+
+	if (displayHealth())
+		getHealhTexture().render(0, SCREEN_HEIGHT - getHealhTexture().getHeight());
+
+	if (isDead())
+	{
+		renderDeathAnimation();
+	}
+}
+
 void Player::exhaustAnimation(double dt)
 {
-	SDL_Rect* currentClip = &m_particle.getClips()[m_flameFrames / 3];
-
-	// Resize texture to fit outer exhaust dimensions
-	m_particle.getTexture().scale(400 * 0.047, 400 * 0.05);
-
-	// Left Exhaust
-	m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 6.0), m_pos.y + (m_texture.getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
-
-	// Right Exhaust
-	m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 1.4), m_pos.y + (m_texture.getHeight() / 1.15), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
-
-	// Resize texture to fit middle exhaust dimensions
-	m_particle.getTexture().scale(400 * 0.05, 400 * 0.05);
-
-	// Middle Left Exhaust
-	m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 3.03), m_pos.y + m_texture.getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
-
-	// Middle Right Exhaust
-	m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 1.83), m_pos.y + m_texture.getHeight(), currentClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
+	m_currentExhaustClip = &m_particle.getClips()[m_flameFrames / 3];
 
 	++m_flameFrames;
 	if (m_flameFrames / 3 >= 6)
@@ -181,11 +198,15 @@ void Player::setColliders()
 
 	m_colliders[5].x = gExhaustCollision.x + m_pos.x;
 	m_colliders[5].y = gExhaustCollision.y + m_pos.y;
+}
 
-	// Player projectile pos
-	m_leftProjectilePos.x = 31 + m_pos.x;
-	m_leftProjectilePos.y = 0 + m_pos.y;
+void Player::setCannonColliders()
+{
+	// Player left cannon pos
+	m_leftCannonPos.x = 31 + m_pos.x;
+	m_leftCannonPos.y = 0 + m_pos.y;
 
-	m_rightProjectilePos.x = 61 + m_pos.x;
-	m_rightProjectilePos.y = 1 + m_pos.y;
+	// Player right cannon pos
+	m_rightCannonPos.x = 61 + m_pos.x;
+	m_rightCannonPos.y = 1 + m_pos.y;
 }
