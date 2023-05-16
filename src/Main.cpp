@@ -173,19 +173,24 @@ int main(int argc, char* argv[])
 
 			int countedFrames = 0;
 
-			Timer fpsTimer;
-			fpsTimer.start();
-
 			SDL_Color textColor{ 0x00, 0xFF, 0x00, 0xFF };
 
 			gEnts.push_back(gPlayer);
 
 			Timer deltaTimer;
-			double dt = 0.0;
+			double fixedDt = 1.0 / 60.0;
+			double accumulator = 0.0;
+
+			Timer fpsTimer;
+			fpsTimer.start();
 
 			while (!quitGame)
 			{
-				dt = deltaTimer.getTicks() / 1000.0;
+				double frameTime = deltaTimer.getTicks() / 1000.0;
+				if (frameTime > 0.25)
+					frameTime = 0.25;
+
+				accumulator += frameTime;
 				deltaTimer.start();
 
 				while (SDL_PollEvent(&event) != 0)
@@ -206,24 +211,33 @@ int main(int argc, char* argv[])
 				if (!gFpsTextTexture.loadFromRenderedText(gWindow.getFPS().str().c_str(), gFuturaFont, textColor))
 					return false;
 
+				gWave.createWave();
+
+				while (accumulator >= fixedDt)
+				{
+					// Update Entity
+					for (int i = 0; i < gEnts.size(); ++i)
+					{
+						gEnts[i]->update(i, fixedDt);
+					}
+
+					accumulator -= fixedDt;
+				}
+
+				// Rendering
 				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
-				SDL_RenderClear(gWindow.getRenderer()); 
+				SDL_RenderClear(gWindow.getRenderer());
 
 				gBackgroundTexture.render(0, 0);
 
-				gWave.createWave();
-
-				// Update Entity
-				for (int i = 0; i < gEnts.size(); ++i)
-				{
-					gEnts[i]->update(i, dt);
-				}
-
-				// Entity Debug Colliders
 				SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
 				for (int i = 0; i < gEnts.size(); ++i)
 				{
+					gEnts[i]->render();
+
+					#if defined(_DEBUG)
 					gEnts[i]->debug();
+					#endif			
 				}
 
 				if (gWave.displayWaveNum())
