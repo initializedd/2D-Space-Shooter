@@ -30,7 +30,7 @@ public:
 
 	void move(int vel, double dt);
 
-	bool checkScreenBoundary(SDL_Rect&& screen);
+	bool checkScreenBoundary();
 	bool checkCollision(std::vector<Entity*>& ents, EntityType ownerType);
 	void updateCollider();
 
@@ -49,7 +49,6 @@ public:
 	void setVel(Pair<int> vel);
 	void setTexture(Texture& texture);
 	void setType(ProjectileType type);
-	void setCollider(SDL_Rect box);
 };
 
 #endif // !PROJECTILE_H

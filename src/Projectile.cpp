@@ -23,8 +23,10 @@ void Projectile::move(int vel, double dt)
 	m_pos.y -= vel * dt;
 }
 
-bool Projectile::checkScreenBoundary(SDL_Rect&& screen)
+bool Projectile::checkScreenBoundary()
 {
+	SDL_Rect screen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 	// Checks if projectile is outside the screen
 	if (!SDL_HasIntersection(&m_collider, &screen))
 	{
@@ -169,9 +171,4 @@ void Projectile::setTexture(Texture& texture)
 void Projectile::setType(ProjectileType type)
 {
 	m_type = type;
-}
-
-void Projectile::setCollider(SDL_Rect box)
-{
-	m_collider = box;
 }
