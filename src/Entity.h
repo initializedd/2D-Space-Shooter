@@ -24,11 +24,14 @@ protected:
 	int						m_width;
 	int						m_height;
 
+	SDL_Rect*				m_currentExhaustClip;
+	SDL_Rect*				m_currentDeathClip;
+
 	Pair<double>			m_pos;
 	Pair<int>				m_vel;
 
-	Pair<int>				m_leftProjectilePos;
-	Pair<int>				m_rightProjectilePos;
+	Pair<int>				m_leftCannonPos;
+	Pair<int>				m_rightCannonPos;
 
 	std::vector<SDL_Rect>	m_colliders;
 
@@ -45,16 +48,19 @@ public:
 	~Entity();
 
 	virtual void move(double dt);
-	virtual void shoot(int delay);
+	void shoot(int delay);
 	virtual void update(int i, double dt) = 0;
+	virtual void render() = 0;
 	virtual void handleEvent(SDL_Event& event);
 
 	bool checkCollisionPosX(std::vector<Entity*>& ents);
 	bool checkCollisionPosY(std::vector<Entity*>& ents);
 	void debug();
 
-	virtual int deathAnimation(double dt);
+	bool deathAnimation(double dt);
 	virtual void exhaustAnimation(double dt) = 0;
+
+	void renderDeathAnimation();
 
 	void reduceHealth(int damage);
 	bool isDead();
@@ -69,6 +75,7 @@ public:
 	int getPosY() const;
 
 	virtual void setColliders() = 0;
+	virtual void setCannonColliders() = 0;
 };
 
 #endif // !ENTITY_H

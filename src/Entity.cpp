@@ -8,10 +8,12 @@ Entity::Entity()
 	, m_texture{}
 	, m_width{}
 	, m_height{}
+	, m_currentExhaustClip{}
+	, m_currentDeathClip{}
 	, m_pos{}
 	, m_vel{}
-	, m_leftProjectilePos{}
-	, m_rightProjectilePos{}
+	, m_leftCannonPos{}
+	, m_rightCannonPos{}
 	, m_colliders{}
 	, m_health{}
 	, m_particle{}
@@ -149,30 +151,44 @@ bool Entity::checkCollisionPosY(std::vector<Entity*>& ents)
 #if defined(_DEBUG)
 void Entity::debug()
 {
-	for (int i = 0; i < m_colliders.size(); ++i)
+	if (!isDead())
 	{
-		SDL_RenderDrawRect(gWindow.getRenderer(), &m_colliders[i]);
+		for (int i = 0; i < m_colliders.size(); ++i)
+		{
+			SDL_RenderDrawRect(gWindow.getRenderer(), &m_colliders[i]);
+		}
 	}
 }
 #endif
 
 void Entity::shoot(int delay)
 {
-	if (m_canShoot)
-		m_weapon.shoot(m_leftProjectilePos, m_rightProjectilePos, delay);
+	if (m_canShoot && !isDead())
+	{
+		setCannonColliders();
+		m_weapon.shoot(m_leftCannonPos, m_rightCannonPos, delay);
+	}
 }
 
-int Entity::deathAnimation(double dt)
+bool Entity::deathAnimation(double dt)
 {
-	SDL_Rect* currentClip = &gExplosionParticle.getClips()[(int)(m_explosionFrames * dt) / 2];
+	if (m_explosionFrames / 2 <= 12)
+	{
+		m_currentDeathClip = &gExplosionParticle.getClips()[m_explosionFrames / 2];
+		++m_explosionFrames;
 
+		return false;
+	}
+
+	return true;
+}
+
+void Entity::renderDeathAnimation()
+{
 	int explosionPosX = (m_pos.x + m_texture.getWidth() / 2) - gExplosionParticle.getTexture().getWidth() / 2;
 	int explosionPosY = (m_pos.y + m_texture.getHeight() / 2) - gExplosionParticle.getTexture().getHeight() / 2;
 
-	gExplosionParticle.getTexture().render(explosionPosX, explosionPosY, currentClip, gExplosionParticle.getTexture().getWidth(), gExplosionParticle.getTexture().getHeight());
-
-	++m_explosionFrames;
-	return m_explosionFrames;
+	gExplosionParticle.getTexture().render(explosionPosX, explosionPosY, m_currentDeathClip, gExplosionParticle.getTexture().getWidth(), gExplosionParticle.getTexture().getHeight());
 }
 
 void Entity::reduceHealth(int damage)
