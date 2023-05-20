@@ -26,13 +26,8 @@ void Wave::createWave()
 		{
 			Enemy* enemy = new Enemy( i * 200, 0 );
 
-			if (!enemy->getTexture().loadFromFile(("img/enemy_ship1.png"), false))
-			{
-				delete enemy;
-				break;
-			}
+			enemy->getTexture().setTexture(gShipsSprite);
 
-			enemy->getTexture().scale(enemy->getTexture().getWidth() * 0.4, enemy->getTexture().getHeight() * 0.4);
 			enemy->setColliders();
 
 			gEnts.push_back(enemy);
