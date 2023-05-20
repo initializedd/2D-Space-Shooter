@@ -16,7 +16,8 @@ private:
 	};
 
 	TextureRef*					m_texture;
-	SDL_Rect					m_clips[33];
+	SDL_Rect					m_clips[48];
+	int							m_index;
 	int							m_width;
 	int							m_height;
 	SDL_Surface*				m_surfacePixels;
@@ -42,8 +43,12 @@ public:
 
 	SDL_Texture* getTexture();
 	SDL_Rect* getClips();
+	int getIndex();
 	int getWidth();
 	int getHeight();
+
+	void setTexture(Texture& texture);
+	void setIndex(int index);
 };
 
 #endif // !TEXTURE_H

@@ -7,6 +7,7 @@
 Texture::Texture()
 	: m_texture{}
 	, m_clips{}
+	, m_index{}
 	, m_width{}
 	, m_height{}
 	, m_surfacePixels{}
@@ -15,6 +16,8 @@ Texture::Texture()
 
 Texture::Texture(const Texture& other)
 	: m_texture{ other.m_texture }
+	, m_clips{*other.m_clips}
+	, m_index{other.m_index}
 	, m_width{ other.m_width }
 	, m_height{ other.m_height }
 	, m_surfacePixels{ other.m_surfacePixels }
@@ -43,6 +46,15 @@ Texture& Texture::operator=(const Texture& other)
 		m_texture = other.m_texture;
 		if (m_texture)
 			++m_texture->count;
+
+		for (int i = 0; i < std::size(other.m_clips); ++i)
+		{
+			m_clips[i] = other.m_clips[i];
+		}
+
+		m_index = other.m_index;
+		m_width = other.m_width;
+		m_height = other.m_height;
 	}
 
 	return *this;
@@ -196,6 +208,9 @@ void Texture::setClipsFromSprite(int width, int height, int padding, int element
 		m_clips[i].w = width;
 		m_clips[i].h = height;
 	}
+
+	m_width = width;
+	m_height = height;
 }
 
 void Texture::scale(int width, int height)
@@ -234,6 +249,11 @@ SDL_Rect* Texture::getClips()
 	return m_clips;
 }
 
+int Texture::getIndex()
+{
+	return m_index;
+}
+
 int Texture::getWidth()
 {
 	return m_width;
@@ -242,4 +262,14 @@ int Texture::getWidth()
 int Texture::getHeight()
 {
 	return m_height;
+}
+
+void Texture::setTexture(Texture& texture)
+{
+	*this = texture;
+}
+
+void Texture::setIndex(int index)
+{
+	m_index = index;
 }
