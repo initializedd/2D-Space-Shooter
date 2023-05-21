@@ -8,7 +8,8 @@ Button::Button()
 	, m_text{}
 	, m_font{}
 	, m_texture{}
-	, m_type{}
+	, m_mainMenuType{}
+	, m_customiseMenuType{}
 	, m_selected{}
 	, m_down{}
 	, m_hover{}
@@ -25,27 +26,63 @@ void Button::createButton(MainMenuButtons type, TTF_Font* font, SDL_Color color)
 	switch (type)
 	{
 		case PLAY:
-			m_type = PLAY;
+			m_mainMenuType = PLAY;
 			m_text = "Play";
 			setRect(200, 100, 200, 50);
 			break;
 
 		case CUSTOMISE:
-			m_type = CUSTOMISE;
+			m_mainMenuType = CUSTOMISE;
 			m_text = "Customise";
 			setRect(200, 175, 200, 50);
 			break;
 
 		case OPTIONS:
-			m_type = OPTIONS;
+			m_mainMenuType = OPTIONS;
 			m_text = "Options";
 			setRect(200, 250, 200, 50);
 			break;
 
 		default:
-			m_type = TOTAL_BUTTONS;
+			m_mainMenuType = MAIN_TOTAL_BUTTONS;
 			break;
 	}
+
+	m_texture.loadFromRenderedText(m_text.c_str(), font, color);
+}
+
+void Button::createButton(CustomiseMenuButtons type, TTF_Font* font, SDL_Color color)
+{
+	switch(type)
+	{
+		case BACK:
+			m_customiseMenuType = BACK;
+			m_text = "Back";
+			setRect(0, 0, 200, 50);
+			break;
+
+		case LEFT:
+			m_customiseMenuType = LEFT;
+			m_text = "Left";
+			setRect(0, (SCREEN_HEIGHT / 2) - (m_texture.getHeight() / 2), 200, 50);
+			break;
+
+		case RIGHT:
+			m_customiseMenuType = RIGHT;
+			m_text = "Right";
+			setRect(440, (SCREEN_HEIGHT / 2) - (m_texture.getHeight() / 2), 200, 50);
+			break;
+
+		case SELECT:
+			m_customiseMenuType = SELECT;
+			m_text = "Select";
+			setRect(220, 430, 200, 50);
+			break;
+
+		default:
+			m_customiseMenuType = CUSTOMISE_TOTAL_BUTTONS;
+			break;
+	}	
 
 	m_texture.loadFromRenderedText(m_text.c_str(), font, color);
 }
@@ -106,7 +143,7 @@ void Button::renderButton()
 	int x = m_rect.x + (m_rect.w / 2) - (m_texture.getWidth() / 2);
 	int y = m_rect.y + (m_rect.h / 2) - (m_texture.getHeight() / 2);
 
-	if (m_down) 
+	if (m_down)
 	{
 		y += 2;
 	}
@@ -124,5 +161,26 @@ void Button::setRect(int x, int y, int w, int h)
 
 bool Button::isSelected()
 {
-	return m_selected;
+	if (m_selected)
+	{
+		m_selected = false; // reset back to default state once handled
+		return true;
+	}
+	
+	return false;
+}
+
+MainMenuButtons Button::getMainType()
+{
+	return m_mainMenuType;
+}
+
+CustomiseMenuButtons Button::getCustomiseType()
+{
+	return m_customiseMenuType;
+}
+
+void Button::setSelection(bool flag)
+{
+	m_selected = flag;
 }
