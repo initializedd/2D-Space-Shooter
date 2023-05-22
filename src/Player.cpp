@@ -35,22 +35,22 @@ void Player::handleEvent(SDL_Event& event)
 		{
 			case SDLK_UP:
 			case SDLK_w:
-				m_vel.y -= PLAYER_VEL;
+				m_vel.y -= PLAYER_SPEED;
 				break;
 
 			case SDLK_DOWN:
 			case SDLK_s:
-				m_vel.y += PLAYER_VEL;
+				m_vel.y += PLAYER_SPEED;
 				break;
 
 			case SDLK_LEFT:
 			case SDLK_a: 
-				m_vel.x -= PLAYER_VEL;
+				m_vel.x -= PLAYER_SPEED;
 				break;
 
 			case SDLK_RIGHT:
 			case SDLK_d:
-				m_vel.x += PLAYER_VEL;
+				m_vel.x += PLAYER_SPEED;
 				break;
 
 			case SDLK_SPACE:
@@ -65,22 +65,22 @@ void Player::handleEvent(SDL_Event& event)
 		{
 			case SDLK_UP:
 			case SDLK_w:
-				m_vel.y += PLAYER_VEL;
+				m_vel.y += PLAYER_SPEED;
 				break;
 
 			case SDLK_DOWN:
 			case SDLK_s:
-				m_vel.y -= PLAYER_VEL;
+				m_vel.y -= PLAYER_SPEED;
 				break;
 
 			case SDLK_LEFT:
 			case SDLK_a:
-				m_vel.x += PLAYER_VEL;
+				m_vel.x += PLAYER_SPEED;
 				break;
 
 			case SDLK_RIGHT:
 			case SDLK_d:
-				m_vel.x -= PLAYER_VEL;
+				m_vel.x -= PLAYER_SPEED;
 				break;
 		}
 	}
@@ -109,27 +109,12 @@ void Player::render()
 {
 	if (!isDead())
 	{
-		m_particle.getTexture().scale(400 * 0.035, 400 * 0.035);
-		m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 2.2), m_pos.y + (m_texture.getHeight() / 1.09), m_currentExhaustClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
-		m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 2.2), m_pos.y + (m_texture.getHeight() / 1.09), m_currentExhaustClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
+		int last = m_colliders.size() - 1;
+		m_particle.getTexture().scale(m_colliders[last].w, m_colliders[last].h);
 
-		//// Resize texture to fit outer ship exhaust dimensions
-		//m_particle.getTexture().scale(400 * 0.047, 400 * 0.05);
-
-		//// Left Ship Exhaust
-		//m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 6.0), m_pos.y + (m_texture.getHeight() / 1.15), m_currentExhaustClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
-
-		//// Right Ship Exhaust
-		//m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 1.4), m_pos.y + (m_texture.getHeight() / 1.15), m_currentExhaustClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
-
-		//// Resize texture to fit middle ship exhaust dimensions
-		//m_particle.getTexture().scale(400 * 0.05, 400 * 0.05);
-
-		//// Middle Left Ship Exhaust
-		//m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 3.03), m_pos.y + m_texture.getHeight(), m_currentExhaustClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180);
-
-		//// Middle Right Ship Exhaust
-		//m_particle.getTexture().render(m_pos.x + (m_texture.getWidth() / 1.83), m_pos.y + m_texture.getHeight(), m_currentExhaustClip, m_particle.getTexture().getWidth(), m_particle.getTexture().getHeight(), 180, nullptr, SDL_FLIP_HORIZONTAL);
+		//Exhaust Texture
+		m_particle.getTexture().render(m_colliders[last].x, m_colliders[last].y, m_currentExhaustClip, m_colliders[last].w, m_colliders[last].h, 180);
+		m_particle.getTexture().render(m_colliders[last].x, m_colliders[last].y, m_currentExhaustClip, m_colliders[last].w, m_colliders[last].h, 180, nullptr, SDL_FLIP_HORIZONTAL);
 
 		// Ship Texture
 		m_texture.render(m_pos.x, m_pos.y, &m_texture.getClips()[m_texture.getIndex()], m_texture.getClips()[m_texture.getIndex()].w, m_texture.getClips()[m_texture.getIndex()].h);
@@ -178,17 +163,35 @@ Texture& Player::getHealhTexture()
 
 void Player::setColliders()
 {
-	m_colliders[0].x = Head1.x + m_pos.x;
-	m_colliders[0].y = Head1.y + m_pos.y;
+	double textureRotation = 0.0;
+	double textureRadians = textureRotation * (M_PI / 180.0);
 
-	m_colliders[1].x = Body1.x + m_pos.x;
-	m_colliders[1].y = Body1.y + m_pos.y;
+	// Calculate the cosine and sine values of the texture's rotation angle
+	double cosAngle = cos(textureRadians);
+	double sinAngle = sin(textureRadians);
 
-	m_colliders[2].x = Weapon1.x + m_pos.x;
-	m_colliders[2].y = Weapon1.y + m_pos.y;
+	// Calculate the centre coordinates of the rotated texture
+	double textureCentreX = m_texture.getWidth() / 2.0;
+	double textureCentreY = m_texture.getHeight() / 2.0;
 
-	m_colliders[3].x = Tail1.x + m_pos.x;
-	m_colliders[3].y = Tail1.y + m_pos.y;
+	for (int i = 0; i < m_colliders.size(); ++i)
+	{
+		// Calculate the centre coordinates of the collider
+		double colliderCentreX = gShipColliders[m_texture.getIndex()][i].w / 2.0;
+		double colliderCentreY = gShipColliders[m_texture.getIndex()][i].h / 2.0;
+
+		// Translate the collider's centre to the texture's coordinate system
+		double translatedX = gShipColliders[m_texture.getIndex()][i].x + colliderCentreX - textureCentreX;
+		double translatedY = gShipColliders[m_texture.getIndex()][i].y + colliderCentreY - textureCentreY;
+
+		// Rotate the collider's positions relative to the texture's rotation
+		double rotatedX = translatedX * cosAngle - translatedY * sinAngle;
+		double rotatedY = translatedX * sinAngle + translatedY * cosAngle;
+
+		// Translate the rotated collider's positions back to the original coordinate system
+		m_colliders[i].x = static_cast<int>(rotatedX + textureCentreX - colliderCentreX + m_pos.x);
+		m_colliders[i].y = static_cast<int>(rotatedY + textureCentreY - colliderCentreY + m_pos.y);
+	}
 }
 
 void Player::setCannonColliders()
