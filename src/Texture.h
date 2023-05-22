@@ -4,17 +4,21 @@
 #include <SDL_render.h>
 #include <SDL_ttf.h>
 
+struct TextureRef
+{
+	SDL_Texture*				texture;
+	int							count;
+
+	TextureRef(SDL_Texture* tex)
+		: texture(tex)
+		, count(1) 
+	{
+	}
+};
+
 class Texture
 {
 private:
-	struct TextureRef
-	{
-		SDL_Texture*			texture;
-		int						count;
-
-		TextureRef(SDL_Texture* tex) : texture(tex), count(1) {}
-	};
-
 	TextureRef*					m_texture;
 	SDL_Rect					m_clips[48];
 	int							m_index;
