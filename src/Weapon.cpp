@@ -48,19 +48,6 @@ void Weapon::updateProjectiles(double dt)
 {
 	if (!m_projectiles.empty())
 	{
-		int velocity{};
-
-		switch (m_ownerType)
-		{
-			case PLAYER:
-				velocity = LASER_VEL;
-				break;
-
-			case ENEMY:
-				velocity = -LASER_VEL;
-				break;
-		}
-
 		for (int i = 0; i < m_projectiles.size(); ++i)
 		{
 			if (m_projectiles[i].checkScreenBoundary() || m_projectiles[i].checkCollision(gEnts, m_ownerType))
@@ -70,7 +57,7 @@ void Weapon::updateProjectiles(double dt)
 			}
 			else
 			{
-				m_projectiles[i].move(velocity, dt);
+				m_projectiles[i].move(dt);
 				m_projectiles[i].updateCollider();
 			}
 		}
