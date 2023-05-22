@@ -27,8 +27,8 @@ protected:
 	SDL_Rect*				m_currentExhaustClip;
 	SDL_Rect*				m_currentDeathClip;
 
-	Pair<double>			m_pos;
-	Pair<int>				m_vel;
+	Pair<float>				m_pos;
+	Vector2<float>			m_vel;
 
 	Pair<int>				m_leftCannonPos;
 	Pair<int>				m_rightCannonPos;
@@ -52,6 +52,8 @@ public:
 	virtual void update(int i, double dt) = 0;
 	virtual void render() = 0;
 	virtual void handleEvent(SDL_Event& event);
+
+	void calculateVelocity(Vector2<float> direction, int speed);
 
 	bool checkCollisionPosX(std::vector<Entity*>& ents);
 	bool checkCollisionPosY(std::vector<Entity*>& ents);

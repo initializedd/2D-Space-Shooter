@@ -17,8 +17,8 @@ enum ProjectileType
 class Projectile
 {
 private:
-	Pair<double>			m_pos;
-	Pair<int>				m_vel;
+	Pair<float>				m_pos;
+	Vector2<float>			m_vel;
 	Texture					m_texture;
 	ProjectileType			m_type;
 	SDL_Rect				m_collider;
@@ -28,12 +28,13 @@ public:
 	Projectile();
 	~Projectile();
 
-	void move(int vel, double dt);
+	void move(double dt);
 
 	bool checkScreenBoundary();
 	bool checkCollision(std::vector<Entity*>& ents, EntityType ownerType);
 	void updateCollider();
 
+	void calculateVelocity(Vector2<float> direction, int speed);
 	void drawCollision();
 	void debug();
 
@@ -46,7 +47,7 @@ public:
 	SDL_Rect& getCollider();
 
 	void setPos(Pair<int> pos);
-	void setVel(Pair<int> vel);
+	void setVel(Vector2<float> vel);
 	void setTexture(Texture& texture);
 	void setType(ProjectileType type);
 };
