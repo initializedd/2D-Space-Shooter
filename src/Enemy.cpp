@@ -11,12 +11,7 @@ Enemy::Enemy(int x, int y)
 	m_pos.x = x;
 	m_pos.y = y;
 
-	m_vel.x = ENEMY_VEL;
-
-	m_colliders.push_back(Head1);
-	m_colliders.push_back(Body1);
-	m_colliders.push_back(Weapon1);
-	m_colliders.push_back(Tail1);
+	m_vel.x = ENEMY_SPEED;
 
 	m_health = 100;
 
@@ -55,10 +50,10 @@ void Enemy::render()
 	if (!isDead())
 	{
 		// Left Ship Exhaust
-		gExhaustParticle.getTexture().render(m_pos.x + 41, m_pos.y + 55, m_currentExhaustClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight(), 0, nullptr, SDL_FLIP_HORIZONTAL);
+		//gExhaustParticle.getTexture().render(m_pos.x + 41, m_pos.y + 55, m_currentExhaustClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight(), 0, nullptr, SDL_FLIP_HORIZONTAL);
 
 		// Right Ship Exhaust
-		gExhaustParticle.getTexture().render(m_pos.x + 115, m_pos.y + 55, m_currentExhaustClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
+		//gExhaustParticle.getTexture().render(m_pos.x + 115, m_pos.y + 55, m_currentExhaustClip, gExhaustParticle.getTexture().getWidth(), gExhaustParticle.getTexture().getHeight());
 
 		// Ship Texture
 		m_texture.render(m_pos.x, m_pos.y, &m_texture.getClips()[m_texture.getIndex()], m_texture.getClips()[m_texture.getIndex()].w, m_texture.getClips()[m_texture.getIndex()].h, 180);
@@ -86,11 +81,14 @@ void Enemy::exhaustAnimation(double dt)
 
 void Enemy::setColliders()
 {
+	m_colliders = gShipColliders[m_texture.getIndex()];
+
 	double textureRotation = 180.0;
+	double textureRadians = textureRotation * (M_PI / 180.0);
 
 	// Calculate the cosine and sine values of the texture's rotation angle
-	double cosAngle = cos(M_PI);
-	double sinAngle = sin(M_PI);
+	double cosAngle = cos(textureRadians);
+	double sinAngle = sin(textureRadians);
 
 	// Calculate the centre coordinates of the rotated texture
 	double textureCentreX = m_texture.getWidth()  / 2.0;
@@ -99,12 +97,12 @@ void Enemy::setColliders()
 	for (int i = 0; i < m_colliders.size(); ++i)
 	{
 		// Calculate the centre coordinates of the collider
-		double colliderCentreX = gShipColliders[i].w / 2.0;
-		double colliderCentreY = m_colliderPositions[i].h / 2.0;
+		double colliderCentreX = gShipColliders[m_texture.getIndex()][i].w / 2.0;
+		double colliderCentreY = gShipColliders[m_texture.getIndex()][i].h / 2.0;
 
 		// Translate the collider's centre to the texture's coordinate system
-		double translatedX = m_colliderPositions[i].x + colliderCentreX - textureCentreX;
-		double translatedY = m_colliderPositions[i].y + colliderCentreY - textureCentreY;
+		double translatedX = gShipColliders[m_texture.getIndex()][i].x + colliderCentreX - textureCentreX;
+		double translatedY = gShipColliders[m_texture.getIndex()][i].y + colliderCentreY - textureCentreY;
 
 		// Rotate the collider's positions relative to the texture's rotation
 		double rotatedX = translatedX * cosAngle - translatedY * sinAngle;
