@@ -18,9 +18,9 @@ Projectile::~Projectile()
 {
 }
 
-void Projectile::move(int vel, double dt)
+void Projectile::move(double dt)
 {
-	m_pos.y -= vel * dt;
+	m_pos.y -= PROJECTILE_SPEED * dt;
 }
 
 bool Projectile::checkScreenBoundary()
@@ -84,6 +84,12 @@ void Projectile::updateCollider()
 			m_collider.h = gRightProjectileHitBox.h;
 			break;
 	}
+}
+
+void Projectile::calculateVelocity(Vector2<float> direction, int speed)
+{
+	m_vel.x = direction.x * speed;
+	m_vel.y = direction.y * speed;
 }
 
 void Projectile::drawCollision()
@@ -157,7 +163,7 @@ void Projectile::setPos(Pair<int> pos)
 	m_pos.y = pos.y;
 }
 
-void Projectile::setVel(Pair<int> vel)
+void Projectile::setVel(Vector2<float> vel)
 {
 	m_vel.x = vel.x;
 	m_vel.y = vel.y;

@@ -40,7 +40,7 @@ void Entity::move(double dt)
 		setColliders();
 
 		if (m_type == ENEMY)
-			m_vel.x = ENEMY_VEL;
+			m_vel.x = ENEMY_SPEED;
 	}
 	// Check if outside of right screen boundary
 	else if (m_pos.x + m_texture.getWidth() >= SCREEN_WIDTH)
@@ -49,7 +49,7 @@ void Entity::move(double dt)
 		setColliders();
 
 		if (m_type == ENEMY)
-			m_vel.x = -ENEMY_VEL;
+			m_vel.x = -ENEMY_SPEED;
 	}
 	// Check for collision on X axis
 	else if (checkCollisionPosX(gEnts))
@@ -68,9 +68,9 @@ void Entity::move(double dt)
 		setColliders();
 	}
 	// Check if outside of bottom screen boundary
-	else if (m_pos.y + m_texture.getHeight() + m_particle.getTexture().getHeight() >= SCREEN_HEIGHT)
+	else if (m_pos.y + m_texture.getHeight()  >= SCREEN_HEIGHT)
 	{
-		m_pos.y = SCREEN_HEIGHT - m_texture.getHeight() - m_particle.getTexture().getHeight();
+		m_pos.y = SCREEN_HEIGHT - m_texture.getHeight();
 		setColliders();
 	}
 	// Check for collision on Y axis
@@ -82,6 +82,12 @@ void Entity::move(double dt)
 
 void Entity::handleEvent(SDL_Event& event)
 {
+}
+
+void Entity::calculateVelocity(Vector2<float> direction, int speed)
+{
+	m_vel.x = direction.x * speed;
+	m_vel.y = direction.y * speed;
 }
 
 bool Entity::checkCollisionPosX(std::vector<Entity*>& ents)
