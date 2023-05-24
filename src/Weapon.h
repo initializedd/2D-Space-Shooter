@@ -22,7 +22,7 @@ public:
 	Weapon(EntityType ownerType);
 	~Weapon();
 
-	void shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay);
+	void shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay, Vector2<float> direction);
 
 	void updateProjectiles(double dt);
 	void renderProjectiles();
