@@ -20,7 +20,7 @@ Projectile::~Projectile()
 
 void Projectile::move(double dt)
 {
-	m_pos.y -= PROJECTILE_SPEED * dt;
+	m_pos.y += m_vel.y * dt;
 }
 
 bool Projectile::checkScreenBoundary()
@@ -43,10 +43,10 @@ bool Projectile::checkCollision(std::vector<Entity*>& ents, EntityType ownerType
 		if (ownerType == ents[i]->getType())
 			continue;
 
-		for ( int j = 0; j < ents[i]->getColliders().size(); ++j)
+		for ( int j = 0; j < ents[i]->getShip().getParts().size(); ++j)
 		{
 			// Check for collision
-			if (SDL_HasIntersection(&m_collider, &ents[i]->getColliders()[j]))
+			if (SDL_HasIntersection(&m_collider, &ents[i]->getShip().getParts()[j].getCollider().getRect()))
 			{
 				if (!ents[i]->isDead())
 				{
@@ -92,6 +92,25 @@ void Projectile::calculateVelocity(Vector2<float> direction, int speed)
 	m_vel.y = direction.y * speed;
 }
 
+void Projectile::render()
+{
+	switch(m_type)
+	{
+		case LEFT_PROJECTILE:
+			gProjectileTexture.render(m_pos.x, m_pos.y, &gRedProjectileClip, gRedProjectileClip.w, gRedProjectileClip.h, 90);
+			break;
+
+		case RIGHT_PROJECTILE:
+			gProjectileTexture.render(m_pos.x, m_pos.y, &gRedProjectileClip, gRedProjectileClip.w, gRedProjectileClip.h, 90, nullptr, SDL_FLIP_VERTICAL);
+			break;
+	}
+
+	#if defined(_DEBUG)
+	// Projectile Debug Info
+	debug();
+	#endif
+}
+
 void Projectile::drawCollision()
 {
 	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
@@ -105,17 +124,25 @@ void Projectile::debug()
 
 	Texture projectilePos{};
 	projectilePos.loadFromRenderedText(pos.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF));
-	projectilePos.scale(projectilePos.getWidth() / 2, projectilePos.getHeight() / 2);
+	projectilePos.scale(45, 20);
 
 
 	switch (m_type)
 	{
 		case LEFT_PROJECTILE:
-			projectilePos.render(m_collider.x - projectilePos.getWidth() - 1, m_collider.y - projectilePos.getHeight());
+			if(m_vel.y < 0)
+				projectilePos.render(m_collider.x - projectilePos.getWidth() - 1, m_collider.y - projectilePos.getHeight());
+
+			else if(m_vel.y > 0)
+				projectilePos.render(m_collider.x + m_collider.w, m_collider.y - projectilePos.getHeight());
 			break;
 
 		case RIGHT_PROJECTILE:
-			projectilePos.render(m_collider.x + m_collider.w, m_collider.y - projectilePos.getHeight());
+			if (m_vel.y < 0)
+				projectilePos.render(m_collider.x + m_collider.w, m_collider.y - projectilePos.getHeight());
+
+			else if (m_vel.y > 0)
+				projectilePos.render(m_collider.x - projectilePos.getWidth() - 1, m_collider.y - projectilePos.getHeight());
 			break;
 	}
 

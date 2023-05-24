@@ -35,6 +35,7 @@ public:
 	void updateCollider();
 
 	void calculateVelocity(Vector2<float> direction, int speed);
+	void render();
 	void drawCollision();
 	void debug();
 
