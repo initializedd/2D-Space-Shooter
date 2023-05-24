@@ -13,7 +13,6 @@
 class Ship
 {
 private:
-	//Vector2<float>			m_pos;
 	std::vector<ShipPart>	m_parts;
 	Texture					m_texture;
 	int						m_index;
@@ -26,7 +25,6 @@ public:
 
 	void createShip(int index);
 
-	//Vector2<float>& getPos();
 	std::vector<ShipPart>& getParts();
 	Texture& getTexture();
 	int getIndex();

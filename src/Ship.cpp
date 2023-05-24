@@ -171,7 +171,7 @@ void Ship::createShip(int index)
 		case 28:
 			m_parts = { ShipPart(COCKPIT,			SDL_Rect(45, 0, 38, 121)),
 						ShipPart(LEFT_WEAPON,		SDL_Rect(15, 11, 4, 25)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(109, 11, 4, 25)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(109, 11, 4, 25)),
 						ShipPart(LEFT_WING,			SDL_Rect(1, 11, 44, 148)),
 						ShipPart(RIGHT_WING,		SDL_Rect(83, 11, 44, 148)),
 						ShipPart(EXHAUST,			SDL_Rect(54, 121, 20, 20)) };
@@ -183,6 +183,7 @@ void Ship::createShip(int index)
 						ShipPart(RIGHT_WEAPON,		SDL_Rect(86, 32, 4, 11)),
 						ShipPart(LEFT_WING,			SDL_Rect(0, 70, 25, 87)),
 						ShipPart(RIGHT_WING,		SDL_Rect(103, 70, 25, 87)),
+						ShipPart(BODY,				SDL_Rect(25, 32, 78, 128)),
 						ShipPart(EXHAUST,			SDL_Rect(52, 144, 24, 20)) };
 			break;
 
@@ -217,8 +218,8 @@ void Ship::createShip(int index)
 
 		case 34:
 			m_parts = { ShipPart(COCKPIT,			SDL_Rect(21, 0, 86, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(31, 166, 4, 24)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(93, 166, 4, 24)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(31, 16, 4, 24)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(93, 16, 4, 24)),
 						ShipPart(LEFT_WING,			SDL_Rect(0, 32, 21, 93)),
 						ShipPart(RIGHT_WING,		SDL_Rect(107, 32, 21, 93)),
 						ShipPart(EXHAUST,			SDL_Rect(55, 160, 18, 20)) };
@@ -275,10 +276,10 @@ void Ship::createShip(int index)
 		case 41:
 			m_parts = { ShipPart(COCKPIT,			SDL_Rect(39, 0, 50, 160)),
 						ShipPart(LEFT_WEAPON,		SDL_Rect(40, 9, 4, 9)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(84, 9, 4, 9)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(84, 9, 4, 9)),
 						ShipPart(LEFT_WING,			SDL_Rect(16, 39, 23, 108)),
 						ShipPart(RIGHT_WING,		SDL_Rect(89, 39, 23, 108)),
-						ShipPart(EXHAUST,			SDL_Rect(5, 160, 18, 20)) };
+						ShipPart(EXHAUST,			SDL_Rect(55, 160, 18, 20)) };
 			break;
 
 		case 42:
@@ -323,7 +324,7 @@ void Ship::createShip(int index)
 		case 46:
 			m_parts = { ShipPart(COCKPIT,			SDL_Rect(50, 0, 28, 160)),
 						ShipPart(LEFT_WEAPON,		SDL_Rect(41, 71, 4, 9)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(83, 71, 4, 9)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(83, 71, 4, 9)),
 						ShipPart(LEFT_WING,			SDL_Rect(41, 66, 9, 30)),
 						ShipPart(RIGHT_WING,		SDL_Rect(78, 66, 9, 30)),
 						ShipPart(EXHAUST,			SDL_Rect(51, 160, 26, 20)) };
@@ -339,26 +340,12 @@ void Ship::createShip(int index)
 			break;
 	}
 
-	//m_pos.x = SCREEN_WIDTH;
-	//m_pos.y = SCREEN_HEIGHT;
-
 	for (int i = 0; i < m_parts.size(); ++i)
 	{
 		SDL_Rect& collider{ m_parts[i].getCollider().getRect() };
 		m_parts[i].setOffset(Pair<int>(collider.x, collider.y));
-
-		/*if (collider.x < m_pos.x)
-			m_pos.x = collider.x;
-
-		if (collider.y < m_pos.y)
-			m_pos.y = collider.y;*/
 	}
 }
-
-//Vector2<float>& Ship::getPos()
-//{
-//	return m_pos;
-//}
 
 std::vector<ShipPart>& Ship::getParts()
 {
