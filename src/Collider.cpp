@@ -9,3 +9,8 @@ bool Collider::Intersects(const Collider& collider)
 {
 	return SDL_HasIntersection(&m_rect, &collider.m_rect);
 }
+
+SDL_Rect& Collider::getRect()
+{
+	return m_rect;
+}

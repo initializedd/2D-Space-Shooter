@@ -12,6 +12,8 @@ public:
 	Collider(SDL_Rect& rect);
 
 	bool Intersects(const Collider& collider);
+
+	SDL_Rect& getRect();
 };
 
 #endif // !COLLIDER_H
