@@ -58,8 +58,8 @@ public:
 
 	void calculateVelocity(Vector2<float> direction, int speed);
 
-	bool checkScreenBoundaryX();
-	bool checkScreenBoundaryY();
+	void checkScreenBoundaryX();
+	void checkScreenBoundaryY();
 	bool checkCollisionPosX(std::vector<Entity*>& ents);
 	bool checkCollisionPosY(std::vector<Entity*>& ents);
 	void debug();

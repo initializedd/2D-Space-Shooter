@@ -36,12 +36,10 @@ void Entity::move(double dt)
 	setColliders();
 
 	// Check if outside screen boundary X
-	if (checkScreenBoundaryX())
-	{
-		setColliders();
-	}
+	checkScreenBoundaryX();
+
 	// Check for collision on X axis
-	else if (checkCollisionPosX(gEnts))
+	if (checkCollisionPosX(gEnts))
 	{
 		setColliders();
 	}
@@ -51,12 +49,10 @@ void Entity::move(double dt)
 	setColliders();
 
 	// Check if outside screen boundary Y
-	if (checkScreenBoundaryY())
-	{
-		setColliders();
-	}
+	checkScreenBoundaryY();
+
 	// Check for collision on Y axis
-	else if (checkCollisionPosY(gEnts))
+	if (checkCollisionPosY(gEnts))
 	{
 		setColliders();
 	}
@@ -98,64 +94,58 @@ void Entity::calculateVelocity(Vector2<float> direction, int speed)
 	m_vel.y = direction.y * speed;
 }
 
-bool Entity::checkScreenBoundaryX()
+void Entity::checkScreenBoundaryX()
 {
 	for (int i = 0; i < m_ship.getParts().size(); ++i)
 	{
 		SDL_Rect& collider = m_ship.getParts()[i].getCollider().getRect();
 
 		// Check if outside of left screen boundary
-		if (m_pos.x <= 0.f)
+		if (collider.x < 0.f)
 		{
-			m_pos.x = 0.f;
+			m_pos.x += std::abs(collider.x);
+			setColliders();
 
 			if (m_type == ENEMY)
 				calculateVelocity(Vector2<float>(1.f, 0.f), ENEMY_SPEED);
-
-			return true;
 		}
 
 		// Check if outside of right screen boundary
-		if (collider.x + collider.w >= SCREEN_WIDTH)
+		if (collider.x + collider.w > SCREEN_WIDTH)
 		{
 			float difference = std::abs(collider.x - m_pos.x);
 			m_pos.x = SCREEN_WIDTH - collider.w - difference;
+			setColliders();
 
 			if (m_type == ENEMY)
 				calculateVelocity(Vector2<float>(-1.f, 0.f), ENEMY_SPEED);
-
-			return true;
 		}
 	}
-
-	return false;
 }
 
-bool Entity::checkScreenBoundaryY()
+void Entity::checkScreenBoundaryY()
 {
 	for (int i = 0; i < m_ship.getParts().size(); ++i)
 	{
 		SDL_Rect& collider = m_ship.getParts()[i].getCollider().getRect();
 
 		// Check if outside of top screen boundary
-		if (collider.y <= 0.f)
+		if (collider.y < 0.f)
 		{
-			m_pos.y = 0.f;
+			m_pos.y += std::abs(collider.y);
 
-			return true;
+			setColliders();
 		}
 
 		// Check if outside of bottom screen boundary
-		if (collider.y + collider.h >= SCREEN_HEIGHT)
+		if (collider.y + collider.h > SCREEN_HEIGHT)
 		{
 			float difference = std::abs(collider.y - m_pos.y);
 			m_pos.y = SCREEN_HEIGHT - collider.h - difference;
 
-			return true;
+			setColliders();
 		}
 	}
-
-	return false;
 }
 
 bool Entity::checkCollisionPosX(std::vector<Entity*>& ents)
