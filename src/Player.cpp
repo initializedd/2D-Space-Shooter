@@ -9,6 +9,8 @@ Player::Player(int x, int y)
 {
 	m_type = PLAYER;
 	m_weapon = m_type;
+
+	m_direction = Vector2<float>(0, -1);
 	
 	m_id = ENTITY_ID;
 
@@ -109,15 +111,25 @@ void Player::render()
 {
 	if (!isDead())
 	{
-		int last = m_colliders.size() - 1;
-		m_particle.getTexture().scale(m_colliders[last].w, m_colliders[last].h);
+		// Exhaust Textures
+		for (int i = 0; i < m_ship.getParts().size(); ++i)
+		{
+			ShipPart& part = m_ship.getParts()[i];
+			SDL_Rect& collider = part.getCollider().getRect();
 
-		//Exhaust Texture
-		m_particle.getTexture().render(m_colliders[last].x, m_colliders[last].y, m_currentExhaustClip, m_colliders[last].w, m_colliders[last].h, 180);
-		m_particle.getTexture().render(m_colliders[last].x, m_colliders[last].y, m_currentExhaustClip, m_colliders[last].w, m_colliders[last].h, 180, nullptr, SDL_FLIP_HORIZONTAL);
+			if (part.getPartType() == LEFT_EXHAUST || part.getPartType() == RIGHT_EXHAUST)
+			{
+				gExhaustParticle.getTexture().render(collider.x, collider.y, m_currentExhaustClip, collider.w, collider.h, 180);
+			}
+			else if (part.getPartType() == EXHAUST)
+			{
+				gExhaustParticle.getTexture().render(collider.x, collider.y, m_currentExhaustClip, collider.w, collider.h, 180);
+				gExhaustParticle.getTexture().render(collider.x, collider.y, m_currentExhaustClip, collider.w, collider.h, 180, nullptr, SDL_FLIP_HORIZONTAL);
+			}
+		}
 
 		// Ship Texture
-		m_texture.render(m_pos.x, m_pos.y, &m_texture.getClips()[m_texture.getIndex()], m_texture.getClips()[m_texture.getIndex()].w, m_texture.getClips()[m_texture.getIndex()].h);
+		m_ship.getTexture().render(m_pos.x, m_pos.y, &m_ship.getTexture().getClips()[m_ship.getTexture().getIndex()], m_ship.getTexture().getClips()[m_ship.getTexture().getIndex()].w, m_ship.getTexture().getClips()[m_ship.getTexture().getIndex()].h);
 	}
 
 	// Projejctiles
@@ -129,17 +141,6 @@ void Player::render()
 	if (isDead())
 	{
 		renderDeathAnimation();
-	}
-}
-
-void Player::exhaustAnimation(double dt)
-{
-	m_currentExhaustClip = &m_particle.getClips()[m_flameFrames / 3];
-
-	++m_flameFrames;
-	if (m_flameFrames / 3 >= 6)
-	{
-		m_flameFrames = 0;
 	}
 }
 
@@ -159,48 +160,4 @@ bool Player::displayHealth()
 Texture& Player::getHealhTexture()
 {
 	return m_healthTexture;
-}
-
-void Player::setColliders()
-{
-	double textureRotation = 0.0;
-	double textureRadians = textureRotation * (M_PI / 180.0);
-
-	// Calculate the cosine and sine values of the texture's rotation angle
-	double cosAngle = cos(textureRadians);
-	double sinAngle = sin(textureRadians);
-
-	// Calculate the centre coordinates of the rotated texture
-	double textureCentreX = m_texture.getWidth() / 2.0;
-	double textureCentreY = m_texture.getHeight() / 2.0;
-
-	for (int i = 0; i < m_colliders.size(); ++i)
-	{
-		// Calculate the centre coordinates of the collider
-		double colliderCentreX = gShipColliders[m_texture.getIndex()][i].w / 2.0;
-		double colliderCentreY = gShipColliders[m_texture.getIndex()][i].h / 2.0;
-
-		// Translate the collider's centre to the texture's coordinate system
-		double translatedX = gShipColliders[m_texture.getIndex()][i].x + colliderCentreX - textureCentreX;
-		double translatedY = gShipColliders[m_texture.getIndex()][i].y + colliderCentreY - textureCentreY;
-
-		// Rotate the collider's positions relative to the texture's rotation
-		double rotatedX = translatedX * cosAngle - translatedY * sinAngle;
-		double rotatedY = translatedX * sinAngle + translatedY * cosAngle;
-
-		// Translate the rotated collider's positions back to the original coordinate system
-		m_colliders[i].x = static_cast<int>(rotatedX + textureCentreX - colliderCentreX + m_pos.x);
-		m_colliders[i].y = static_cast<int>(rotatedY + textureCentreY - colliderCentreY + m_pos.y);
-	}
-}
-
-void Player::setCannonColliders()
-{
-	// Player left cannon pos
-	m_leftCannonPos.x = 31 + m_pos.x;
-	m_leftCannonPos.y = 0 + m_pos.y;
-
-	// Player right cannon pos
-	m_rightCannonPos.x = 61 + m_pos.x;
-	m_rightCannonPos.y = 1 + m_pos.y;
 }
