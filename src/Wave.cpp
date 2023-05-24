@@ -26,7 +26,8 @@ void Wave::createWave()
 		{
 			Enemy* enemy = new Enemy( i * 200, 0 );
 
-			enemy->getTexture().setTexture(gShipsSprite);
+			enemy->getShip().getTexture().setTexture(gShipsSprite);
+			enemy->getShip().createShip(gShipsSprite.getIndex());
 
 			enemy->setColliders();
 

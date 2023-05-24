@@ -51,7 +51,8 @@ void Menu::displayMenu(SDL_Event& event, bool& quitGame)
 						break;
 
 					case SELECT:
-						gPlayer->getTexture().setTexture(gShipsSprite);
+						gPlayer->getShip().getTexture().setTexture(gShipsSprite);
+						gPlayer->getShip().createShip(gShipsSprite.getIndex());
 						break;
 				}
 			}
