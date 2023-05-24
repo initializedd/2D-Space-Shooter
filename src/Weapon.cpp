@@ -15,7 +15,7 @@ Weapon::~Weapon()
 {
 }
 
-void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay)
+void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay, Vector2<float> direction)
 {
 	if (!m_lastShot.isStarted())
 	{
@@ -29,6 +29,7 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned i
 
 	Projectile leftProjectile{};
 	leftProjectile.setPos(leftCannonPos);
+	leftProjectile.calculateVelocity(direction, PROJECTILE_SPEED);
 	leftProjectile.setType(LEFT_PROJECTILE);
 	leftProjectile.updateCollider();
 
@@ -36,6 +37,7 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned i
 
 	Projectile rightProjectile{};
 	rightProjectile.setPos(rightCannonPos);
+	rightProjectile.calculateVelocity(direction, PROJECTILE_SPEED);
 	rightProjectile.setType(RIGHT_PROJECTILE);
 	rightProjectile.updateCollider();
 
@@ -70,12 +72,7 @@ void Weapon::renderProjectiles()
 	{
 		for (int i = 0; i < m_projectiles.size(); ++i)
 		{
-			gProjectileTexture.render(m_projectiles[i].getPosX(), m_projectiles[i].getPosY(), &gRedProjectileClip, gRedProjectileClip.w, gRedProjectileClip.h, 90);
-			
-			#if defined(_DEBUG)
-			// Projectile Debug Info
-			m_projectiles[i].debug();
-			#endif
+			m_projectiles[i].render();
 		}
 	}
 }
