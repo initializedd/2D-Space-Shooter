@@ -1,6 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include "Ship.h"
 #include "Texture.h"
 #include "Weapon.h"
 #include "Particle.h"
@@ -18,27 +19,29 @@ enum EntityType
 class Entity
 {
 protected:
+	Ship					m_ship;
 	EntityType				m_type;
 	int						m_id;
-	Texture					m_texture;
+	float					m_textureRotation;
+	Vector2<float>			m_direction;
 	int						m_width;
 	int						m_height;
 
 	SDL_Rect*				m_currentExhaustClip;
 	SDL_Rect*				m_currentDeathClip;
 
-	Pair<float>				m_pos;
+	Vector2<float>			m_pos;
 	Vector2<float>			m_vel;
 
 	Pair<int>				m_leftCannonPos;
 	Pair<int>				m_rightCannonPos;
 
-	std::vector<SDL_Rect>	m_colliders;
-
 	int						m_health;
 
 	Particle				m_particle;
+
 	int						m_explosionFrames;
+	int						m_flameFrames;
 
 	Weapon					m_weapon;
 	bool					m_canShoot;
@@ -55,29 +58,28 @@ public:
 
 	void calculateVelocity(Vector2<float> direction, int speed);
 
+	bool checkScreenBoundaryX();
+	bool checkScreenBoundaryY();
 	bool checkCollisionPosX(std::vector<Entity*>& ents);
 	bool checkCollisionPosY(std::vector<Entity*>& ents);
 	void debug();
 
 	bool deathAnimation(double dt);
-	virtual void exhaustAnimation(double dt) = 0;
+	void exhaustAnimation(double dt);
 
 	void renderDeathAnimation();
 
 	void reduceHealth(int damage);
 	bool isDead();
 
-	std::vector<SDL_Rect>& getColliders();
-	Texture& getTexture();
+	Ship& getShip();
 	Particle& getParticle();
 	Weapon& getWeapon();
 	int getType() const;
 	int getHealth() const;
-	int getPosX() const;
-	int getPosY() const;
+	Vector2<float> getPos() const;
 
-	virtual void setColliders() = 0;
-	virtual void setCannonColliders() = 0;
+	void setColliders();
 };
 
 #endif // !ENTITY_H
