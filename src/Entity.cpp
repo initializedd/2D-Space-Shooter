@@ -3,9 +3,11 @@
 #include "Constants.h"
 
 Entity::Entity()
-	: m_type{}
+	: m_ship{}
+	, m_type{}
 	, m_id{}
-	, m_texture{}
+	, m_textureRotation{}
+	, m_direction{}
 	, m_width{}
 	, m_height{}
 	, m_currentExhaustClip{}
@@ -14,10 +16,10 @@ Entity::Entity()
 	, m_vel{}
 	, m_leftCannonPos{}
 	, m_rightCannonPos{}
-	, m_colliders{}
 	, m_health{}
 	, m_particle{}
 	, m_explosionFrames{}
+	, m_flameFrames{}
 	, m_weapon{ m_type }
 	, m_canShoot{}
 {
@@ -33,23 +35,10 @@ void Entity::move(double dt)
 	m_pos.x += m_vel.x * dt;
 	setColliders();
 
-	// Check if outside of left screen boundary
-	if (m_pos.x <= 0.0)
+	// Check if outside screen boundary X
+	if (checkScreenBoundaryX())
 	{
-		m_pos.x = 0.0;
 		setColliders();
-
-		if (m_type == ENEMY)
-			m_vel.x = ENEMY_SPEED;
-	}
-	// Check if outside of right screen boundary
-	else if (m_pos.x + m_texture.getWidth() >= SCREEN_WIDTH)
-	{
-		m_pos.x = SCREEN_WIDTH - m_texture.getWidth();
-		setColliders();
-
-		if (m_type == ENEMY)
-			m_vel.x = -ENEMY_SPEED;
 	}
 	// Check for collision on X axis
 	else if (checkCollisionPosX(gEnts))
@@ -61,22 +50,41 @@ void Entity::move(double dt)
 	m_pos.y += m_vel.y * dt;
 	setColliders();
 
-	// Check if outside of top screen boundary
-	if (m_pos.y <= 0.0)
+	// Check if outside screen boundary Y
+	if (checkScreenBoundaryY())
 	{
-		m_pos.y = 0.0;
-		setColliders();
-	}
-	// Check if outside of bottom screen boundary
-	else if (m_pos.y + m_texture.getHeight()  >= SCREEN_HEIGHT)
-	{
-		m_pos.y = SCREEN_HEIGHT - m_texture.getHeight();
 		setColliders();
 	}
 	// Check for collision on Y axis
 	else if (checkCollisionPosY(gEnts))
 	{
 		setColliders();
+	}
+}
+
+void Entity::shoot(int delay)
+{
+	if (!isDead())
+	{
+		Pair<int> leftCollider{};
+		Pair<int> rightCollider{};
+
+		for (int i = 0; i < m_ship.getParts().size(); ++i)
+		{
+			ShipPart& part = m_ship.getParts()[i];
+			if (part.getPartType() == LEFT_WEAPON)
+			{
+				leftCollider.x = (m_ship.getParts()[i].getCollider().getRect().x) - (gLeftProjectileHitBox.x - (std::round(m_ship.getParts()[i].getCollider().getRect().w / 2) - (gLeftProjectileHitBox.w / 2)));	// Centre the projectile
+				leftCollider.y = m_ship.getParts()[i].getCollider().getRect().y;
+			}
+			else if (part.getPartType() == RIGHT_WEAPON)
+			{
+				rightCollider.x = (m_ship.getParts()[i].getCollider().getRect().x) - (gRightProjectileHitBox.x - (std::round(m_ship.getParts()[i].getCollider().getRect().w / 2) - (gRightProjectileHitBox.w / 2))); // Centre the projectile;
+				rightCollider.y = m_ship.getParts()[i].getCollider().getRect().y;
+			}
+		}
+
+		m_weapon.shoot(leftCollider, rightCollider, delay, m_direction);
 	}
 }
 
@@ -90,6 +98,66 @@ void Entity::calculateVelocity(Vector2<float> direction, int speed)
 	m_vel.y = direction.y * speed;
 }
 
+bool Entity::checkScreenBoundaryX()
+{
+	for (int i = 0; i < m_ship.getParts().size(); ++i)
+	{
+		SDL_Rect& collider = m_ship.getParts()[i].getCollider().getRect();
+
+		// Check if outside of left screen boundary
+		if (m_pos.x <= 0.f)
+		{
+			m_pos.x = 0.f;
+
+			if (m_type == ENEMY)
+				calculateVelocity(Vector2<float>(1.f, 0.f), ENEMY_SPEED);
+
+			return true;
+		}
+
+		// Check if outside of right screen boundary
+		if (collider.x + collider.w >= SCREEN_WIDTH)
+		{
+			float difference = std::abs(collider.x - m_pos.x);
+			m_pos.x = SCREEN_WIDTH - collider.w - difference;
+
+			if (m_type == ENEMY)
+				calculateVelocity(Vector2<float>(-1.f, 0.f), ENEMY_SPEED);
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool Entity::checkScreenBoundaryY()
+{
+	for (int i = 0; i < m_ship.getParts().size(); ++i)
+	{
+		SDL_Rect& collider = m_ship.getParts()[i].getCollider().getRect();
+
+		// Check if outside of top screen boundary
+		if (collider.y <= 0.f)
+		{
+			m_pos.y = 0.f;
+
+			return true;
+		}
+
+		// Check if outside of bottom screen boundary
+		if (collider.y + collider.h >= SCREEN_HEIGHT)
+		{
+			float difference = std::abs(collider.y - m_pos.y);
+			m_pos.y = SCREEN_HEIGHT - collider.h - difference;
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool Entity::checkCollisionPosX(std::vector<Entity*>& ents)
 {
 	for (int i = 0; i < ents.size(); ++i)
@@ -99,11 +167,15 @@ bool Entity::checkCollisionPosX(std::vector<Entity*>& ents)
 		if (this == ents[i])
 			continue;
 
-		for (int j = 0; j < m_colliders.size(); ++j)
+		for (int j = 0; j < m_ship.getParts().size(); ++j)
 		{
-			for (int k = 0; k < 2; ++k)
+			SDL_Rect thisCollider{ m_ship.getParts()[j].getCollider().getRect() };
+
+			for (int k = 0; k < ents[i]->getShip().getParts().size(); ++k)
 			{
-				if (SDL_HasIntersection(&m_colliders[j], &ents[i]->getColliders()[k]))
+				SDL_Rect entCollider{ ents[i]->getShip().getParts()[k].getCollider().getRect() };
+
+				if (SDL_HasIntersection(&thisCollider, &entCollider))
 				{
 					if (m_type == ents[i]->m_type)
 					{
@@ -111,11 +183,11 @@ bool Entity::checkCollisionPosX(std::vector<Entity*>& ents)
 						return true;
 					}
 
-					if (m_pos.x <= ents[i]->getPosX())
-						m_pos.x = (ents[i]->getPosX() - (ents[i]->getPosX() - ents[i]->getColliders()[k].x)) - ((m_colliders[j].x - m_pos.x) + m_colliders[j].w);
+					if (m_pos.x <= ents[i]->getPos().x)
+						m_pos.x = (ents[i]->getPos().x - (ents[i]->getPos().x - entCollider.x)) - ((thisCollider.x - m_pos.x) + thisCollider.w);
 
-					if (m_pos.x > ents[i]->getPosX())
-						m_pos.x = (ents[i]->getColliders()[k].x + ents[i]->getColliders()[k].w) - (m_colliders[j].x - m_pos.x);
+					if (m_pos.x > ents[i]->getPos().x)
+						m_pos.x = (entCollider.x + entCollider.w) - (thisCollider.x - m_pos.x);
 
 					return true;
 				}
@@ -133,17 +205,21 @@ bool Entity::checkCollisionPosY(std::vector<Entity*>& ents)
 		if (this == ents[i] || m_type == ents[i]->m_type)
 			continue;
 
-		for (int j = 0; j < m_colliders.size(); ++j)
+		for (int j = 0; j < m_ship.getParts().size(); ++j)
 		{
-			for (int k = 0; k < 2; ++k)
-			{
-				if (SDL_HasIntersection(&m_colliders[j], &ents[i]->getColliders()[k]))
-				{
-					if (m_pos.y <= ents[i]->getPosY())
-						m_pos.y = (ents[i]->getPosY() - (ents[i]->getPosY() - ents[i]->getColliders()[k].y)) - ((m_colliders[j].y - m_pos.y) + m_colliders[j].h);
+			SDL_Rect thisCollider{ m_ship.getParts()[j].getCollider().getRect() };
 
-					if (m_pos.y > ents[i]->getPosY())
-						m_pos.y = (ents[i]->getColliders()[k].y + ents[i]->getColliders()[k].h) - (m_colliders[j].y - m_pos.y);
+			for (int k = 0; k < ents[i]->getShip().getParts().size(); ++k)
+			{
+				SDL_Rect entCollider{ ents[i]->getShip().getParts()[k].getCollider().getRect() };
+
+				if (SDL_HasIntersection(&thisCollider, &entCollider))
+				{
+					if (m_pos.y <= ents[i]->getPos().y)
+						m_pos.y = (ents[i]->getPos().y - (ents[i]->getPos().y - entCollider.y)) - ((thisCollider.y - m_pos.y) + thisCollider.h);
+
+					if (m_pos.y > ents[i]->getPos().y)
+						m_pos.y = (entCollider.y + entCollider.h) - (thisCollider.y - m_pos.y);
 
 					return true;
 				}
@@ -159,22 +235,13 @@ void Entity::debug()
 {
 	if (!isDead())
 	{
-		for (int i = 0; i < m_colliders.size(); ++i)
+		for (int i = 0; i < m_ship.getParts().size(); ++i)
 		{
-			SDL_RenderDrawRect(gWindow.getRenderer(), &m_colliders[i]);
+			SDL_RenderDrawRect(gWindow.getRenderer(), &m_ship.getParts()[i].getCollider().getRect());
 		}
 	}
 }
 #endif
-
-void Entity::shoot(int delay)
-{
-	if (m_canShoot && !isDead())
-	{
-		setCannonColliders();
-		m_weapon.shoot(m_leftCannonPos, m_rightCannonPos, delay);
-	}
-}
 
 bool Entity::deathAnimation(double dt)
 {
@@ -189,10 +256,21 @@ bool Entity::deathAnimation(double dt)
 	return true;
 }
 
+void Entity::exhaustAnimation(double dt)
+{
+	m_currentExhaustClip = &gExhaustParticle.getClips()[m_flameFrames / 3];
+
+	++m_flameFrames;
+	if (m_flameFrames / 3 >= 6)
+	{
+		m_flameFrames = 0;
+	}
+}
+
 void Entity::renderDeathAnimation()
 {
-	int explosionPosX = (m_pos.x + m_texture.getWidth() / 2) - gExplosionParticle.getTexture().getWidth() / 2;
-	int explosionPosY = (m_pos.y + m_texture.getHeight() / 2) - gExplosionParticle.getTexture().getHeight() / 2;
+	int explosionPosX = (m_pos.x + m_ship.getTexture().getWidth() / 2) - gExplosionParticle.getTexture().getWidth() / 2;
+	int explosionPosY = (m_pos.y + m_ship.getTexture().getHeight() / 2) - gExplosionParticle.getTexture().getHeight() / 2;
 
 	gExplosionParticle.getTexture().render(explosionPosX, explosionPosY, m_currentDeathClip, gExplosionParticle.getTexture().getWidth(), gExplosionParticle.getTexture().getHeight());
 }
@@ -207,14 +285,9 @@ bool Entity::isDead()
 	return m_health <= 0;
 }
 
-std::vector<SDL_Rect>& Entity::getColliders()
+Ship& Entity::getShip()
 {
-	return m_colliders;
-}
-
-Texture& Entity::getTexture()
-{
-	return m_texture;
+	return m_ship;
 }
 
 Particle& Entity::getParticle()
@@ -237,12 +310,39 @@ int Entity::getHealth() const
 	return m_health;
 }
 
-int Entity::getPosX() const
+Vector2<float> Entity::getPos() const
 {
-	return m_pos.x;
+	return m_pos;
 }
 
-int Entity::getPosY() const
+void Entity::setColliders()
 {
-	return m_pos.y;
+	double textureRadians = m_textureRotation * (M_PI / 180.0);
+
+	// Calculate the cosine and sine values of the texture's rotation angle
+	double cosAngle = cos(textureRadians);
+	double sinAngle = sin(textureRadians);
+
+	// Calculate the centre coordinates of the rotated texture
+	double textureCentreX = m_ship.getTexture().getWidth() / 2.0;
+	double textureCentreY = m_ship.getTexture().getHeight() / 2.0;
+
+	for (int i = 0; i < m_ship.getParts().size(); ++i)
+	{
+		// Calculate the centre coordinates of the collider
+		double colliderCentreX = m_ship.getParts()[i].getCollider().getRect().w / 2.0;
+		double colliderCentreY = m_ship.getParts()[i].getCollider().getRect().h / 2.0;
+
+		// Translate the collider's centre to the texture's coordinate system
+		double translatedX = m_ship.getParts()[i].getOffset().x + colliderCentreX - textureCentreX;
+		double translatedY = m_ship.getParts()[i].getOffset().y + colliderCentreY - textureCentreY;
+
+		// Rotate the collider's positions relative to the texture's rotation
+		double rotatedX = translatedX * cosAngle - translatedY * sinAngle;
+		double rotatedY = translatedX * sinAngle + translatedY * cosAngle;
+
+		// Translate the rotated collider's positions back to the original coordinate system
+		m_ship.getParts()[i].getCollider().getRect().x = static_cast<int>(rotatedX + textureCentreX - colliderCentreX + m_pos.x);
+		m_ship.getParts()[i].getCollider().getRect().y = static_cast<int>(rotatedY + textureCentreY - colliderCentreY + m_pos.y);
+	}
 }
