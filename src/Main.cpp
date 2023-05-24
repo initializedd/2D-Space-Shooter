@@ -49,10 +49,10 @@ bool init()
 
 bool loadMedia()
 {
-	if (!gMainMenuTexture.loadFromFile("img/mainmenu_bg.jpg", false))
+	if (!gShipsSprite.loadFromFile("img/ships_sprite.png", false))
 		return false;
 
-	gMainMenuTexture.scale(SCREEN_WIDTH, SCREEN_HEIGHT);
+	gShipsSprite.setClipsFromSprite(128, 160, 40, 48);
 
 	if (!gBackgroundTexture.loadFromFile("img/space_bg.png", false))
 		return false;
@@ -69,9 +69,6 @@ bool loadMedia()
 	{
 		SDL_SetWindowIcon(gWindow.getWindow(), gWindowIconTexture);
 	}
-
-	if (!gPlayer->getTexture().loadFromFile("img/spiked_ship.png", false))
-		return false;
 
 	if (!gProjectileTexture.loadFromFile("img/bullet.png", false))
 		return false;
@@ -110,7 +107,7 @@ bool loadMedia()
 		return false;
 	gEnemyTexture.scale(gEnemyTexture.getWidth() * 0.4, gEnemyTexture.getHeight() * 0.4);*/
 
-	gPlayer->setColliders();
+	//gPlayer->setColliders();
 
 	return true;
 }
@@ -149,20 +146,41 @@ int main(int argc, char* argv[])
 			SDL_Event eventMenu;
 			bool quitMenu = false;
 
-			Menu mainMenu{};
+			/*Menu mainMenu{};
+			mainMenu.getTexture().loadFromFile("img/mainmenu_bg.jpg", false);
+			mainMenu.getTexture().scale(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-			for (int i = PLAY; i < TOTAL_BUTTONS; ++i)
+			for (int i = PLAY; i < MAIN_TOTAL_BUTTONS; ++i)
 			{
 				Button button{};
 
 				button.createButton(static_cast<MainMenuButtons>(i), gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF));
 				mainMenu.getButtons().push_back(button);
+			}*/
+
+			Menu customiseMenu{};
+			customiseMenu.getTexture().loadFromFile("img/mainmenu_bg.jpg", false);
+			customiseMenu.getTexture().scale(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+			for (int i = BACK; i < CUSTOMISE_TOTAL_BUTTONS; ++i)
+			{
+				Button button{};
+
+				button.createButton(static_cast<CustomiseMenuButtons>(i), gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF));
+				customiseMenu.getButtons().push_back(button);
 			}
 
-			while (!mainMenu.isQuit())
+			while (!customiseMenu.isQuit())
+			{
+				customiseMenu.displayMenu(eventMenu, quitGame);
+			}
+
+
+
+			/*while (!mainMenu.isQuit())
 			{
 				mainMenu.displayMenu(eventMenu, quitGame);
-			}
+			}*/
 
 			SDL_Event event;
 
@@ -248,7 +266,7 @@ int main(int argc, char* argv[])
 				gFpsTextTexture.render(SCREEN_WIDTH - gFpsTextTexture.getWidth(), 0);
 
 				SDL_RenderPresent(gWindow.getRenderer());
-			
+
 				++countedFrames;
 			}
 		}

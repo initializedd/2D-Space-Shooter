@@ -37,7 +37,7 @@ inline Texture					gProjectileTexture{};
 inline Sound					gProjectileSound{};
 inline SDL_Rect					gRedProjectileClip{ 18, 13, 58, 41 };
 inline SDL_Rect					gLeftProjectileHitBox{ 26, 7, 4, 27 };
-inline SDL_Rect					gRightProjectileHitBox{ 26, 6, 4, 27 };
+inline SDL_Rect					gRightProjectileHitBox{ 28, 7, 4, 27 };
 
 // Entities
 inline std::vector<Entity*>		gEnts;
