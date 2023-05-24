@@ -7,12 +7,23 @@ ShipPart::ShipPart(ShipPartType type, SDL_Rect rect)
 {
 }
 
+ShipPartType ShipPart::getPartType()
+{
+	return m_type;
+}
+
+Collider& ShipPart::getCollider()
+{
+	return m_collider;
+}
+
 Pair<int> ShipPart::getOffset()
 {
 	return m_offset;
 }
 
-ShipPartType ShipPart::getPart()
+void ShipPart::setOffset(Pair<int> offset)
 {
-	return m_type;
+	m_offset.x = offset.x;
+	m_offset.y = offset.y;
 }

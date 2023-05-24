@@ -13,10 +13,10 @@
 class Ship
 {
 private:
+	//Vector2<float>			m_pos;
 	std::vector<ShipPart>	m_parts;
-	int						m_index;
 	Texture					m_texture;
-	SDL_Rect				m_clips[33];
+	int						m_index;
 	//Weapon					m_weapon;
 	Particle				m_exhaustParticle;
 
@@ -26,10 +26,10 @@ public:
 
 	void createShip(int index);
 
-	void setClipsFromSprite(int width, int height, int padding, int elements);
-
+	//Vector2<float>& getPos();
+	std::vector<ShipPart>& getParts();
 	Texture& getTexture();
-	SDL_Rect* getClips();
+	int getIndex();
 };
 
 #endif // !SHIP_H

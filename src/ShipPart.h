@@ -35,8 +35,11 @@ private:
 public:
 	ShipPart(ShipPartType type, SDL_Rect rect);
 
+	ShipPartType getPartType();
+	Collider& getCollider();
 	Pair<int> getOffset();
-	ShipPartType getPart();
+
+	void setOffset(Pair<int> offset);
 };
 
 #endif // !SHIPPART_H
