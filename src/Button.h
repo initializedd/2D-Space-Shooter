@@ -7,53 +7,42 @@
 #include <SDL_events.h>
 #include <string>
 
-enum MainMenuButtons
+enum ButtonTypes
 {
+	// Main Menu Buttons
 	PLAY,
 	CUSTOMISE,
 	OPTIONS,
-	MAIN_TOTAL_BUTTONS
-};
 
-enum CustomiseMenuButtons
-{
+	// Customise Menu Buttons
 	BACK,
 	LEFT,
 	RIGHT,
 	SELECT,
-	CUSTOMISE_TOTAL_BUTTONS
 };
-
 
 class Button
 {
 private:
-	SDL_Rect				m_rect;
+	ButtonTypes				m_type;
 	std::string				m_text;
 	TTF_Font*				m_font;
+	SDL_Color				m_color;
+	SDL_Rect				m_rect;
 	Texture					m_texture;
-	MainMenuButtons			m_mainMenuType;
-	CustomiseMenuButtons	m_customiseMenuType;
 	bool					m_selected;
 	bool					m_down;
 	bool					m_hover;
 
 public:
-	Button();
-	~Button();
-
-	void createButton(MainMenuButtons type, TTF_Font* font, SDL_Color color);
-	void createButton(CustomiseMenuButtons type, TTF_Font* font, SDL_Color color);
+	Button(ButtonTypes type, const std::string& text, TTF_Font* font, SDL_Color color, SDL_Rect rect);
 
 	void handleEvent(SDL_Event& event);
 	void renderButton();
 
-	void setRect(int x, int y, int w, int h);
-
 	bool isSelected();
 
-	MainMenuButtons	getMainType();
-	CustomiseMenuButtons getCustomiseType();
+	ButtonTypes getType();
 
 	void setSelection(bool flag);
 };

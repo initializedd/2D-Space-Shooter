@@ -7,16 +7,15 @@
 
 class Menu
 {
-private:
+protected:
 	Texture						m_backgroundTexture;
 	std::vector<Button>			m_buttons;
-	bool						m_quit;
+	bool						m_exitMenu;
 
 public:
 	Menu();
-	~Menu();
 
-	void displayMenu(SDL_Event& event, bool& quitGame);
+	virtual void displayMenu(SDL_Event& event, bool& quitGame) = 0;
 
 	bool isQuit();
 
