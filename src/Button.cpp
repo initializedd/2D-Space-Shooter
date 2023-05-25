@@ -3,88 +3,18 @@
 #include "Window.h"
 #include <SDL_render.h>
 
-Button::Button()
-	: m_rect{}
-	, m_text{}
-	, m_font{}
+Button::Button(ButtonTypes type, const std::string& text, TTF_Font* font, SDL_Color color, SDL_Rect rect)
+	: m_type{type}
+	, m_text{text}
+	, m_font{font}
+	, m_color{color}
+	, m_rect{rect}
 	, m_texture{}
-	, m_mainMenuType{}
-	, m_customiseMenuType{}
 	, m_selected{}
 	, m_down{}
 	, m_hover{}
 {
-}
-
-Button::~Button()
-{
-
-}
-
-void Button::createButton(MainMenuButtons type, TTF_Font* font, SDL_Color color)
-{
-	switch (type)
-	{
-		case PLAY:
-			m_mainMenuType = PLAY;
-			m_text = "Play";
-			setRect(200, 100, 200, 50);
-			break;
-
-		case CUSTOMISE:
-			m_mainMenuType = CUSTOMISE;
-			m_text = "Customise";
-			setRect(200, 175, 200, 50);
-			break;
-
-		case OPTIONS:
-			m_mainMenuType = OPTIONS;
-			m_text = "Options";
-			setRect(200, 250, 200, 50);
-			break;
-
-		default:
-			m_mainMenuType = MAIN_TOTAL_BUTTONS;
-			break;
-	}
-
-	m_texture.loadFromRenderedText(m_text.c_str(), font, color);
-}
-
-void Button::createButton(CustomiseMenuButtons type, TTF_Font* font, SDL_Color color)
-{
-	switch(type)
-	{
-		case BACK:
-			m_customiseMenuType = BACK;
-			m_text = "Back";
-			setRect(0, 0, 200, 50);
-			break;
-
-		case LEFT:
-			m_customiseMenuType = LEFT;
-			m_text = "Left";
-			setRect(0, (SCREEN_HEIGHT / 2) - (m_texture.getHeight() / 2), 200, 50);
-			break;
-
-		case RIGHT:
-			m_customiseMenuType = RIGHT;
-			m_text = "Right";
-			setRect(440, (SCREEN_HEIGHT / 2) - (m_texture.getHeight() / 2), 200, 50);
-			break;
-
-		case SELECT:
-			m_customiseMenuType = SELECT;
-			m_text = "Select";
-			setRect(220, 430, 200, 50);
-			break;
-
-		default:
-			m_customiseMenuType = CUSTOMISE_TOTAL_BUTTONS;
-			break;
-	}	
-
-	m_texture.loadFromRenderedText(m_text.c_str(), font, color);
+	m_texture.loadFromRenderedText(m_text.c_str(), m_font, m_color);
 }
 
 void Button::handleEvent(SDL_Event& event)
@@ -151,14 +81,6 @@ void Button::renderButton()
 	m_texture.render(x, y);
 }
 
-void Button::setRect(int x, int y, int w, int h)
-{
-	m_rect.x = x;
-	m_rect.y = y;
-	m_rect.w = w;
-	m_rect.h = h;
-}
-
 bool Button::isSelected()
 {
 	if (m_selected)
@@ -170,14 +92,9 @@ bool Button::isSelected()
 	return false;
 }
 
-MainMenuButtons Button::getMainType()
+ButtonTypes Button::getType()
 {
-	return m_mainMenuType;
-}
-
-CustomiseMenuButtons Button::getCustomiseType()
-{
-	return m_customiseMenuType;
+	return m_type;
 }
 
 void Button::setSelection(bool flag)
