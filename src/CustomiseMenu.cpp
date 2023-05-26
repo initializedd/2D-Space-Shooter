@@ -13,8 +13,8 @@ CustomiseMenu::CustomiseMenu()
 void CustomiseMenu::createButtons()
 {
 	m_buttons = { Button(BACK,		"Back",		gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(0, 0, 200, 50)),
-				  Button(LEFT,		"Left",		gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(0, (SCREEN_HEIGHT / 2) - 20, 200, 50)),
-				  Button(RIGHT,		"Right",	gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(440, (SCREEN_HEIGHT / 2) - 20, 200, 50)),
+				  Button(LEFT,		"Left",		gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(0, (SCREEN_HEIGHT / 2) - 25, 200, 50)),
+				  Button(RIGHT,		"Right",	gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(440, (SCREEN_HEIGHT / 2) - 25, 200, 50)),
 				  Button(SELECT,	"Select",	gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(220, 430, 200, 50)) };
 }
 
@@ -37,7 +37,7 @@ void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 				switch (m_buttons[i].getType())
 				{
 					case BACK:
-						m_exitMenu = true;
+						gActiveMenu = gMainMenu;
 						break;
 
 					case LEFT:

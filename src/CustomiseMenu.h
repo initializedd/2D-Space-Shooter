@@ -1,5 +1,5 @@
-#ifndef CUSTOMISEMENU_H
-#define CUSTOMISEMENU_H
+#ifndef CUSTOMISE_MENU_H
+#define CUSTOMISE_MENU_H
 
 #include "Menu.h"
 
@@ -14,4 +14,4 @@ public:
 	void displayMenu(SDL_Event& event, bool& quitGame);
 };
 
-#endif // !CUSTOMISEMENU_H
+#endif // !CUSTOMISE_MENU_H

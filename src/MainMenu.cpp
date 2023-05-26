@@ -40,6 +40,7 @@ void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
 						break;
 
 					case CUSTOMISE:
+						gActiveMenu = gCustomiseMenu;
 						break;
 
 					case OPTIONS:

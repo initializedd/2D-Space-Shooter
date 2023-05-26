@@ -1,5 +1,5 @@
-#ifndef MAINMENU_H
-#define MAINMENU_H
+#ifndef MAIN_MENU_H
+#define MAIN_MENU_H
 
 #include "Menu.h"
 
@@ -14,4 +14,4 @@ public:
 	void displayMenu(SDL_Event& event, bool& quitGame);
 };
 
-#endif // !MAINMENU_H
+#endif // !MAIN_MENU_H
