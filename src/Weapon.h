@@ -16,13 +16,13 @@ private:
 	std::string												m_name;
 	int														m_damage;
 	std::vector<Projectile>									m_projectiles;
+	Vector2<float>											m_weaponDirection;
 	Timer													m_lastShot;
 
 public:
-	Weapon(EntityType ownerType);
-	~Weapon();
+	Weapon(EntityType ownerType, Vector2<float> weaponDirection);
 
-	void shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay, Vector2<float> direction);
+	void shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay);
 
 	void updateProjectiles(double dt);
 	void renderProjectiles();
