@@ -10,10 +10,11 @@ private:
 
 public:
 	Enemy(int x, int y);
-	~Enemy();
 
 	void update(int i, double dt);
 	void render();
+
+	virtual void checkScreenBoundaryX();
 };
 
 #endif // !ENEMY_H
