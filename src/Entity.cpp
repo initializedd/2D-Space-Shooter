@@ -5,7 +5,6 @@
 Entity::Entity()
 	: m_ship{}
 	, m_type{}
-	, m_id{}
 	, m_textureRotation{}
 	, m_direction{}
 	, m_width{}
@@ -17,15 +16,12 @@ Entity::Entity()
 	, m_leftCannonPos{}
 	, m_rightCannonPos{}
 	, m_health{}
+	, m_shield{}
 	, m_particle{}
 	, m_explosionFrames{}
 	, m_flameFrames{}
-	, m_weapon{ m_type }
+	, m_weapon{ m_type, Vector2<float>(0, 0) }
 	, m_canShoot{}
-{
-}
-
-Entity::~Entity()
 {
 }
 
@@ -80,7 +76,7 @@ void Entity::shoot(int delay)
 			}
 		}
 
-		m_weapon.shoot(leftCollider, rightCollider, delay, m_direction);
+		m_weapon.shoot(leftCollider, rightCollider, delay);
 	}
 }
 
@@ -104,10 +100,8 @@ void Entity::checkScreenBoundaryX()
 		if (collider.x < 0.f)
 		{
 			m_pos.x += std::abs(collider.x);
-			setColliders();
 
-			if (m_type == ENEMY)
-				calculateVelocity(Vector2<float>(1.f, 0.f), ENEMY_SPEED);
+			setColliders();
 		}
 
 		// Check if outside of right screen boundary
@@ -115,10 +109,8 @@ void Entity::checkScreenBoundaryX()
 		{
 			float difference = std::abs(collider.x - m_pos.x);
 			m_pos.x = SCREEN_WIDTH - collider.w - difference;
-			setColliders();
 
-			if (m_type == ENEMY)
-				calculateVelocity(Vector2<float>(-1.f, 0.f), ENEMY_SPEED);
+			setColliders();
 		}
 	}
 }
@@ -233,7 +225,7 @@ void Entity::debug()
 }
 #endif
 
-bool Entity::deathAnimation(double dt)
+bool Entity::deathAnimation()
 {
 	if (m_explosionFrames / 2 <= 12)
 	{
@@ -246,7 +238,7 @@ bool Entity::deathAnimation(double dt)
 	return true;
 }
 
-void Entity::exhaustAnimation(double dt)
+void Entity::exhaustAnimation()
 {
 	m_currentExhaustClip = &gExhaustParticle.getClips()[m_flameFrames / 3];
 
@@ -267,7 +259,18 @@ void Entity::renderDeathAnimation()
 
 void Entity::reduceHealth(int damage)
 {
-	m_health -= damage;
+	if (m_shield > 0)
+	{
+		m_shield -= damage;
+
+		if (m_shield < 0)
+		{
+			int excessDamage = std::abs(m_shield);
+			m_health -= excessDamage;
+		}
+	}
+	else
+		m_health -= damage;
 }
 
 bool Entity::isDead()
@@ -314,8 +317,10 @@ void Entity::setColliders()
 	double sinAngle = sin(textureRadians);
 
 	// Calculate the centre coordinates of the rotated texture
-	double textureCentreX = m_ship.getTexture().getWidth() / 2.0;
-	double textureCentreY = m_ship.getTexture().getHeight() / 2.0;
+	//double textureCentreX = m_ship.getTexture().getWidth() / 2.0;
+	double textureCentreX = 32;
+	//double textureCentreY = m_ship.getTexture().getHeight() / 2.0;
+	double textureCentreY = 40;
 
 	for (int i = 0; i < m_ship.getParts().size(); ++i)
 	{

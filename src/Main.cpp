@@ -98,8 +98,7 @@ bool loadMedia()
 	gPlayer->getParticle().setClipsFromSprite(400, 400, 40, 6);
 	gPlayer->getParticle().getTexture().scale(400 * 0.05, 400 * 0.05);
 
-	//gPlayer->getAbility().createAbility();
-	//gPlayer->setShield(gPlayer->getAbility().getValue());
+	gPlayer->createShield();
 
 	gFuturaFont = TTF_OpenFont("font/futura.ttf", 28);
 	if (!gFuturaFont)

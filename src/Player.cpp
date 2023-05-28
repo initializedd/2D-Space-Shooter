@@ -4,6 +4,9 @@
 
 Player::Player(int x, int y)
 	: m_ability{SHIELD}
+	, m_abilityFrames{}
+	, m_currentAbilityClip{}
+	, m_shieldActivated{}
 	, m_flameFrames{}
 	, m_healthTexture{}
 	, m_healthText{}
@@ -17,7 +20,7 @@ Player::Player(int x, int y)
 	
 	m_pos.x = x;
 	m_pos.y = y;
-	
+
 	m_health = 1000;
 
 	++NUM_OF_PLAYERS;
@@ -94,11 +97,12 @@ void Player::update(int i, double dt)
 	if (!isDead())
 	{
 		move(dt);
-		exhaustAnimation(dt);
+		exhaustAnimation();
+		shieldAnimation();
 	}
 	else
 	{
-		if (deathAnimation(dt) && m_weapon.getProjectiles().empty())
+		if (deathAnimation() && m_weapon.getProjectiles().empty())
 		{
 			delete this;
 			gEnts.erase(gEnts.begin() + i);
@@ -129,16 +133,19 @@ void Player::render()
 
 		// Ship Texture
 		m_ship.getTexture().render(m_pos.x, m_pos.y, &m_ship.getTexture().getClips()[m_ship.getTexture().getIndex()], 64, 80);
+
+		if (displayHealth())
+			m_healthTexture.render(0, SCREEN_HEIGHT - m_shieldTexture.getHeight());
+
+		if (displayShield())
+			m_shieldTexture.render(200, SCREEN_HEIGHT - m_shieldTexture.getHeight());
+
+		if (m_shieldActivated)
+			m_ability.getParticle().getTexture().render(m_pos.x - 32, m_pos.y - 40, m_currentAbilityClip, 128, 160);
 	}
 
 	// Projejctiles
 	m_weapon.renderProjectiles();
-
-	if (displayHealth())
-		m_healthTexture.render(0, SCREEN_HEIGHT - m_shieldTexture.getHeight());
-
-	if (displayShield())
-		m_shieldTexture.render(20, SCREEN_HEIGHT - m_shieldTexture.getHeight());
 
 	if (isDead())
 	{
@@ -162,14 +169,37 @@ bool Player::displayHealth()
 bool Player::displayShield()
 {
 	if (m_shield > 0)
+	{
 		m_shieldText.str("Shield: " + std::to_string(m_shield));
+		m_shieldActivated = true;
+	}
 	else
-		m_shieldText.str("Shiled: " + std::to_string(0));
+	{
+		m_shieldText.str("Shield: " + std::to_string(0));
+		m_shieldActivated = false;
+	}
 
-	if (!m_shieldTexture.loadFromRenderedText(m_shieldText.str().c_str(), gFuturaFont, SDL_Color(0x00, 0x00, 0xFF, 0xFF)))
+	if (!m_shieldTexture.loadFromRenderedText(m_shieldText.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
 		return false;
 
 		return true;
+}
+
+void Player::shieldAnimation()
+{
+	m_currentAbilityClip = &m_ability.getParticle().getTexture().getClips()[m_abilityFrames / 3];
+
+	++m_abilityFrames;
+	if (m_abilityFrames / 3 >= 11)
+	{
+		m_abilityFrames = 0;
+	}
+}
+
+void Player::createShield()
+{
+	m_ability.createAbility();
+	m_shield = m_ability.getValue();
 }
 
 Ability& Player::getAbility()
