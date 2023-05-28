@@ -10,6 +10,10 @@ class Player : public Entity
 {
 private:
 	Ability						m_ability;
+	int							m_abilityFrames;
+	SDL_Rect*					m_currentAbilityClip;
+	bool						m_shieldActivated;
+
 	int							m_flameFrames;
 	Texture						m_healthTexture;
 	std::stringstream			m_healthText;
@@ -26,6 +30,9 @@ public:
 
 	bool displayHealth();
 	bool displayShield();
+
+	void shieldAnimation();
+	void createShield();
 
 	Ability& getAbility();
 

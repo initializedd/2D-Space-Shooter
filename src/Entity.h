@@ -2,7 +2,6 @@
 #define ENTITY_H
 
 #include "Ship.h"
-#include "Texture.h"
 #include "Weapon.h"
 #include "Particle.h"
 #include "Pair.h"
@@ -21,7 +20,6 @@ class Entity
 protected:
 	Ship					m_ship;
 	EntityType				m_type;
-	int						m_id;
 	float					m_textureRotation;
 	Vector2<float>			m_direction;
 	int						m_width;
@@ -37,6 +35,7 @@ protected:
 	Pair<int>				m_rightCannonPos;
 
 	int						m_health;
+	int						m_shield;
 
 	Particle				m_particle;
 
@@ -48,7 +47,6 @@ protected:
 
 public:
 	Entity();
-	~Entity();
 
 	virtual void move(double dt);
 	void shoot(int delay);
@@ -58,14 +56,14 @@ public:
 
 	void calculateVelocity(Vector2<float> direction, int speed);
 
-	void checkScreenBoundaryX();
-	void checkScreenBoundaryY();
+	virtual void checkScreenBoundaryX();
+	virtual void checkScreenBoundaryY();
 	bool checkCollisionPosX(std::vector<Entity*>& ents);
 	bool checkCollisionPosY(std::vector<Entity*>& ents);
 	void debug();
 
-	bool deathAnimation(double dt);
-	void exhaustAnimation(double dt);
+	bool deathAnimation();
+	void exhaustAnimation();
 
 	void renderDeathAnimation();
 
