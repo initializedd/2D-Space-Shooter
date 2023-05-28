@@ -2,20 +2,17 @@
 #include "Globals.h"
 #include "Constants.h"
 
-Weapon::Weapon(EntityType ownerType)
+Weapon::Weapon(EntityType ownerType, Vector2<float> weaponDirection)
 	: m_ownerType{ ownerType }
 	, m_name{}
 	, m_damage{}
 	, m_projectiles{}
+	, m_weaponDirection{ weaponDirection }
 	, m_lastShot{}
 {
 }
 
-Weapon::~Weapon()
-{
-}
-
-void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay, Vector2<float> direction)
+void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay)
 {
 	if (!m_lastShot.isStarted())
 	{
@@ -29,7 +26,7 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned i
 
 	Projectile leftProjectile{};
 	leftProjectile.setPos(leftCannonPos);
-	leftProjectile.calculateVelocity(direction, PROJECTILE_SPEED);
+	leftProjectile.calculateVelocity(m_weaponDirection, PROJECTILE_SPEED);
 	leftProjectile.setType(LEFT_PROJECTILE);
 	leftProjectile.updateCollider();
 
@@ -37,7 +34,7 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned i
 
 	Projectile rightProjectile{};
 	rightProjectile.setPos(rightCannonPos);
-	rightProjectile.calculateVelocity(direction, PROJECTILE_SPEED);
+	rightProjectile.calculateVelocity(m_weaponDirection, PROJECTILE_SPEED);
 	rightProjectile.setType(RIGHT_PROJECTILE);
 	rightProjectile.updateCollider();
 
