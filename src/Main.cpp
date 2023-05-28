@@ -1,5 +1,7 @@
 #include "Window.h"
 #include "Menu.h"
+#include "MainMenu.h"
+#include "CustomiseMenu.h"
 #include "Texture.h"
 #include "Timer.h"
 #include "Wave.h"
@@ -96,6 +98,9 @@ bool loadMedia()
 	gPlayer->getParticle().setClipsFromSprite(400, 400, 40, 6);
 	gPlayer->getParticle().getTexture().scale(400 * 0.05, 400 * 0.05);
 
+	//gPlayer->getAbility().createAbility();
+	//gPlayer->setShield(gPlayer->getAbility().getValue());
+
 	gFuturaFont = TTF_OpenFont("font/futura.ttf", 28);
 	if (!gFuturaFont)
 	{
@@ -114,6 +119,9 @@ bool loadMedia()
 
 void free()
 {
+	delete gMainMenu;
+	delete gCustomiseMenu;
+
 	for (int i = 0; i < gEnts.size(); ++i)
 	{
 		if (gEnts[i])
@@ -146,41 +154,14 @@ int main(int argc, char* argv[])
 			SDL_Event eventMenu;
 			bool quitMenu = false;
 
-			/*Menu mainMenu{};
-			mainMenu.getTexture().loadFromFile("img/mainmenu_bg.jpg", false);
-			mainMenu.getTexture().scale(SCREEN_WIDTH, SCREEN_HEIGHT);
+			gMainMenu = new MainMenu();
+			gCustomiseMenu = new CustomiseMenu();
 
-			for (int i = PLAY; i < MAIN_TOTAL_BUTTONS; ++i)
+			gActiveMenu = gMainMenu;
+			while (!gActiveMenu->isQuit())
 			{
-				Button button{};
-
-				button.createButton(static_cast<MainMenuButtons>(i), gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF));
-				mainMenu.getButtons().push_back(button);
-			}*/
-
-			Menu customiseMenu{};
-			customiseMenu.getTexture().loadFromFile("img/mainmenu_bg.jpg", false);
-			customiseMenu.getTexture().scale(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-			for (int i = BACK; i < CUSTOMISE_TOTAL_BUTTONS; ++i)
-			{
-				Button button{};
-
-				button.createButton(static_cast<CustomiseMenuButtons>(i), gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF));
-				customiseMenu.getButtons().push_back(button);
+				gActiveMenu->displayMenu(eventMenu, quitGame);
 			}
-
-			while (!customiseMenu.isQuit())
-			{
-				customiseMenu.displayMenu(eventMenu, quitGame);
-			}
-
-
-
-			/*while (!mainMenu.isQuit())
-			{
-				mainMenu.displayMenu(eventMenu, quitGame);
-			}*/
 
 			SDL_Event event;
 
@@ -194,7 +175,7 @@ int main(int argc, char* argv[])
 			SDL_Color textColor{ 0x00, 0xFF, 0x00, 0xFF };
 
 			gEnts.push_back(gPlayer);
-
+			
 			Timer deltaTimer;
 			double fixedDt = 1.0 / 60.0;
 			double accumulator = 0.0;

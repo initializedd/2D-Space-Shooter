@@ -2,6 +2,9 @@
 #define GLOBALS_H
 
 #include "Window.h"
+#include "Menu.h"
+#include "MainMenu.h"
+#include "CustomiseMenu.h"
 #include "Player.h"
 #include "Wave.h"
 #include "Texture.h"
@@ -15,6 +18,11 @@ inline Texture					gShipsSprite{};
 // Window
 inline Window					gWindow{};
 inline SDL_Surface*				gWindowIconTexture{};
+
+// Menus
+inline Menu*					gActiveMenu{};
+inline MainMenu*				gMainMenu;
+inline CustomiseMenu*			gCustomiseMenu;
 
 // Background Textures
 inline Texture					gBackgroundTexture{};
@@ -41,7 +49,6 @@ inline SDL_Rect					gRightProjectileHitBox{ 28, 7, 4, 27 };
 
 // Entities
 inline std::vector<Entity*>		gEnts;
-inline int						ENTITY_ID{};
 
 // Player
 inline Player*					gPlayer{ new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT) };
