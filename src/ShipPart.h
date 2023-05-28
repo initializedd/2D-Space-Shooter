@@ -1,5 +1,5 @@
-#ifndef SHIPPART_H
-#define SHIPPART_H
+#ifndef SHIP_PART_H
+#define SHIP_PART_H
 
 #include "Collider.h"
 #include "Pair.h"
@@ -42,4 +42,4 @@ public:
 	void setOffset(Pair<int> offset);
 };
 
-#endif // !SHIPPART_H
+#endif // !SHIP_PART_H

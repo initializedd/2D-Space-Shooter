@@ -23,6 +23,8 @@ public:
 
 	void createAbility();
 
+	Particle& getParticle();
+	Sound& getSound();
 	int getValue();
 };
 
