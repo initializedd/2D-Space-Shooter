@@ -2,14 +2,20 @@
 #define WAVE_H
 
 #include "Enemy.h"
-#include <sstream>
+#include "WraithEnemy.h"
+#include "Pair.h"
 #include <vector>
+#include <array>
+#include <sstream>
 
 class Wave
 {
 private:
-	std::vector<Enemy>				m_enemies;
-	int								m_wave;
+	std::array<Vector2<int>, 6>		m_enemyPositions;
+	int								m_currentWave;
+	int								m_currentHealth;
+	int								m_numOfEnemies;
+	int								m_maxNumOfEnemies;
 	Texture							m_waveTexture;
 	std::stringstream				m_waveText;
 
@@ -20,7 +26,6 @@ public:
 	void createWave();
 	bool displayWaveNum();
 
-	std::vector<Enemy>& getEnemies();
 	Texture& getWaveTexture();
 	int getWave();
 };

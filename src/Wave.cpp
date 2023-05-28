@@ -2,11 +2,15 @@
 #include "Globals.h"
 
 Wave::Wave()
-	: m_enemies{}
-	, m_wave{}
+	: m_currentWave{}
+	, m_currentHealth{}
+	, m_numOfEnemies{}
+	, m_maxNumOfEnemies{}
 	, m_waveTexture{}
 	, m_waveText{}
 {
+	m_enemyPositions = { Vector2<int>(0, 0), Vector2<int>(160, 0), Vector2<int>(320, 0),
+						 Vector2<int>(0, 180), Vector2<int>(160, 180), Vector2<int>(320, 180) };
 }
 
 Wave::~Wave()
@@ -22,9 +26,17 @@ void Wave::createWave()
 {
 	if (gEnts.size() <= NUM_OF_PLAYERS)
 	{
-		for (int i = 0; i < 3; ++i)
+		++m_currentWave;
+
+		if (m_currentWave <= 1)
+			m_numOfEnemies = 3;
+
+		if (m_currentWave >= 5)
+			m_numOfEnemies = 6;
+
+		for (int i = 0; i < 1; ++i)
 		{
-			Enemy* enemy = new Enemy( i * 200, 0 );
+			Enemy* enemy = new Enemy(m_enemyPositions[i].x + 80, m_enemyPositions[i].y + 50);
 
 			enemy->getShip().getTexture().setTexture(gShipsSprite);
 			enemy->getShip().createShip(gShipsSprite.getIndex());
@@ -32,25 +44,27 @@ void Wave::createWave()
 			enemy->setColliders();
 
 			gEnts.push_back(enemy);
-		}
 
-		++m_wave;
+			WraithEnemy* wraithEnemy = new WraithEnemy(m_enemyPositions[i].x, m_enemyPositions[i].y);
+
+			wraithEnemy->getShip().getTexture().setTexture(gShipsSprite);
+			wraithEnemy->getShip().createShip(gShipsSprite.getIndex());
+
+			wraithEnemy->setColliders();
+
+			gEnts.push_back(wraithEnemy);
+		}
 	}
 }
 
 bool Wave::displayWaveNum()
 {
-	m_waveText.str("Wave: " + std::to_string((m_wave)));
+	m_waveText.str("Wave: " + std::to_string((m_currentWave)));
 
 	if (!m_waveTexture.loadFromRenderedText(m_waveText.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
 		return false;
 
 	return true;
-}
-
-std::vector<Enemy>& Wave::getEnemies()
-{
-	return m_enemies;
 }
 
 Texture& Wave::getWaveTexture()
@@ -60,5 +74,5 @@ Texture& Wave::getWaveTexture()
 
 int Wave::getWave()
 {
-	return m_wave;
+	return m_currentWave;
 }
