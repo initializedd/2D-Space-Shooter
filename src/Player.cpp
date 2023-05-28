@@ -3,30 +3,29 @@
 #include "Constants.h"
 
 Player::Player(int x, int y)
-	: m_flameFrames{}
+	: m_ability{SHIELD}
+	, m_flameFrames{}
 	, m_healthTexture{}
 	, m_healthText{}
+	, m_shieldTexture{}
+	, m_shieldText{}
 {
 	m_type = PLAYER;
-	m_weapon = m_type;
+	m_weapon = { m_type, Vector2<float>(0, -1)};
 
 	m_direction = Vector2<float>(0, -1);
 	
-	m_id = ENTITY_ID;
-
 	m_pos.x = x;
 	m_pos.y = y;
-
+	
 	m_health = 1000;
 
 	++NUM_OF_PLAYERS;
-	++ENTITY_ID;
 }
 
 Player::~Player()
 {
 	--NUM_OF_PLAYERS;
-	--ENTITY_ID;
 }
 
 void Player::handleEvent(SDL_Event& event)
@@ -129,14 +128,17 @@ void Player::render()
 		}
 
 		// Ship Texture
-		m_ship.getTexture().render(m_pos.x, m_pos.y, &m_ship.getTexture().getClips()[m_ship.getTexture().getIndex()], m_ship.getTexture().getClips()[m_ship.getTexture().getIndex()].w, m_ship.getTexture().getClips()[m_ship.getTexture().getIndex()].h);
+		m_ship.getTexture().render(m_pos.x, m_pos.y, &m_ship.getTexture().getClips()[m_ship.getTexture().getIndex()], 64, 80);
 	}
 
 	// Projejctiles
 	m_weapon.renderProjectiles();
 
 	if (displayHealth())
-		getHealhTexture().render(0, SCREEN_HEIGHT - getHealhTexture().getHeight());
+		m_healthTexture.render(0, SCREEN_HEIGHT - m_shieldTexture.getHeight());
+
+	if (displayShield())
+		m_shieldTexture.render(20, SCREEN_HEIGHT - m_shieldTexture.getHeight());
 
 	if (isDead())
 	{
@@ -147,7 +149,7 @@ void Player::render()
 bool Player::displayHealth()
 {
 	if (m_health > 0)
-		m_healthText.str("Health: " + std::to_string((m_health)));
+		m_healthText.str("Health: " + std::to_string(m_health));
 	else
 		m_healthText.str("Dead");
 
@@ -157,7 +159,25 @@ bool Player::displayHealth()
 	return true;
 }
 
-Texture& Player::getHealhTexture()
+bool Player::displayShield()
 {
-	return m_healthTexture;
+	if (m_shield > 0)
+		m_shieldText.str("Shield: " + std::to_string(m_shield));
+	else
+		m_shieldText.str("Shiled: " + std::to_string(0));
+
+	if (!m_shieldTexture.loadFromRenderedText(m_shieldText.str().c_str(), gFuturaFont, SDL_Color(0x00, 0x00, 0xFF, 0xFF)))
+		return false;
+
+		return true;
+}
+
+Ability& Player::getAbility()
+{
+	return m_ability;
+}
+
+void Player::setShield(int shield)
+{
+	m_shield = shield;
 }
