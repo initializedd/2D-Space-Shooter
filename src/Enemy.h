@@ -13,8 +13,6 @@ public:
 
 	void update(int i, double dt);
 	void render();
-
-	virtual void checkScreenBoundaryX();
 };
 
 #endif // !ENEMY_H

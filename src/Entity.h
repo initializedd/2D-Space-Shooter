@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include "Ship.h"
+#include "Movement.h"
 #include "Weapon.h"
 #include "Particle.h"
 #include "Pair.h"
@@ -22,6 +23,7 @@ protected:
 	EntityType				m_type;
 	float					m_textureRotation;
 	Vector2<float>			m_direction;
+	int						m_speed;
 	int						m_width;
 	int						m_height;
 
@@ -29,7 +31,7 @@ protected:
 	SDL_Rect*				m_currentDeathClip;
 
 	Vector2<float>			m_pos;
-	Vector2<float>			m_vel;
+	Movement				m_movement;
 
 	Pair<int>				m_leftCannonPos;
 	Pair<int>				m_rightCannonPos;
@@ -54,12 +56,8 @@ public:
 	virtual void render() = 0;
 	virtual void handleEvent(SDL_Event& event);
 
-	void calculateVelocity(Vector2<float> direction, int speed);
-
-	virtual void checkScreenBoundaryX();
-	virtual void checkScreenBoundaryY();
-	bool checkCollisionPosX(std::vector<Entity*>& ents);
-	bool checkCollisionPosY(std::vector<Entity*>& ents);
+	void checkScreenBoundary();
+	bool checkCollision(std::vector<Entity*>& ents);
 	void debug();
 
 	bool deathAnimation();

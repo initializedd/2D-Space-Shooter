@@ -7,12 +7,13 @@ Entity::Entity()
 	, m_type{}
 	, m_textureRotation{}
 	, m_direction{}
+	, m_speed{}
 	, m_width{}
 	, m_height{}
 	, m_currentExhaustClip{}
 	, m_currentDeathClip{}
 	, m_pos{}
-	, m_vel{}
+	, m_movement{}
 	, m_leftCannonPos{}
 	, m_rightCannonPos{}
 	, m_health{}
@@ -27,32 +28,41 @@ Entity::Entity()
 
 void Entity::move(double dt)
 {
-	// Update X position based on its X velocity
-	m_pos.x += m_vel.x * dt;
-	setColliders();
+	m_movement.calculateVelocity(m_direction, m_speed);
+	m_movement.move(m_pos, dt);
 
-	// Check if outside screen boundary X
-	checkScreenBoundaryX();
-
-	// Check for collision on X axis
-	if (checkCollisionPosX(gEnts))
-	{
-		setColliders();
-	}
-
-	// Update Y position based on its Y velocity
-	m_pos.y += m_vel.y * dt;
-	setColliders();
-
-	// Check if outside screen boundary Y
-	checkScreenBoundaryY();
-
-	// Check for collision on Y axis
-	if (checkCollisionPosY(gEnts))
-	{
-		setColliders();
-	}
+	checkScreenBoundary();
+	checkCollision(gEnts);
 }
+
+//void Entity::move(double dt)
+//{
+//	// Update X position based on its X velocity
+//	m_pos.x += m_vel.x * dt;
+//	setColliders();
+//
+//	// Check if outside screen boundary X
+//	checkScreenBoundaryX();
+//
+//	// Check for collision on X axis
+//	if (checkCollisionPosX(gEnts))
+//	{
+//		setColliders();
+//	}
+//
+//	// Update Y position based on its Y velocity
+//	m_pos.y += m_vel.y * dt;
+//	setColliders();
+//
+//	// Check if outside screen boundary Y
+//	checkScreenBoundaryY();
+//
+//	// Check for collision on Y axis
+//	if (checkCollisionPosY(gEnts))
+//	{
+//		setColliders();
+//	}
+//}
 
 void Entity::shoot(int delay)
 {
@@ -84,63 +94,19 @@ void Entity::handleEvent(SDL_Event& event)
 {
 }
 
-void Entity::calculateVelocity(Vector2<float> direction, int speed)
-{
-	m_vel.x = direction.x * speed;
-	m_vel.y = direction.y * speed;
-}
-
-void Entity::checkScreenBoundaryX()
+void Entity::checkScreenBoundary()
 {
 	for (int i = 0; i < m_ship.getParts().size(); ++i)
 	{
-		SDL_Rect& collider = m_ship.getParts()[i].getCollider().getRect();
+		Collider& collider = m_ship.getParts()[i].getCollider();
 
-		// Check if outside of left screen boundary
-		if (collider.x < 0.f)
-		{
-			m_pos.x += std::abs(collider.x);
-
-			setColliders();
-		}
-
-		// Check if outside of right screen boundary
-		if (collider.x + collider.w > SCREEN_WIDTH)
-		{
-			float difference = std::abs(collider.x - m_pos.x);
-			m_pos.x = SCREEN_WIDTH - collider.w - difference;
-
-			setColliders();
-		}
+		if (collider.handleScreenCollision(m_pos, m_textureRotation))
+			if (m_type == ENEMY)
+				m_direction.x = -m_direction.x;
 	}
 }
 
-void Entity::checkScreenBoundaryY()
-{
-	for (int i = 0; i < m_ship.getParts().size(); ++i)
-	{
-		SDL_Rect& collider = m_ship.getParts()[i].getCollider().getRect();
-
-		// Check if outside of top screen boundary
-		if (collider.y < 0.f)
-		{
-			m_pos.y += std::abs(collider.y);
-
-			setColliders();
-		}
-
-		// Check if outside of bottom screen boundary
-		if (collider.y + collider.h > SCREEN_HEIGHT)
-		{
-			float difference = std::abs(collider.y - m_pos.y);
-			m_pos.y = SCREEN_HEIGHT - collider.h - difference;
-
-			setColliders();
-		}
-	}
-}
-
-bool Entity::checkCollisionPosX(std::vector<Entity*>& ents)
+bool Entity::checkCollision(std::vector<Entity*>& ents)
 {
 	for (int i = 0; i < ents.size(); ++i)
 	{
@@ -151,13 +117,13 @@ bool Entity::checkCollisionPosX(std::vector<Entity*>& ents)
 
 		for (int j = 0; j < m_ship.getParts().size(); ++j)
 		{
-			SDL_Rect thisCollider{ m_ship.getParts()[j].getCollider().getRect() };
+			Collider& thisCollider{ m_ship.getParts()[j].getCollider() };
 
 			for (int k = 0; k < ents[i]->getShip().getParts().size(); ++k)
 			{
-				SDL_Rect entCollider{ ents[i]->getShip().getParts()[k].getCollider().getRect() };
+				Collider& entCollider{ ents[i]->getShip().getParts()[k].getCollider() };
 
-				if (SDL_HasIntersection(&thisCollider, &entCollider))
+				if (thisCollider.intersects(entCollider))
 				{
 					if (m_type == ents[i]->m_type)
 					{
@@ -165,43 +131,7 @@ bool Entity::checkCollisionPosX(std::vector<Entity*>& ents)
 						return true;
 					}
 
-					if (m_pos.x <= ents[i]->getPos().x)
-						m_pos.x = (ents[i]->getPos().x - (ents[i]->getPos().x - entCollider.x)) - ((thisCollider.x - m_pos.x) + thisCollider.w);
-
-					if (m_pos.x > ents[i]->getPos().x)
-						m_pos.x = (entCollider.x + entCollider.w) - (thisCollider.x - m_pos.x);
-
-					return true;
-				}
-			}
-		}
-	}
-
-	return false;
-}
-
-bool Entity::checkCollisionPosY(std::vector<Entity*>& ents)
-{
-	for (int i = 0; i < ents.size(); ++i)
-	{
-		if (this == ents[i] || m_type == ents[i]->m_type)
-			continue;
-
-		for (int j = 0; j < m_ship.getParts().size(); ++j)
-		{
-			SDL_Rect thisCollider{ m_ship.getParts()[j].getCollider().getRect() };
-
-			for (int k = 0; k < ents[i]->getShip().getParts().size(); ++k)
-			{
-				SDL_Rect entCollider{ ents[i]->getShip().getParts()[k].getCollider().getRect() };
-
-				if (SDL_HasIntersection(&thisCollider, &entCollider))
-				{
-					if (m_pos.y <= ents[i]->getPos().y)
-						m_pos.y = (ents[i]->getPos().y - (ents[i]->getPos().y - entCollider.y)) - ((thisCollider.y - m_pos.y) + thisCollider.h);
-
-					if (m_pos.y > ents[i]->getPos().y)
-						m_pos.y = (entCollider.y + entCollider.h) - (thisCollider.y - m_pos.y);
+					thisCollider.handleCollision(m_pos, ents[i]->getPos(), entCollider, m_textureRotation);
 
 					return true;
 				}
@@ -310,34 +240,9 @@ Vector2<float> Entity::getPos() const
 
 void Entity::setColliders()
 {
-	double textureRadians = m_textureRotation * (M_PI / 180.0);
-
-	// Calculate the cosine and sine values of the texture's rotation angle
-	double cosAngle = cos(textureRadians);
-	double sinAngle = sin(textureRadians);
-
-	// Calculate the centre coordinates of the rotated texture
-	//double textureCentreX = m_ship.getTexture().getWidth() / 2.0;
-	double textureCentreX = 32;
-	//double textureCentreY = m_ship.getTexture().getHeight() / 2.0;
-	double textureCentreY = 40;
-
 	for (int i = 0; i < m_ship.getParts().size(); ++i)
 	{
-		// Calculate the centre coordinates of the collider
-		double colliderCentreX = m_ship.getParts()[i].getCollider().getRect().w / 2.0;
-		double colliderCentreY = m_ship.getParts()[i].getCollider().getRect().h / 2.0;
-
-		// Translate the collider's centre to the texture's coordinate system
-		double translatedX = m_ship.getParts()[i].getOffset().x + colliderCentreX - textureCentreX;
-		double translatedY = m_ship.getParts()[i].getOffset().y + colliderCentreY - textureCentreY;
-
-		// Rotate the collider's positions relative to the texture's rotation
-		double rotatedX = translatedX * cosAngle - translatedY * sinAngle;
-		double rotatedY = translatedX * sinAngle + translatedY * cosAngle;
-
-		// Translate the rotated collider's positions back to the original coordinate system
-		m_ship.getParts()[i].getCollider().getRect().x = static_cast<int>(rotatedX + textureCentreX - colliderCentreX + m_pos.x);
-		m_ship.getParts()[i].getCollider().getRect().y = static_cast<int>(rotatedY + textureCentreY - colliderCentreY + m_pos.y);
+		Collider& collider = m_ship.getParts()[i].getCollider();
+		collider.setColliders(m_pos, m_textureRotation);
 	}
 }
