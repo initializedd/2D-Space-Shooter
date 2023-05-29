@@ -45,14 +45,14 @@ void Wave::createWave()
 
 			gEnts.push_back(enemy);
 
-			WraithEnemy* wraithEnemy = new WraithEnemy(m_enemyPositions[i].x, m_enemyPositions[i].y);
+			/*WraithEnemy* wraithEnemy = new WraithEnemy(m_enemyPositions[i].x, m_enemyPositions[i].y);
 
 			wraithEnemy->getShip().getTexture().setTexture(gShipsSprite);
 			wraithEnemy->getShip().createShip(gShipsSprite.getIndex());
 
 			wraithEnemy->setColliders();
 
-			gEnts.push_back(wraithEnemy);
+			gEnts.push_back(wraithEnemy);*/
 		}
 	}
 }

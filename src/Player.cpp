@@ -15,13 +15,13 @@ Player::Player(int x, int y)
 {
 	m_type = PLAYER;
 	m_weapon = { m_type, Vector2<float>(0, -1)};
-
-	m_direction = Vector2<float>(0, -1);
 	
 	m_pos.x = x;
 	m_pos.y = y;
 
 	m_health = 1000;
+
+	m_speed = PLAYER_SPEED;
 
 	++NUM_OF_PLAYERS;
 }
@@ -33,62 +33,53 @@ Player::~Player()
 
 void Player::handleEvent(SDL_Event& event)
 {
-	if (event.type == SDL_KEYDOWN && event.key.repeat == 0)
+	// Get the state of the keyboard
+	const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+
+	// Handle vertical movement
+	if (keyboardState[SDL_SCANCODE_UP] || keyboardState[SDL_SCANCODE_W])
 	{
-		switch (event.key.keysym.sym)
-		{
-			case SDLK_UP:
-			case SDLK_w:
-				m_vel.y -= PLAYER_SPEED;
-				break;
-
-			case SDLK_DOWN:
-			case SDLK_s:
-				m_vel.y += PLAYER_SPEED;
-				break;
-
-			case SDLK_LEFT:
-			case SDLK_a: 
-				m_vel.x -= PLAYER_SPEED;
-				break;
-
-			case SDLK_RIGHT:
-			case SDLK_d:
-				m_vel.x += PLAYER_SPEED;
-				break;
-
-			case SDLK_SPACE:
-				shoot(250);
-				break;
-
-		}
+		// Move upward
+		m_direction.y = -1;
 	}
-	else if (event.type == SDL_KEYUP && event.key.repeat == 0)
+	else if (keyboardState[SDL_SCANCODE_DOWN] || keyboardState[SDL_SCANCODE_S])
 	{
-		switch (event.key.keysym.sym)
-		{
-			case SDLK_UP:
-			case SDLK_w:
-				m_vel.y += PLAYER_SPEED;
-				break;
+		// Move downward
+		m_direction.y = 1;
+	}
+	else
+	{
+		// No vertical movement
+		m_direction.y = 0;
+	}
 
-			case SDLK_DOWN:
-			case SDLK_s:
-				m_vel.y -= PLAYER_SPEED;
-				break;
+	// Handle horizontal movement
+	if (keyboardState[SDL_SCANCODE_LEFT] || keyboardState[SDL_SCANCODE_A])
+	{
+		// Move left
+		m_direction.x = -1;
+	}
+	else if (keyboardState[SDL_SCANCODE_RIGHT] || keyboardState[SDL_SCANCODE_D])
+	{
+		// Move right
+		m_direction.x = 1;
+	}
+	else
+	{
+		// No horizontal movement
+		m_direction.x = 0;
+	}
 
-			case SDLK_LEFT:
-			case SDLK_a:
-				m_vel.x += PLAYER_SPEED;
-				break;
+	// Calculate the velocity based on the direction and speed
+	m_movement.calculateVelocity(m_direction, PLAYER_SPEED);
 
-			case SDLK_RIGHT:
-			case SDLK_d:
-				m_vel.x -= PLAYER_SPEED;
-				break;
-		}
+	// Shoot if the spacebar is pressed
+	if (keyboardState[SDL_SCANCODE_SPACE])
+	{
+		shoot(250);
 	}
 }
+
 
 void Player::update(int i, double dt)
 {
