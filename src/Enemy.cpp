@@ -50,7 +50,7 @@ void Enemy::render()
 		for (int i = 0; i < m_ship.getParts().size(); ++i)
 		{
 			ShipPart& part = m_ship.getParts()[i];
-			SDL_Rect& collider = part.getCollider().getRect();
+			const SDL_Rect& collider = part.getCollider().getRect();
 
 			if (part.getPartType() == LEFT_EXHAUST || part.getPartType() == RIGHT_EXHAUST)
 			{
