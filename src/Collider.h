@@ -3,6 +3,7 @@
 
 #include "Pair.h"
 #include <SDL_rect.h>
+#include <SDL_render.h>
 
 class Collider
 {
@@ -16,10 +17,12 @@ public:
 
 	bool intersects(const Collider& collider);
 
-	void handleCollision(Vector2<float>& pos, const Vector2<float>& otherPos, Collider& collider, double rotation);
+	void handleCollision(Vector2<float>& pos, const Vector2<float>& otherPos, const Collider& collider);
 	bool handleScreenCollision(Vector2<float>& pos, double rotation);
 
-	SDL_Rect& getRect();
+	void drawCollider();
+
+	const SDL_Rect& getRect() const;
 
 	void setColliders(Vector2<float>& pos, double rotation);
 };
