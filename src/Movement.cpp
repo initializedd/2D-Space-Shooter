@@ -7,8 +7,6 @@ Movement::Movement()
 
 void Movement::move(Vector2<float>& pos, double dt)
 {
-	//calculateVelocity();
-
 	// Update X position based on its X velocity
 	pos.x += m_vel.x * dt;
 
