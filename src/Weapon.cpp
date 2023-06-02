@@ -26,7 +26,7 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned i
 
 	Projectile leftProjectile{};
 	leftProjectile.setPos(leftCannonPos);
-	leftProjectile.calculateVelocity(m_weaponDirection, PROJECTILE_SPEED);
+	leftProjectile.setDirection(m_weaponDirection);
 	leftProjectile.setType(LEFT_PROJECTILE);
 	leftProjectile.createCollider();
 	leftProjectile.updateCollider();
@@ -35,7 +35,7 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned i
 
 	Projectile rightProjectile{};
 	rightProjectile.setPos(rightCannonPos);
-	rightProjectile.calculateVelocity(m_weaponDirection, PROJECTILE_SPEED);
+	rightProjectile.setDirection(m_weaponDirection);
 	rightProjectile.setType(RIGHT_PROJECTILE);
 	rightProjectile.createCollider();
 	rightProjectile.updateCollider();
