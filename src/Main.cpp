@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "Timer.h"
 #include "Wave.h"
+#include "PickUp.h"
 #include "Globals.h"
 #include "Constants.h"
 #include <SDL.h>
@@ -98,8 +99,6 @@ bool loadMedia()
 	gPlayer->getParticle().setClipsFromSprite(400, 400, 40, 6);
 	gPlayer->getParticle().getTexture().scale(400 * 0.05, 400 * 0.05);
 
-	gPlayer->createShield();
-
 	gFuturaFont = TTF_OpenFont("font/futura.ttf", 28);
 	if (!gFuturaFont)
 	{
@@ -164,10 +163,10 @@ int main(int argc, char* argv[])
 
 			SDL_Event event;
 
-			/*Sound backgroundMusic{};
+			Sound backgroundMusic{};
 			backgroundMusic.loadMusic("audio/Orbital Colossus.mp3");
 			backgroundMusic.playMusic(-1);
-			Mix_VolumeMusic(10);*/
+			Mix_VolumeMusic(10);
 
 			int countedFrames = 0;
 
@@ -181,6 +180,12 @@ int main(int argc, char* argv[])
 
 			Timer fpsTimer;
 			fpsTimer.start();
+			
+			{
+				std::unique_ptr<PickUp> pickUp = std::make_unique<PickUp>();
+				pickUp->createItem(ITEM_SHIELD);
+				gPickUp.push_back(std::move(pickUp));
+			}
 
 			while (!quitGame)
 			{
@@ -219,6 +224,11 @@ int main(int argc, char* argv[])
 						gEnts[i]->update(i, fixedDt);
 					}
 
+					for (int i = 0 ; i < gPickUp.size(); ++i)
+					{
+						gPickUp[i]->update(fixedDt);
+					}
+
 					accumulator -= fixedDt;
 				}
 
@@ -236,6 +246,11 @@ int main(int argc, char* argv[])
 					#if defined(_DEBUG)
 					gEnts[i]->debug();
 					#endif			
+				}
+
+				for (int i = 0; i < gPickUp.size(); ++i)
+				{
+					gPickUp[i]->render();
 				}
 
 				if (gWave.displayWaveNum())

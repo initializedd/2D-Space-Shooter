@@ -29,40 +29,13 @@ Entity::Entity()
 void Entity::move(double dt)
 {
 	m_movement.calculateVelocity(m_direction, m_speed);
+
 	m_movement.move(m_pos, dt);
+	setColliders();
 
 	checkScreenBoundary();
 	checkCollision(gEnts);
 }
-
-//void Entity::move(double dt)
-//{
-//	// Update X position based on its X velocity
-//	m_pos.x += m_vel.x * dt;
-//	setColliders();
-//
-//	// Check if outside screen boundary X
-//	checkScreenBoundaryX();
-//
-//	// Check for collision on X axis
-//	if (checkCollisionPosX(gEnts))
-//	{
-//		setColliders();
-//	}
-//
-//	// Update Y position based on its Y velocity
-//	m_pos.y += m_vel.y * dt;
-//	setColliders();
-//
-//	// Check if outside screen boundary Y
-//	checkScreenBoundaryY();
-//
-//	// Check for collision on Y axis
-//	if (checkCollisionPosY(gEnts))
-//	{
-//		setColliders();
-//	}
-//}
 
 void Entity::shoot(int delay)
 {
@@ -104,9 +77,11 @@ void Entity::checkScreenBoundary()
 			if (m_type == ENEMY)
 				m_direction.x = -m_direction.x;
 	}
+
+	setColliders();
 }
 
-bool Entity::checkCollision(std::vector<Entity*>& ents)
+void Entity::checkCollision(std::vector<Entity*>& ents)
 {
 	for (int i = 0; i < ents.size(); ++i)
 	{
@@ -128,18 +103,16 @@ bool Entity::checkCollision(std::vector<Entity*>& ents)
 					if (m_type == ents[i]->m_type)
 					{
 						m_canShoot = false;
-						return true;
+						continue;
 					}
 
-					thisCollider.handleCollision(m_pos, ents[i]->getPos(), entCollider, m_textureRotation);
-
-					return true;
+					thisCollider.handleCollision(m_pos, ents[i]->getPos(), entCollider);
 				}
 			}
 		}
 	}
 
-	return false;
+	setColliders();
 }
 
 #if defined(_DEBUG)
