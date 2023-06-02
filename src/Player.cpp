@@ -3,7 +3,7 @@
 #include "Constants.h"
 
 Player::Player(int x, int y)
-	: m_ability{SHIELD}
+	: m_ability{}
 	, m_abilityFrames{}
 	, m_currentAbilityClip{}
 	, m_shieldActivated{}
@@ -70,9 +70,6 @@ void Player::handleEvent(SDL_Event& event)
 		m_direction.x = 0;
 	}
 
-	// Calculate the velocity based on the direction and speed
-	m_movement.calculateVelocity(m_direction, PLAYER_SPEED);
-
 	// Shoot if the spacebar is pressed
 	if (keyboardState[SDL_SCANCODE_SPACE])
 	{
@@ -88,6 +85,7 @@ void Player::update(int i, double dt)
 	if (!isDead())
 	{
 		move(dt);
+		handlePickUpCollision(gPickUp);
 		exhaustAnimation();
 		shieldAnimation();
 	}
@@ -109,7 +107,7 @@ void Player::render()
 		for (int i = 0; i < m_ship.getParts().size(); ++i)
 		{
 			ShipPart& part = m_ship.getParts()[i];
-			SDL_Rect& collider = part.getCollider().getRect();
+			const SDL_Rect& collider = part.getCollider().getRect();
 
 			if (part.getPartType() == LEFT_EXHAUST || part.getPartType() == RIGHT_EXHAUST)
 			{
@@ -141,6 +139,26 @@ void Player::render()
 	if (isDead())
 	{
 		renderDeathAnimation();
+	}
+}
+
+void Player::handlePickUpCollision(std::vector<std::unique_ptr<PickUp>>& pickUp)
+{
+	if (!pickUp.empty())
+	{
+		for (int i = 0; i < m_ship.getParts().size(); ++i)
+		{
+			for (int j = 0; j < gPickUp.size(); ++j)
+			{
+				if (m_ship.getParts()[i].getCollider().intersects(pickUp[j]->getItem().collider))
+				{
+					m_ability = pickUp[j]->getAbility();
+					createShield();
+					pickUp.erase(pickUp.begin() + j);
+					return;
+				}
+			}
+		}
 	}
 }
 

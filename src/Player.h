@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Entity.h"
+#include "PickUp.h"
 #include "Ability.h"
 #include <sstream>
 #include <SDL_events.h>
@@ -27,6 +28,8 @@ public:
 	void handleEvent(SDL_Event& event);
 	void update(int i, double dt);
 	void render();
+
+	void handlePickUpCollision(std::vector<std::unique_ptr<PickUp>>& pickUp);
 
 	bool displayHealth();
 	bool displayShield();
