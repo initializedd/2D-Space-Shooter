@@ -2,6 +2,8 @@
 #define PROJECTILE_H
 
 #include "Texture.h"
+#include "Movement.h"
+#include "Collider.h"
 #include "Pair.h"
 #include <vector>
 
@@ -17,38 +19,34 @@ enum ProjectileType
 class Projectile
 {
 private:
-	Pair<float>				m_pos;
-	Vector2<float>			m_vel;
+	Vector2<float>			m_pos;
+	Vector2<float>			m_direction;
+	Movement				m_movement;
+	Collider				m_collider;
 	Texture					m_texture;
 	ProjectileType			m_type;
-	SDL_Rect				m_collider;
 	int						m_damage;
 
 public:
 	Projectile();
-	~Projectile();
 
 	void move(double dt);
 
 	bool checkScreenBoundary();
 	bool checkCollision(std::vector<Entity*>& ents, EntityType ownerType);
+
+	void createCollider();
 	void updateCollider();
 
-	void calculateVelocity(Vector2<float> direction, int speed);
 	void render();
-	void drawCollision();
 	void debug();
 
-	int getPosX() const;
-	int getPosY() const;
-	int getVelX() const;
-	int getVelY() const;
+	Vector2<float> getPos() const;
 	Texture& getTexture();
 	ProjectileType getType();
-	SDL_Rect& getCollider();
 
 	void setPos(Pair<int> pos);
-	void setVel(Vector2<float> vel);
+	void setDirection(Vector2<float> direction);
 	void setTexture(Texture& texture);
 	void setType(ProjectileType type);
 };

@@ -5,22 +5,22 @@
 
 Projectile::Projectile()
 	: m_pos{}
-	, m_vel{}
+	, m_direction{}
+	, m_movement{}
+	, m_collider{}
 	, m_texture{}
 	, m_type{}
-	, m_collider{}
 	, m_damage{}
 {
 	m_damage = 50;
 }
 
-Projectile::~Projectile()
-{
-}
-
 void Projectile::move(double dt)
 {
-	m_pos.y += m_vel.y * dt;
+	m_movement.calculateVelocity(m_direction, PROJECTILE_SPEED);
+	m_movement.move(m_pos, dt);
+
+	//m_pos.y += m_vel.y * dt;
 }
 
 bool Projectile::checkScreenBoundary()
@@ -28,7 +28,7 @@ bool Projectile::checkScreenBoundary()
 	SDL_Rect screen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	// Checks if projectile is outside the screen
-	if (!SDL_HasIntersection(&m_collider, &screen))
+	if (!SDL_HasIntersection(&m_collider.getRect(), &screen))
 	{
 		return true;
 	}
@@ -43,10 +43,10 @@ bool Projectile::checkCollision(std::vector<Entity*>& ents, EntityType ownerType
 		if (ownerType == ents[i]->getType())
 			continue;
 
-		for ( int j = 0; j < ents[i]->getShip().getParts().size(); ++j)
+		for (int j = 0; j < ents[i]->getShip().getParts().size(); ++j)
 		{
 			// Check for collision
-			if (SDL_HasIntersection(&m_collider, &ents[i]->getShip().getParts()[j].getCollider().getRect()))
+			if (m_collider.intersects(ents[i]->getShip().getParts()[j].getCollider()))
 			{
 				if (!ents[i]->isDead())
 				{
@@ -66,35 +66,28 @@ bool Projectile::checkCollision(std::vector<Entity*>& ents, EntityType ownerType
 	return false;
 }
 
-void Projectile::updateCollider()
+void Projectile::createCollider()
 {
-	switch(m_type)
+	switch (m_type)
 	{
 		case LEFT_PROJECTILE:
-			m_collider.x = m_pos.x + gLeftProjectileHitBox.x;
-			m_collider.y = m_pos.y + gLeftProjectileHitBox.y;
-			m_collider.w = gLeftProjectileHitBox.w;
-			m_collider.h = gLeftProjectileHitBox.h;
+			m_collider = { gLeftProjectileHitBox };
 			break;
 
 		case RIGHT_PROJECTILE:
-			m_collider.x = m_pos.x + gRightProjectileHitBox.x;
-			m_collider.y = m_pos.y + gRightProjectileHitBox.y;
-			m_collider.w = gRightProjectileHitBox.w;
-			m_collider.h = gRightProjectileHitBox.h;
+			m_collider = { gRightProjectileHitBox };
 			break;
 	}
 }
 
-void Projectile::calculateVelocity(Vector2<float> direction, int speed)
+void Projectile::updateCollider()
 {
-	m_vel.x = direction.x * speed;
-	m_vel.y = direction.y * speed;
+	m_collider.setColliders(m_pos, 0.0);
 }
 
 void Projectile::render()
 {
-	switch(m_type)
+	switch (m_type)
 	{
 		case LEFT_PROJECTILE:
 			gProjectileTexture.render(m_pos.x, m_pos.y, &gRedProjectileClip, gRedProjectileClip.w, gRedProjectileClip.h, 90);
@@ -111,16 +104,12 @@ void Projectile::render()
 	#endif
 }
 
-void Projectile::drawCollision()
-{
-	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
-	SDL_RenderDrawRect(gWindow.getRenderer(), &m_collider);
-}
-
 void Projectile::debug()
 {
+	const SDL_Rect& rect = m_collider.getRect();
+
 	std::stringstream pos;
-	pos.str(std::to_string(m_collider.x) + ',' + std::to_string(m_collider.y));
+	pos.str(std::to_string(rect.x) + ',' + std::to_string(rect.y));
 
 	Texture projectilePos{};
 	projectilePos.loadFromRenderedText(pos.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF));
@@ -130,43 +119,28 @@ void Projectile::debug()
 	switch (m_type)
 	{
 		case LEFT_PROJECTILE:
-			if(m_vel.y < 0)
-				projectilePos.render(m_collider.x - projectilePos.getWidth() - 1, m_collider.y - projectilePos.getHeight());
+			if (m_movement.getVel().y < 0)
+				projectilePos.render(rect.x - projectilePos.getWidth() - 1, rect.y - projectilePos.getHeight());
 
-			else if(m_vel.y > 0)
-				projectilePos.render(m_collider.x + m_collider.w, m_collider.y - projectilePos.getHeight());
+			else if (m_movement.getVel().y > 0)
+				projectilePos.render(rect.x + rect.w, rect.y - projectilePos.getHeight());
 			break;
 
 		case RIGHT_PROJECTILE:
-			if (m_vel.y < 0)
-				projectilePos.render(m_collider.x + m_collider.w, m_collider.y - projectilePos.getHeight());
+			if (m_movement.getVel().y < 0)
+				projectilePos.render(rect.x + rect.w, rect.y - projectilePos.getHeight());
 
-			else if (m_vel.y > 0)
-				projectilePos.render(m_collider.x - projectilePos.getWidth() - 1, m_collider.y - projectilePos.getHeight());
+			else if (m_movement.getVel().y > 0)
+				projectilePos.render(rect.x - projectilePos.getWidth() - 1, rect.y - projectilePos.getHeight());
 			break;
 	}
 
-	drawCollision();
+	m_collider.drawCollider();
 }
 
-int Projectile::getPosX() const
+Vector2<float> Projectile::getPos() const
 {
-	return m_pos.x;
-}
-
-int Projectile::getPosY() const
-{
-	return m_pos.y;
-}
-
-int Projectile::getVelX() const
-{
-	return m_vel.x;
-}
-
-int Projectile::getVelY() const
-{
-	return m_vel.y;
+	return m_pos;
 }
 
 Texture& Projectile::getTexture()
@@ -179,21 +153,16 @@ ProjectileType Projectile::getType()
 	return m_type;
 }
 
-SDL_Rect& Projectile::getCollider()
-{
-	return m_collider;
-}
-
 void Projectile::setPos(Pair<int> pos)
 {
 	m_pos.x = pos.x;
 	m_pos.y = pos.y;
 }
 
-void Projectile::setVel(Vector2<float> vel)
+void Projectile::setDirection(Vector2<float> direction)
 {
-	m_vel.x = vel.x;
-	m_vel.y = vel.y;
+	m_direction.x = direction.x;
+	m_direction.y = direction.y;
 }
 
 void Projectile::setTexture(Texture& texture)
