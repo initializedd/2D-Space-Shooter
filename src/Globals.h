@@ -9,9 +9,12 @@
 #include "Wave.h"
 #include "Texture.h"
 #include "Sound.h"
+#include "PickUp.h"
 #include "Constants.h"
 #include <SDL_ttf.h>
 #include <vector>
+
+inline std::vector<std::unique_ptr<PickUp>>		gPickUp{};
 
 inline Texture					gShipsSprite{};
 

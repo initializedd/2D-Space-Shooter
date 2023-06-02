@@ -19,6 +19,7 @@ private:
 	int				m_value;
 
 public:
+	Ability() = default;
 	Ability(AbilityType type);
 
 	void createAbility();
