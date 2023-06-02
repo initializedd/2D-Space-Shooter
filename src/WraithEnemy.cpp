@@ -16,45 +16,26 @@ WraithEnemy::WraithEnemy(int x, int y)
 	else
 		m_direction.y = 1;
 
-	calculateVelocity(m_direction, ENEMY_SPEED);
+	//calculateVelocity(m_direction, ENEMY_SPEED);
 }
 
 void WraithEnemy::move(double dt)
 {
-	// Update X position based on its X velocity
-	m_pos.x += m_vel.x * dt;
+	m_movement.calculateVelocity(m_direction, m_speed);
+
+	m_movement.move(m_pos, dt);
 	setColliders();
 
-	// Check if outside screen boundary X
 	checkScreenBoundaryX();
-
-	// Check for collision on X axis
-	if (checkCollisionPosX(gEnts))
-	{
-		setColliders();
-	}
-
-	// Update Y position based on its Y velocity
-	m_pos.y += m_vel.y * dt;
-	setColliders();
-
-	// Check if outside screen boundary Y
 	checkScreenBoundaryY();
-
-	// Check for collision on Y axis
-	if (checkCollisionPosY(gEnts))
-	{
-		setColliders();
-	}
-	
-	calculateVelocity(m_direction, ENEMY_SPEED);
+	checkCollision(gEnts);
 }
 
 void WraithEnemy::checkScreenBoundaryX()
 {
 	for (int i = 0; i < m_ship.getParts().size(); ++i)
 	{
-		SDL_Rect& collider = m_ship.getParts()[i].getCollider().getRect();
+		const SDL_Rect& collider = m_ship.getParts()[i].getCollider().getRect();
 
 		// Check if outside of left screen boundary
 		if (collider.x < 0.f)
@@ -83,7 +64,7 @@ void WraithEnemy::checkScreenBoundaryY()
 {
 	for (int i = 0; i < m_ship.getParts().size(); ++i)
 	{
-		SDL_Rect& collider = m_ship.getParts()[i].getCollider().getRect();
+		const SDL_Rect& collider = m_ship.getParts()[i].getCollider().getRect();
 
 		// Check if outside of top screen boundary
 		if (collider.y < 0.f)
