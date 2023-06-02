@@ -2,6 +2,7 @@
 #define PICK_UP_H
 
 #include "Ability.h"
+#include "Movement.h"
 #include "Collider.h"
 #include "Pair.h"
 
@@ -28,17 +29,20 @@ class PickUp
 {
 private:
 	Vector2<float>	m_pos;
-	Vector2<float>	m_vel;
 	Ability			m_ability;
 	Item			m_item;
+	Movement		m_movement;
+	Vector2<float>	m_direction;
 
 public:
 	PickUp();
 
 	void createItem(ItemType type);
 
-	void move();
+	void update(double dt);
+	void render();
 
+	Ability& getAbility();
 	Item& getItem();
 };
 
