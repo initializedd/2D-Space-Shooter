@@ -29,12 +29,12 @@ void Wave::createWave()
 		++m_currentWave;
 
 		if (m_currentWave <= 1)
-			m_numOfEnemies = 3;
+			m_numOfEnemies = 2;
 
 		if (m_currentWave >= 5)
 			m_numOfEnemies = 6;
 
-		for (int i = 0; i < 1; ++i)
+		for (int i = 0; i < m_numOfEnemies; ++i)
 		{
 			Enemy* enemy = new Enemy(m_enemyPositions[i].x + 80, m_enemyPositions[i].y + 50);
 
@@ -45,14 +45,14 @@ void Wave::createWave()
 
 			gEnts.push_back(enemy);
 
-			/*WraithEnemy* wraithEnemy = new WraithEnemy(m_enemyPositions[i].x, m_enemyPositions[i].y);
+			WraithEnemy* wraithEnemy = new WraithEnemy(m_enemyPositions[i].x, m_enemyPositions[i].y);
 
 			wraithEnemy->getShip().getTexture().setTexture(gShipsSprite);
 			wraithEnemy->getShip().createShip(gShipsSprite.getIndex());
 
 			wraithEnemy->setColliders();
 
-			gEnts.push_back(wraithEnemy);*/
+			gEnts.push_back(wraithEnemy);
 		}
 	}
 }
