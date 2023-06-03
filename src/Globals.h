@@ -16,7 +16,7 @@
 
 inline std::vector<std::unique_ptr<PickUp>>		gPickUp{};
 
-inline Texture					gShipsSprite{};
+inline std::shared_ptr<Texture>					gShipsSprite = std::make_shared<Texture>();
 
 // Window
 inline Window					gWindow{};

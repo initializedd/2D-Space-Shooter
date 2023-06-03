@@ -12,10 +12,10 @@ CustomiseMenu::CustomiseMenu()
 
 void CustomiseMenu::createButtons()
 {
-	m_buttons = { Button(BACK,		"Back",		gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(0, 0, 200, 50)),
-				  Button(LEFT,		"Left",		gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(0, (SCREEN_HEIGHT / 2) - 25, 200, 50)),
-				  Button(RIGHT,		"Right",	gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(440, (SCREEN_HEIGHT / 2) - 25, 200, 50)),
-				  Button(SELECT,	"Select",	gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(220, 430, 200, 50)) };
+	m_buttons.emplace_back(std::make_unique<Button>(BACK,	"Back",		gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(0, 0, 200, 50)));
+	m_buttons.emplace_back(std::make_unique<Button>(LEFT,	"Left",		gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(0, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
+	m_buttons.emplace_back(std::make_unique<Button>(LEFT,	"Left",		gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(0, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
+	m_buttons.emplace_back(std::make_unique<Button>(SELECT, "Select",	gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(220, 430, 200, 50)));
 }
 
 void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
@@ -30,33 +30,33 @@ void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 		
 		for (int i = 0; i < m_buttons.size(); ++i)
 		{
-			m_buttons[i].handleEvent(event);
+			m_buttons[i]->handleEvent(event);
 
-			if (m_buttons[i].isSelected())
+			if (m_buttons[i]->isSelected())
 			{
-				switch (m_buttons[i].getType())
+				switch (m_buttons[i]->getType())
 				{
 					case BACK:
 						gActiveMenu = gMainMenu;
 						break;
 
 					case LEFT:
-						if (gShipsSprite.getIndex() <= 0)
-							gShipsSprite.setIndex(47);
+						if (gShipsSprite->getIndex() <= 0)
+							gShipsSprite->setIndex(47);
 						else
-							gShipsSprite.setIndex(gShipsSprite.getIndex() - 1);
+							gShipsSprite->setIndex(gShipsSprite->getIndex() - 1);
 						break;
 
 					case RIGHT:
-						if (gShipsSprite.getIndex() >= 47)
-							gShipsSprite.setIndex(0);
+						if (gShipsSprite->getIndex() >= 47)
+							gShipsSprite->setIndex(0);
 						else
-							gShipsSprite.setIndex(gShipsSprite.getIndex() + 1);
+							gShipsSprite->setIndex(gShipsSprite->getIndex() + 1);
 						break;
 
 					case SELECT:
-						gPlayer->getShip().getTexture().setTexture(gShipsSprite);
-						gPlayer->getShip().createShip(gShipsSprite.getIndex());
+						gPlayer->getShip().setTexture(gShipsSprite);
+						gPlayer->getShip().createShip(gShipsSprite->getIndex());
 						break;
 				}
 			}
@@ -67,11 +67,11 @@ void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 	SDL_RenderClear(gWindow.getRenderer());
 
 	m_backgroundTexture.render(0, 0);
-	gShipsSprite.render((SCREEN_WIDTH / 2) - (gShipsSprite.getClips()[gShipsSprite.getIndex()].w / 2), (SCREEN_HEIGHT / 2) - (gShipsSprite.getClips()[gShipsSprite.getIndex()].h / 2), &gShipsSprite.getClips()[gShipsSprite.getIndex()], gShipsSprite.getClips()[gShipsSprite.getIndex()].w, gShipsSprite.getClips()[gShipsSprite.getIndex()].h);
+	gShipsSprite->render((SCREEN_WIDTH / 2) - (gShipsSprite->getClips()[gShipsSprite->getIndex()].w / 2), (SCREEN_HEIGHT / 2) - (gShipsSprite->getClips()[gShipsSprite->getIndex()].h / 2), &gShipsSprite->getClips()[gShipsSprite->getIndex()], gShipsSprite->getClips()[gShipsSprite->getIndex()].w, gShipsSprite->getClips()[gShipsSprite->getIndex()].h);
 
 	for (int i = 0; i < m_buttons.size(); ++i)
 	{
-		m_buttons[i].renderButton();
+		m_buttons[i]->renderButton();
 	}
 
 	SDL_RenderPresent(gWindow.getRenderer());

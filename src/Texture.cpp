@@ -14,69 +14,12 @@ Texture::Texture()
 {
 }
 
-Texture::Texture(const Texture& other)
-	: m_texture{ other.m_texture }
-	, m_clips{*other.m_clips}
-	, m_index{other.m_index}
-	, m_width{ other.m_width }
-	, m_height{ other.m_height }
-	, m_surfacePixels{ other.m_surfacePixels }
-{
-	if (m_texture)
-		++m_texture->count;
-}
-
-Texture::Texture(Texture&& other) noexcept
-	: m_texture{}
-{
-	swap(m_texture, other.m_texture);
-}
-
-Texture& Texture::operator=(const Texture& other)
-{
-	if (this != &other)
-	{
-		if (m_texture && --m_texture->count == 0)
-		{
-			SDL_DestroyTexture(m_texture->texture);
-			delete m_texture;
-			m_texture = nullptr;
-		}
-
-		m_texture = other.m_texture;
-		if (m_texture)
-			++m_texture->count;
-
-		for (int i = 0; i < std::size(other.m_clips); ++i)
-		{
-			m_clips[i] = other.m_clips[i];
-		}
-
-		m_index = other.m_index;
-		m_width = other.m_width;
-		m_height = other.m_height;
-	}
-
-	return *this;
-}
-
-Texture& Texture::operator=(Texture&& other) noexcept
-{
-	swap(m_texture, other.m_texture);
-
-	return *this;
-}
-
 Texture::~Texture()
 {
 	if (m_texture)
 	{
-		if (--m_texture->count == 0)
-		{
-			SDL_DestroyTexture(m_texture->texture);
-			delete m_texture;
-			m_texture = nullptr;
-		}
+		SDL_DestroyTexture(m_texture);
+		m_texture = nullptr;
 	}
 }
 
@@ -114,17 +57,10 @@ bool Texture::loadFromPixels(const bool flag, const Uint8 red, const Uint8 green
 
 	SDL_SetColorKey(m_surfacePixels, flag, SDL_MapRGBA(m_surfacePixels->format, red, green, blue, alpha));
 
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(gWindow.getRenderer(), m_surfacePixels);
-	if (!texture)
-	{
-		printf("Failed to create texture from surface, Error: %s\n", SDL_GetError());
-		return false;
-	}
-
-	m_texture = new TextureRef(texture);
+	m_texture = SDL_CreateTextureFromSurface(gWindow.getRenderer(), m_surfacePixels);
 	if (!m_texture)
 	{
-		printf("Failed to create texture ref\n");
+		printf("Failed to create texture from surface, Error: %s\n", SDL_GetError());
 		return false;
 	}
 
@@ -164,17 +100,10 @@ bool Texture::loadFromRenderedText(const char* text, TTF_Font* font, SDL_Color t
 		return false;
 	}
 
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(gWindow.getRenderer(), surface);
-	if (!texture)
-	{
-		printf("Failed to create texture from surface, Error: %s\n", SDL_GetError());
-		return false;
-	}
-
-	m_texture = new TextureRef(texture);
+	m_texture = SDL_CreateTextureFromSurface(gWindow.getRenderer(), surface);
 	if (!m_texture)
 	{
-		printf("Failed to create texture ref\n");
+		printf("Failed to create texture from surface, Error: %s\n", SDL_GetError());
 		return false;
 	}
 
@@ -196,7 +125,7 @@ void Texture::render(int x, int y, SDL_Rect* clip, int scaleW, int scaleH, doubl
 		render_quad.h = scaleH;
 	}
 
-	SDL_RenderCopyEx(gWindow.getRenderer(), m_texture->texture, clip, &render_quad, angle, centre, flip);
+	SDL_RenderCopyEx(gWindow.getRenderer(), m_texture, clip, &render_quad, angle, centre, flip);
 }
 
 void Texture::setClipsFromSprite(int width, int height, int padding, int elements)
@@ -223,25 +152,14 @@ void Texture::free()
 {
 	if (m_texture)
 	{
-		if (--m_texture->count == 0)
-		{
-			SDL_DestroyTexture(m_texture->texture);
-			delete m_texture;
-			m_texture = nullptr;
-		}
+		SDL_DestroyTexture(m_texture);
+		m_texture = nullptr;
 	}
-}
-
-void Texture::swap(TextureRef*& first, TextureRef*& second) noexcept
-{
-	TextureRef* temp = first;
-	first = second;
-	second = temp;
 }
 
 SDL_Texture* Texture::getTexture()
 {
-	return m_texture->texture;
+	return m_texture;
 }
 
 SDL_Rect* Texture::getClips()
