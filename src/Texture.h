@@ -4,22 +4,10 @@
 #include <SDL_render.h>
 #include <SDL_ttf.h>
 
-struct TextureRef
-{
-	SDL_Texture*				texture;
-	int							count;
-
-	TextureRef(SDL_Texture* tex)
-		: texture(tex)
-		, count(1) 
-	{
-	}
-};
-
 class Texture
 {
 private:
-	TextureRef*					m_texture;
+	SDL_Texture*				m_texture;
 	SDL_Rect					m_clips[48];
 	int							m_index;
 	int							m_width;
@@ -28,10 +16,6 @@ private:
 
 public:
 	Texture();
-	Texture(const Texture& other);
-	Texture(Texture&& other) noexcept;
-	Texture& operator=(const Texture& other);
-	Texture& operator=(Texture&& other) noexcept;
 	~Texture();
 
 	bool loadPixelsFromFile(const char* path);
@@ -43,7 +27,6 @@ public:
 	void setClipsFromSprite(int width, int height, int padding, int elements);
 	void scale(int width, int height);
 	void free();
-	void swap(TextureRef*& first, TextureRef*& second) noexcept;
 
 	SDL_Texture* getTexture();
 	SDL_Rect* getClips();

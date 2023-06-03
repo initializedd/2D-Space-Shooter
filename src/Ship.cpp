@@ -21,12 +21,12 @@ void Ship::createShip(int index)
 	{
 		case 0:
 		case 1:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(52, 0, 24, 33)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(42, 32, 4, 20)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(82, 32, 4, 20)),
-						ShipPart(WEAPON,			SDL_Rect(25, 32, 78, 21)),
-						ShipPart(BODY,				SDL_Rect(0, 52, 128, 89)),
-						ShipPart(TAIL,				SDL_Rect(57, 140, 14, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(52 * 0.5, 0 * 0.5, 24 * 0.5, 33 * 0.5)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(42 * 0.5, 32 * 0.5, 4 * 0.5, 20 * 0.5)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(82 * 0.5, 32 * 0.5, 4 * 0.5, 20 * 0.5)),
+						ShipPart(WEAPON,			SDL_Rect(25 * 0.5, 32 * 0.5, 78 * 0.5, 21 * 0.5)),
+						ShipPart(BODY,				SDL_Rect(0 * 0.5, 52 * 0.5, 128 * 0.5, 89 * 0.5)),
+						ShipPart(TAIL,				SDL_Rect(57 * 0.5, 140 * 0.5, 14 * 0.5, 20 * 0.5)) };
 			break;
 
 		case 2:
@@ -342,7 +342,7 @@ void Ship::createShip(int index)
 
 	for (int i = 0; i < m_parts.size(); ++i)
 	{
-		SDL_Rect& collider{ m_parts[i].getCollider().getRect() };
+		const SDL_Rect& collider{ m_parts[i].getCollider().getRect() };
 		m_parts[i].setOffset(Pair<int>(collider.x, collider.y));
 	}
 }
@@ -354,10 +354,15 @@ std::vector<ShipPart>& Ship::getParts()
 
 Texture& Ship::getTexture()
 {
-	return m_texture;
+	return *m_texture;
 }
 
 int Ship::getIndex()
 {
 	return m_index;
+}
+
+void Ship::setTexture(std::shared_ptr<Texture>& texture)
+{
+	m_texture = texture;
 }

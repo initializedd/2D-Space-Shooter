@@ -52,10 +52,10 @@ bool init()
 
 bool loadMedia()
 {
-	if (!gShipsSprite.loadFromFile("img/ships_sprite.png", false))
+	if (!gShipsSprite->loadFromFile("img/ships_sprite.png", false))
 		return false;
 
-	gShipsSprite.setClipsFromSprite(128, 160, 40, 48);
+	gShipsSprite->setClipsFromSprite(128, 160, 40, 48);
 
 	if (!gBackgroundTexture.loadFromFile("img/space_bg.png", false))
 		return false;

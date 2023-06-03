@@ -38,8 +38,8 @@ void Wave::createWave()
 		{
 			Enemy* enemy = new Enemy(m_enemyPositions[i].x + 80, m_enemyPositions[i].y + 50);
 
-			enemy->getShip().getTexture().setTexture(gShipsSprite);
-			enemy->getShip().createShip(gShipsSprite.getIndex());
+			enemy->getShip().setTexture(gShipsSprite);
+			enemy->getShip().createShip(gShipsSprite->getIndex());
 
 			enemy->setColliders();
 
@@ -47,8 +47,8 @@ void Wave::createWave()
 
 			WraithEnemy* wraithEnemy = new WraithEnemy(m_enemyPositions[i].x, m_enemyPositions[i].y);
 
-			wraithEnemy->getShip().getTexture().setTexture(gShipsSprite);
-			wraithEnemy->getShip().createShip(gShipsSprite.getIndex());
+			wraithEnemy->getShip().setTexture(gShipsSprite);
+			wraithEnemy->getShip().createShip(gShipsSprite->getIndex());
 
 			wraithEnemy->setColliders();
 
