@@ -1,13 +1,10 @@
 #include "Texture.h"
-#include "Globals.h"
-#include "Constants.h"
+#include "Common.h"
 #include <SDL_image.h>
 #include <cstdio>
 
 Texture::Texture()
 	: m_texture{}
-	, m_clips{}
-	, m_index{}
 	, m_width{}
 	, m_height{}
 	, m_surfacePixels{}
@@ -23,9 +20,9 @@ Texture::~Texture()
 	}
 }
 
-bool Texture::loadPixelsFromFile(const char* path)
+bool Texture::loadPixelsFromFile(const std::string& path)
 {
-	SDL_Surface* surface{ IMG_Load(path) };
+	SDL_Surface* surface{ IMG_Load(path.c_str()) };
 	if (!surface)
 	{
 		printf("Failed to load surface, Error: %s\n", IMG_GetError());
@@ -57,7 +54,7 @@ bool Texture::loadFromPixels(const bool flag, const Uint8 red, const Uint8 green
 
 	SDL_SetColorKey(m_surfacePixels, flag, SDL_MapRGBA(m_surfacePixels->format, red, green, blue, alpha));
 
-	m_texture = SDL_CreateTextureFromSurface(gWindow.getRenderer(), m_surfacePixels);
+	m_texture = SDL_CreateTextureFromSurface(resourceManager.getRenderSystem().getWindow().getRenderer(), m_surfacePixels);
 	if (!m_texture)
 	{
 		printf("Failed to create texture from surface, Error: %s\n", SDL_GetError());
@@ -72,11 +69,11 @@ bool Texture::loadFromPixels(const bool flag, const Uint8 red, const Uint8 green
 	return true;
 }
 
-bool Texture::loadFromFile(const char* path, const bool flag, const Uint8 red, const Uint8 green, const Uint8 blue, const Uint8 alpha)
+bool Texture::loadFromFile(const std::string& path, const bool flag, const Uint8 red, const Uint8 green, const Uint8 blue, const Uint8 alpha)
 {
 	if (!loadPixelsFromFile(path))
 	{
-		printf("Failed to load pixels from file path: %s\n", path);
+		printf("Failed to load pixels from file path: %s\n", path.c_str());
 		return false;
 	}
 
@@ -89,18 +86,18 @@ bool Texture::loadFromFile(const char* path, const bool flag, const Uint8 red, c
 	return true;
 }
 
-bool Texture::loadFromRenderedText(const char* text, TTF_Font* font, SDL_Color textColor)
+bool Texture::loadFromRenderedText(const std::string& text, TTF_Font* font, SDL_Color textColor)
 {
 	free();
 
-	SDL_Surface* surface = TTF_RenderText_Solid(font, text, textColor);
+	SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), textColor);
 	if (!surface)
 	{
 		printf("Failed to render text solid to surface, Error: %s\n", TTF_GetError());
 		return false;
 	}
 
-	m_texture = SDL_CreateTextureFromSurface(gWindow.getRenderer(), surface);
+	m_texture = SDL_CreateTextureFromSurface(resourceManager.getRenderSystem().getWindow().getRenderer(), surface);
 	if (!m_texture)
 	{
 		printf("Failed to create texture from surface, Error: %s\n", SDL_GetError());
@@ -115,31 +112,11 @@ bool Texture::loadFromRenderedText(const char* text, TTF_Font* font, SDL_Color t
 	return true;
 }
 
-void Texture::render(int x, int y, SDL_Rect* clip, int scaleW, int scaleH, double angle, SDL_Point* centre, SDL_RendererFlip flip)
+void Texture::render(int x, int y, int w, int h, SDL_Rect* srcrect, double angle, SDL_Point* centre, SDL_RendererFlip flip)
 {
-	SDL_Rect render_quad{ x, y, m_width, m_height };
+	SDL_Rect dstrect{ x, y, w, h};
 
-	if (clip)
-	{
-		render_quad.w = scaleW;
-		render_quad.h = scaleH;
-	}
-
-	SDL_RenderCopyEx(gWindow.getRenderer(), m_texture, clip, &render_quad, angle, centre, flip);
-}
-
-void Texture::setClipsFromSprite(int width, int height, int padding, int elements)
-{
-	for (int i = 0; i < elements; ++i)
-	{
-		m_clips[i].x = i * (width + padding) + (padding / 2);
-		m_clips[i].y = padding / 2;
-		m_clips[i].w = width;
-		m_clips[i].h = height;
-	}
-
-	m_width = width;
-	m_height = height;
+	SDL_RenderCopyEx(resourceManager.getRenderSystem().getWindow().getRenderer(), m_texture, srcrect, &dstrect, angle, centre, flip);
 }
 
 void Texture::scale(int width, int height)
@@ -162,16 +139,6 @@ SDL_Texture* Texture::getTexture()
 	return m_texture;
 }
 
-SDL_Rect* Texture::getClips()
-{
-	return m_clips;
-}
-
-int Texture::getIndex()
-{
-	return m_index;
-}
-
 int Texture::getWidth()
 {
 	return m_width;
@@ -185,9 +152,4 @@ int Texture::getHeight()
 void Texture::setTexture(Texture& texture)
 {
 	*this = texture;
-}
-
-void Texture::setIndex(int index)
-{
-	m_index = index;
 }
