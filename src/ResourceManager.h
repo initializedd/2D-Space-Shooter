@@ -5,34 +5,32 @@
 #include "TextureSystem.h"
 #include "SoundSystem.h"
 #include "TextSystem.h"
+#include <flatbuffers/flatbuffers.h>
+#include "resourcedb_generated.h"
 #include <string>
-
-enum ResourceType
-{
-	TEXTURE,
-	SOUND,
-	TEXT
-};
 
 class ResourceManager
 {
 private:
-	RenderSystem		m_renderSystem;
-	TextureSystem		m_textureSystem;
-	SoundSystem			m_soundSystem;
-	TextSystem			m_textSystem;
+	const ResourceDB::Root*		m_root;
 
-	void*				m_dataBuffer;
+	RenderSystem				m_renderSystem;
+	TextureSystem				m_textureSystem;
+	SoundSystem					m_soundSystem;
+	TextSystem					m_textSystem;
+
+	void*						m_dataBuffer;
 
 public:
 	ResourceManager();
-
-	bool init();
-	void free();
-
+	~ResourceManager();
+	
 	bool loadDatabase(const std::string& path);
-	void aquire();
 
+	RenderSystem& getRenderSystem();
+	TextureSystem& getTextureSystem();
+	SoundSystem& getSoundSystem();
+	TextSystem& getTextSystem();
 };
 
 #endif // !RESOURCE_MANAGER_H
