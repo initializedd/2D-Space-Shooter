@@ -5,6 +5,12 @@
 RenderSystem::RenderSystem()
 	: m_window{}
 {
+	init();
+}
+
+RenderSystem::~RenderSystem()
+{
+	SDL_Quit();
 }
 
 bool RenderSystem::init()
@@ -24,7 +30,7 @@ bool RenderSystem::init()
 	return true;
 }
 
-void RenderSystem::free()
+Window& RenderSystem::getWindow()
 {
-	SDL_Quit();
+	return m_window;
 }

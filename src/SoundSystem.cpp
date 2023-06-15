@@ -4,7 +4,17 @@
 #include <cstdio>
 
 SoundSystem::SoundSystem()
+	: m_indexByName{}
+	, m_sounds{}
 {
+	init();
+}
+
+SoundSystem::~SoundSystem()
+{
+	m_sounds.clear();
+
+	Mix_Quit();
 }
 
 bool SoundSystem::init()
@@ -22,9 +32,45 @@ bool SoundSystem::init()
 	}
 
 	Mix_AllocateChannels(20);
+
+	return true;
 }
 
-void SoundSystem::free()
+bool SoundSystem::loadSound(const std::string& name, const std::string& path)
 {
-	Mix_Quit();
+	static uint32_t index = 0;
+
+	if (m_indexByName.contains(name))
+		return false; // already loaded
+
+	std::shared_ptr<Sound> sound = std::make_shared<Sound>();
+
+	if (!sound->loadChunk(path))
+		return false;
+
+	m_sounds.push_back(sound);
+
+	// Add the sounds name and index so we can search for it later
+	m_indexByName.insert(std::pair(name, index));
+	++index;
+
+	return true;
+}
+
+std::shared_ptr<Sound> SoundSystem::findSound(const std::string& name)
+{
+	auto it = m_indexByName.find(name);
+
+	if (it == m_indexByName.end())
+	{
+		printf("%s does not exist\n", name.c_str());
+		return nullptr;
+	}
+
+	return m_sounds[it->second];
+}
+
+std::vector<std::shared_ptr<Sound>>& SoundSystem::getSounds()
+{
+	return m_sounds;
 }
