@@ -6,13 +6,15 @@
 class RenderSystem
 {
 private:
-	Window m_window;
+	Window		m_window;
 
 public:
 	RenderSystem();
+	~RenderSystem();
 
 	bool init();
-	void free();
+
+	Window& getWindow();
 };
 
 #endif // !RENDER_SYSTEM_H
