@@ -6,6 +6,7 @@
 #include <SDL_ttf.h>
 #include <SDL_events.h>
 #include <string>
+#include <memory>
 
 enum ButtonTypes
 {
@@ -24,18 +25,14 @@ enum ButtonTypes
 class Button
 {
 private:
-	ButtonTypes				m_type;
-	std::string				m_text;
-	TTF_Font*				m_font;
-	SDL_Color				m_color;
-	SDL_Rect				m_rect;
-	Texture					m_texture;
-	bool					m_selected;
-	bool					m_down;
-	bool					m_hover;
+	ButtonTypes					m_type;
+	SDL_Rect					m_rect;
+	bool						m_selected;
+	bool						m_down;
+	bool						m_hover;
 
 public:
-	Button(ButtonTypes type, const std::string& text, TTF_Font* font, SDL_Color color, SDL_Rect rect);
+	Button(ButtonTypes type, SDL_Rect rect);
 
 	void handleEvent(SDL_Event& event);
 	void renderButton();

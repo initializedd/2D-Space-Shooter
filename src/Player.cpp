@@ -1,12 +1,13 @@
 #include "Player.h"
-#include "Globals.h"
-#include "Constants.h"
+#include "Common.h"
 
 Player::Player(int x, int y)
 	: m_ability{}
 	, m_abilityFrames{}
 	, m_currentAbilityClip{}
 	, m_shieldActivated{}
+	, m_hasAbility{}
+	, m_ui{}
 	, m_flameFrames{}
 	, m_healthTexture{}
 	, m_healthText{}
@@ -14,8 +15,8 @@ Player::Player(int x, int y)
 	, m_shieldText{}
 {
 	m_type = PLAYER;
-	m_weapon = { m_type, Vector2<float>(0, -1)};
-	
+	m_weapon = { m_type, Vector2<float>(0, -1) };
+
 	m_pos.x = x;
 	m_pos.y = y;
 
@@ -81,19 +82,19 @@ void Player::handleEvent(SDL_Event& event)
 void Player::update(int i, double dt)
 {
 	getWeapon().updateProjectiles(dt);
-	
+
 	if (!isDead())
 	{
 		move(dt);
 		handlePickUpCollision(gPickUp);
 		exhaustAnimation();
-		shieldAnimation();
+		healthAnimation();
+		//shieldAnimation();
 	}
 	else
 	{
 		if (deathAnimation() && m_weapon.getProjectiles().empty())
 		{
-			delete this;
 			gEnts.erase(gEnts.begin() + i);
 		}
 	}
@@ -103,6 +104,11 @@ void Player::render()
 {
 	if (!isDead())
 	{
+		m_ui.displayHealth(m_health);
+		m_ui.displayShield(m_shield);
+
+		std::shared_ptr<Sprite> fireSprite = resourceManager.getTextureSystem().findSprite("sprite_fire");
+
 		// Exhaust Textures
 		for (int i = 0; i < m_ship.getParts().size(); ++i)
 		{
@@ -111,26 +117,23 @@ void Player::render()
 
 			if (part.getPartType() == LEFT_EXHAUST || part.getPartType() == RIGHT_EXHAUST)
 			{
-				gExhaustParticle.getTexture().render(collider.x, collider.y, m_currentExhaustClip, collider.w, collider.h, 180);
+				fireSprite->render(collider.x, collider.y, collider.w, collider.h, m_currentExhaustClip, 180);
 			}
 			else if (part.getPartType() == EXHAUST)
 			{
-				gExhaustParticle.getTexture().render(collider.x, collider.y, m_currentExhaustClip, collider.w, collider.h, 180);
-				gExhaustParticle.getTexture().render(collider.x, collider.y, m_currentExhaustClip, collider.w, collider.h, 180, nullptr, SDL_FLIP_HORIZONTAL);
+				fireSprite->render(collider.x, collider.y, collider.w, collider.h, m_currentExhaustClip, 180);
+				fireSprite->render(collider.x, collider.y, collider.w, collider.h, m_currentExhaustClip, 180,
+					nullptr, SDL_FLIP_HORIZONTAL);
 			}
 		}
 
 		// Ship Texture
-		m_ship.getTexture().render(m_pos.x, m_pos.y, &m_ship.getTexture().getClips()[m_ship.getTexture().getIndex()], 64, 80);
+		std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
 
-		if (displayHealth())
-			m_healthTexture.render(0, SCREEN_HEIGHT - m_shieldTexture.getHeight());
+		ship->render(m_pos.x, m_pos.y, 128, 160, &ship->getClips()[m_ship.getIndex()]);
 
-		if (displayShield())
-			m_shieldTexture.render(200, SCREEN_HEIGHT - m_shieldTexture.getHeight());
-
-		if (m_shieldActivated)
-			m_ability.getParticle().getTexture().render(m_pos.x - 32, m_pos.y - 40, m_currentAbilityClip, 128, 160);
+		renderHealthAnimation();
+		renderShieldAnimation();
 	}
 
 	// Projejctiles
@@ -142,7 +145,7 @@ void Player::render()
 	}
 }
 
-void Player::handlePickUpCollision(std::vector<std::unique_ptr<PickUp>>& pickUp)
+void Player::handlePickUpCollision(std::vector<PickUp>& pickUp)
 {
 	if (!pickUp.empty())
 	{
@@ -150,70 +153,112 @@ void Player::handlePickUpCollision(std::vector<std::unique_ptr<PickUp>>& pickUp)
 		{
 			for (int j = 0; j < gPickUp.size(); ++j)
 			{
-				if (m_ship.getParts()[i].getCollider().intersects(pickUp[j]->getItem().collider))
+				if (m_ship.getParts()[i].getCollider().intersects(pickUp[j].getItem().collider))
 				{
-					m_ability = pickUp[j]->getAbility();
-					createShield();
+					m_ability = pickUp[j].getAbility();
+					m_hasAbility = true;
+					createHealth();
 					pickUp.erase(pickUp.begin() + j);
-					return;
+					continue;
 				}
+
+				if (pickUp[j].getItem().collider.getRect().y > SCREEN_HEIGHT)
+					pickUp.erase(pickUp.begin() + j);
 			}
 		}
 	}
 }
 
-bool Player::displayHealth()
+void Player::healthAnimation()
 {
-	if (m_health > 0)
-		m_healthText.str("Health: " + std::to_string(m_health));
-	else
-		m_healthText.str("Dead");
-
-	if (!m_healthTexture.loadFromRenderedText(m_healthText.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
-		return false;
-
-	return true;
-}
-
-bool Player::displayShield()
-{
-	if (m_shield > 0)
+	if (m_hasAbility)
 	{
-		m_shieldText.str("Shield: " + std::to_string(m_shield));
-		m_shieldActivated = true;
+		if (m_abilityFrames / 2 <= 16)
+		{
+			std::shared_ptr<Sprite> healthSprite = resourceManager.getTextureSystem().findSprite("sprite_health_regen");
+			m_currentAbilityClip = &healthSprite->getClips()[m_abilityFrames / 2];
+			++m_abilityFrames;
+		}
 	}
-	else
-	{
-		m_shieldText.str("Shield: " + std::to_string(0));
-		m_shieldActivated = false;
-	}
-
-	if (!m_shieldTexture.loadFromRenderedText(m_shieldText.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
-		return false;
-
-		return true;
 }
 
 void Player::shieldAnimation()
 {
-	m_currentAbilityClip = &m_ability.getParticle().getTexture().getClips()[m_abilityFrames / 3];
-
-	++m_abilityFrames;
-	if (m_abilityFrames / 3 >= 11)
+	if (m_shield > 0)
 	{
-		m_abilityFrames = 0;
+		std::shared_ptr<Sprite> shieldSprite = resourceManager.getTextureSystem().findSprite("sprite_blue_shield");
+		m_currentAbilityClip = &shieldSprite->getClips()[m_abilityFrames / 3];
+
+		++m_abilityFrames;
+		if (m_abilityFrames / 3 >= 11)
+		{
+			m_abilityFrames = 0;
+		}
 	}
+}
+
+bool Player::renderHealthAnimation()
+{
+	if (!m_hasAbility)
+		return false;
+
+	std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
+	std::shared_ptr<Sprite> healthSprite = resourceManager.getTextureSystem().findSprite("sprite_health_regen");
+
+	int abilityPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 2) - m_currentAbilityClip->w / 2;
+	int abilityPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 2) - m_currentAbilityClip->h / 2;
+
+	healthSprite->render(abilityPosX, abilityPosY, m_currentAbilityClip->w, m_currentAbilityClip->h, m_currentAbilityClip);
+
+	return true;
+}
+
+bool Player::renderShieldAnimation()
+{
+	if (!m_shieldActivated)
+		return false;
+
+	std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
+	std::shared_ptr<Sprite> shieldSprite = resourceManager.getTextureSystem().findSprite("sprite_blue_shield");
+
+	int abilityPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 2) - m_currentAbilityClip->w / 2;
+	int abilityPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 2) - m_currentAbilityClip->h / 2;
+
+	shieldSprite->render(abilityPosX, abilityPosY, m_currentAbilityClip->w, m_currentAbilityClip->h, m_currentAbilityClip);
+
+	return true;
+}
+
+void Player::createHealth()
+{
+	m_ability.createAbility();
+	int bonusHealth = m_ability.getValue();
+
+	if (bonusHealth + m_health <= 1000)
+		m_health += bonusHealth;
+	else
+		m_health = 1000;
 }
 
 void Player::createShield()
 {
 	m_ability.createAbility();
-	m_shield = m_ability.getValue();
+	int bonusShield = m_ability.getValue();
+
+	if (bonusShield + m_shield <= 200)
+		m_shield += bonusShield;
+	else
+		m_shield = 200;
 }
 
 Ability& Player::getAbility()
 {
 	return m_ability;
+}
+
+UI& Player::getUI()
+{
+	return m_ui;
 }
 
 void Player::setShield(int shield)

@@ -1,6 +1,6 @@
 #include "Entity.h"
-#include "Globals.h"
-#include "Constants.h"
+#include "Common.h"
+#include "Game.h"
 
 Entity::Entity()
 	: m_ship{}
@@ -122,7 +122,8 @@ void Entity::debug()
 	{
 		for (int i = 0; i < m_ship.getParts().size(); ++i)
 		{
-			SDL_RenderDrawRect(gWindow.getRenderer(), &m_ship.getParts()[i].getCollider().getRect());
+			SDL_SetRenderDrawColor(resourceManager.getRenderSystem().getWindow().getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
+			SDL_RenderDrawRect(resourceManager.getRenderSystem().getWindow().getRenderer(), &m_ship.getParts()[i].getCollider().getRect());
 		}
 	}
 }
@@ -132,7 +133,7 @@ bool Entity::deathAnimation()
 {
 	if (m_explosionFrames / 2 <= 12)
 	{
-		m_currentDeathClip = &gExplosionParticle.getClips()[m_explosionFrames / 2];
+		m_currentDeathClip = &resourceManager.getTextureSystem().findSprite("sprite_explosion")->getClips()[m_explosionFrames / 2];
 		++m_explosionFrames;
 
 		return false;
@@ -143,7 +144,7 @@ bool Entity::deathAnimation()
 
 void Entity::exhaustAnimation()
 {
-	m_currentExhaustClip = &gExhaustParticle.getClips()[m_flameFrames / 3];
+	m_currentExhaustClip = &resourceManager.getTextureSystem().findSprite("sprite_fire")->getClips()[m_flameFrames / 3];
 
 	++m_flameFrames;
 	if (m_flameFrames / 3 >= 6)
@@ -154,10 +155,13 @@ void Entity::exhaustAnimation()
 
 void Entity::renderDeathAnimation()
 {
-	int explosionPosX = (m_pos.x + m_ship.getTexture().getWidth() / 2) - gExplosionParticle.getTexture().getWidth() / 2;
-	int explosionPosY = (m_pos.y + m_ship.getTexture().getHeight() / 2) - gExplosionParticle.getTexture().getHeight() / 2;
+	std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
+	std::shared_ptr<Sprite> explosion = resourceManager.getTextureSystem().findSprite("sprite_explosion");
 
-	gExplosionParticle.getTexture().render(explosionPosX, explosionPosY, m_currentDeathClip, gExplosionParticle.getTexture().getWidth(), gExplosionParticle.getTexture().getHeight());
+	int explosionPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 2) - m_currentDeathClip->w / 2;
+	int explosionPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 2) - m_currentDeathClip->h / 2;
+
+	explosion->render(explosionPosX, explosionPosY, m_currentDeathClip->w, m_currentDeathClip->h, m_currentDeathClip);
 }
 
 void Entity::reduceHealth(int damage)
@@ -170,6 +174,7 @@ void Entity::reduceHealth(int damage)
 		{
 			int excessDamage = std::abs(m_shield);
 			m_health -= excessDamage;
+			m_shield = 0;
 		}
 	}
 	else

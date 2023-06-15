@@ -1,9 +1,11 @@
 #include "Window.h"
-#include "Constants.h"
+#include "Common.h"
+#include <SDL_image.h>
 #include <cstdio>
 
 Window::Window()
 	: m_window{}
+	, m_icon{}
 	, m_renderer{}
 	, m_width{}
 	, m_height{}
@@ -17,6 +19,12 @@ Window::~Window()
 	{
 		SDL_DestroyRenderer(m_renderer);
 		m_renderer = nullptr;
+	}
+
+	if (m_icon)
+	{
+		SDL_FreeSurface(m_icon);
+		m_icon = nullptr;
 	}
 
 	if (m_window)
@@ -37,6 +45,15 @@ bool Window::createWindow()
 		printf("Failed to create window, Error: %s\n", SDL_GetError());
 		return false;
 	}
+
+	/*m_icon = IMG_Load("resources/img/spaceship.png");
+	if (!m_icon)
+	{
+		printf("Failed to load surface, Error: %s\n", IMG_GetError());
+		return false;
+	}
+
+	SDL_SetWindowIcon(m_window, m_icon);*/
 
 	return true;
 }
@@ -59,21 +76,6 @@ bool Window::createRenderer()
 	return true;
 }
 
-void Window::free()
-{
-	if (m_renderer)
-	{
-		SDL_DestroyRenderer(m_renderer);
-		m_renderer = nullptr;
-	}
-
-	if (m_window)
-	{
-		SDL_DestroyWindow(m_window);
-		m_window = nullptr;
-	}
-}
-
 void Window::calculateFPS(Timer& timer, int countedFrames)
 {
 	float avgFPS = countedFrames / (timer.getTicks() / 1000.f);
@@ -81,7 +83,12 @@ void Window::calculateFPS(Timer& timer, int countedFrames)
 	if (avgFPS > 2000000)
 		avgFPS = 0.f;
 
-	m_fpsText.str("FPS: " + std::to_string((int)(round(avgFPS))));
+	std::shared_ptr<Text> fpsText = resourceManager.getTextSystem().findTextStream("txt_fps");
+	std::shared_ptr<Font> futura = resourceManager.getTextSystem().findFont("ttf_futura");
+
+	std::string fpsString = "FPS: " + std::to_string(static_cast<int>(avgFPS));
+	if (!fpsText->loadFromText(fpsString, futura->getFont(), SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
+		return;
 }
 
 SDL_Window* Window::getWindow() const

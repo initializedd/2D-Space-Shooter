@@ -1,10 +1,9 @@
 #include "Ship.h"
-#include "Constants.h"
+#include "Common.h"
 
 Ship::Ship()
 	: //m_pos{}
 	  m_parts{}
-	, m_texture{}
 	, m_index{}
 	//, m_weapon{}
 	, m_exhaustParticle{}
@@ -345,6 +344,8 @@ void Ship::createShip(int index)
 		const SDL_Rect& collider{ m_parts[i].getCollider().getRect() };
 		m_parts[i].setOffset(Pair<int>(collider.x, collider.y));
 	}
+
+	m_index = index;
 }
 
 std::vector<ShipPart>& Ship::getParts()
@@ -352,17 +353,7 @@ std::vector<ShipPart>& Ship::getParts()
 	return m_parts;
 }
 
-Texture& Ship::getTexture()
-{
-	return *m_texture;
-}
-
 int Ship::getIndex()
 {
 	return m_index;
-}
-
-void Ship::setTexture(std::shared_ptr<Texture>& texture)
-{
-	m_texture = texture;
 }

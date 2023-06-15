@@ -6,11 +6,11 @@
 class MainMenu : public Menu
 {
 private:
-	void createButtons();
 
 public:
 	MainMenu();
 
+	void createButtons();
 	void displayMenu(SDL_Event& event, bool& quitGame);
 };
 

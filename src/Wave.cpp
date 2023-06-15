@@ -1,5 +1,5 @@
 #include "Wave.h"
-#include "Globals.h"
+#include "Common.h"
 
 Wave::Wave()
 	: m_currentWave{}
@@ -38,8 +38,7 @@ void Wave::createWave()
 		{
 			Enemy* enemy = new Enemy(m_enemyPositions[i].x + 80, m_enemyPositions[i].y + 50);
 
-			enemy->getShip().setTexture(gShipsSprite);
-			enemy->getShip().createShip(gShipsSprite->getIndex());
+			enemy->getShip().createShip(1);
 
 			enemy->setColliders();
 
@@ -47,8 +46,7 @@ void Wave::createWave()
 
 			WraithEnemy* wraithEnemy = new WraithEnemy(m_enemyPositions[i].x, m_enemyPositions[i].y);
 
-			wraithEnemy->getShip().setTexture(gShipsSprite);
-			wraithEnemy->getShip().createShip(gShipsSprite->getIndex());
+			wraithEnemy->getShip().createShip(1);
 
 			wraithEnemy->setColliders();
 
@@ -59,10 +57,15 @@ void Wave::createWave()
 
 bool Wave::displayWaveNum()
 {
-	m_waveText.str("Wave: " + std::to_string((m_currentWave)));
+	const std::string waveString = "Wave: " + std::to_string(m_currentWave);
 
-	if (!m_waveTexture.loadFromRenderedText(m_waveText.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
+	std::shared_ptr<Text> waveText = resourceManager.getTextSystem().findTextStream("txt_wave");
+	std::shared_ptr<Font> futura = resourceManager.getTextSystem().findFont("ttf_futura");
+
+	if (!waveText->loadFromText(waveString, futura->getFont(), SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
 		return false;
+
+	waveText->getTexture()->render(0, SCREEN_HEIGHT - 150, waveText->getTexture()->getWidth(), waveText->getTexture()->getHeight(), nullptr);
 
 	return true;
 }

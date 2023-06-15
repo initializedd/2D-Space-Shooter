@@ -1,25 +1,24 @@
 #include "CustomiseMenu.h"
-#include "Constants.h"
-#include "Globals.h"
+#include "Common.h"
+#include "Game.h"
 
 CustomiseMenu::CustomiseMenu()
+	: m_index{}
 {
-	m_backgroundTexture.loadFromFile("img/mainmenu_bg.jpg", false);
-	m_backgroundTexture.scale(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-	createButtons();
 }
 
 void CustomiseMenu::createButtons()
 {
-	m_buttons.emplace_back(std::make_unique<Button>(BACK,	"Back",		gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(0, 0, 200, 50)));
-	m_buttons.emplace_back(std::make_unique<Button>(LEFT,	"Left",		gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(0, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
-	m_buttons.emplace_back(std::make_unique<Button>(LEFT,	"Left",		gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(0, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
-	m_buttons.emplace_back(std::make_unique<Button>(SELECT, "Select",	gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(220, 430, 200, 50)));
+	m_buttons.emplace_back(std::make_unique<Button>(BACK,	SDL_Rect(0, 0, 200, 50)));
+	m_buttons.emplace_back(std::make_unique<Button>(LEFT,	SDL_Rect(0, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
+	m_buttons.emplace_back(std::make_unique<Button>(RIGHT,	SDL_Rect(440, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
+	m_buttons.emplace_back(std::make_unique<Button>(SELECT,	SDL_Rect(220, 430, 200, 50)));
 }
 
 void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 {
+	std::shared_ptr<Sprite> shipSprite = resourceManager.getTextureSystem().findSprite("sprite_ships");
+
 	while (SDL_PollEvent(&event) != 0)
 	{
 		if (event.type == SDL_QUIT)
@@ -37,42 +36,49 @@ void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 				switch (m_buttons[i]->getType())
 				{
 					case BACK:
-						gActiveMenu = gMainMenu;
+						activeMenu = mainMenu;
 						break;
 
 					case LEFT:
-						if (gShipsSprite->getIndex() <= 0)
-							gShipsSprite->setIndex(47);
+						if (m_index <= 0)
+							m_index = 47;
 						else
-							gShipsSprite->setIndex(gShipsSprite->getIndex() - 1);
+							m_index -= 1;
 						break;
 
 					case RIGHT:
-						if (gShipsSprite->getIndex() >= 47)
-							gShipsSprite->setIndex(0);
+						if (m_index >= 47)
+							m_index = 0;
 						else
-							gShipsSprite->setIndex(gShipsSprite->getIndex() + 1);
+							m_index += 1;
 						break;
 
 					case SELECT:
-						gPlayer->getShip().setTexture(gShipsSprite);
-						gPlayer->getShip().createShip(gShipsSprite->getIndex());
+						gPlayer->getShip().createShip(m_index);
 						break;
 				}
 			}
 		}
 	}
 
-	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderClear(gWindow.getRenderer());
+	SDL_SetRenderDrawColor(resourceManager.getRenderSystem().getWindow().getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderClear(resourceManager.getRenderSystem().getWindow().getRenderer());
 
-	m_backgroundTexture.render(0, 0);
-	gShipsSprite->render((SCREEN_WIDTH / 2) - (gShipsSprite->getClips()[gShipsSprite->getIndex()].w / 2), (SCREEN_HEIGHT / 2) - (gShipsSprite->getClips()[gShipsSprite->getIndex()].h / 2), &gShipsSprite->getClips()[gShipsSprite->getIndex()], gShipsSprite->getClips()[gShipsSprite->getIndex()].w, gShipsSprite->getClips()[gShipsSprite->getIndex()].h);
+	resourceManager.getTextureSystem().findTexture("tex_main_menu")->render(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, nullptr);
+
+	shipSprite->render
+	(
+		(SCREEN_WIDTH / 2) - (shipSprite->getClips()[m_index].w / 2), 
+		(SCREEN_HEIGHT / 2) - (shipSprite->getClips()[m_index].h / 2), 
+		shipSprite->getClips()[m_index].w,
+		shipSprite->getClips()[m_index].h,
+		&shipSprite->getClips()[m_index]
+	);
 
 	for (int i = 0; i < m_buttons.size(); ++i)
 	{
 		m_buttons[i]->renderButton();
 	}
 
-	SDL_RenderPresent(gWindow.getRenderer());
+	SDL_RenderPresent(resourceManager.getRenderSystem().getWindow().getRenderer());
 }

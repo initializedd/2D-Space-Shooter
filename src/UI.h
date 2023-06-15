@@ -3,22 +3,23 @@
 
 #include "Widget.h"
 #include <vector>
-#include <memory>
 
 class UI
 {
 private:
 	std::vector<Widget>					m_widgets;
-	std::shared_ptr<Texture>			m_texture;
 
 public:
 	UI();
 
 	void createUI();
 
-	void render();
+	//void render();
 
-	Texture& getTexture();
+	void displayHealth(int health);
+	void displayShield(int shield);
+
+	std::vector<Widget>& getWidgets();
 };
 
 #endif // !UI_H

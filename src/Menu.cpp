@@ -1,6 +1,5 @@
 #include "Menu.h"
 #include "Window.h"
-#include "Globals.h"
 
 Menu::Menu()
 	: m_backgroundTexture{}

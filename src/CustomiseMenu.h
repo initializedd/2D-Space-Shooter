@@ -6,11 +6,12 @@
 class CustomiseMenu : public Menu
 {
 private:
-	void createButtons();
+	int m_index;
 
 public:
 	CustomiseMenu();
 
+	void createButtons();
 	void displayMenu(SDL_Event& event, bool& quitGame);
 };
 

@@ -1,6 +1,5 @@
 #include "Projectile.h"
-#include "Globals.h"
-#include "Constants.h"
+#include "Common.h"
 #include <cstdio>
 
 Projectile::Projectile()
@@ -19,8 +18,6 @@ void Projectile::move(double dt)
 {
 	m_movement.calculateVelocity(m_direction, PROJECTILE_SPEED);
 	m_movement.move(m_pos, dt);
-
-	//m_pos.y += m_vel.y * dt;
 }
 
 bool Projectile::checkScreenBoundary()
@@ -54,7 +51,7 @@ bool Projectile::checkCollision(std::vector<Entity*>& ents, EntityType ownerType
 
 					if (ents[i]->isDead())
 					{
-						gExplosionSound.playChunk(-1, 0, 10);
+						resourceManager.getSoundSystem().findSound("sfx_explosion")->playChunk(-1, 0, 10);
 					}
 				}
 
@@ -87,14 +84,16 @@ void Projectile::updateCollider()
 
 void Projectile::render()
 {
+	std::shared_ptr<Texture> projectile = resourceManager.getTextureSystem().findTexture("tex_projectile");
+
 	switch (m_type)
 	{
 		case LEFT_PROJECTILE:
-			gProjectileTexture.render(m_pos.x, m_pos.y, &gRedProjectileClip, gRedProjectileClip.w, gRedProjectileClip.h, 90);
+			projectile->render(m_pos.x, m_pos.y, gRedProjectileClip.w, gRedProjectileClip.h, &gRedProjectileClip, 90);
 			break;
 
 		case RIGHT_PROJECTILE:
-			gProjectileTexture.render(m_pos.x, m_pos.y, &gRedProjectileClip, gRedProjectileClip.w, gRedProjectileClip.h, 90, nullptr, SDL_FLIP_VERTICAL);
+			projectile->render(m_pos.x, m_pos.y, gRedProjectileClip.w, gRedProjectileClip.h, &gRedProjectileClip, 90, nullptr, SDL_FLIP_VERTICAL);
 			break;
 	}
 
@@ -108,30 +107,33 @@ void Projectile::debug()
 {
 	const SDL_Rect& rect = m_collider.getRect();
 
-	std::stringstream pos;
-	pos.str(std::to_string(rect.x) + ',' + std::to_string(rect.y));
+	//std::stringstream pos;
+	//pos.str(std::to_string(rect.x) + ',' + std::to_string(rect.y));
 
-	Texture projectilePos{};
-	projectilePos.loadFromRenderedText(pos.str().c_str(), gFuturaFont, SDL_Color(0x00, 0xFF, 0x00, 0xFF));
-	projectilePos.scale(45, 20);
+	const std::string posText = std::to_string(rect.x) + ',' + std::to_string(rect.y);
 
+	std::shared_ptr<Text> projectileText = resourceManager.getTextSystem().findTextStream("txt_projectile");
+	std::shared_ptr<Font> futura = resourceManager.getTextSystem().findFont("ttf_futura");
+
+	if (!projectileText->loadFromText(posText, futura->getFont(), SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
+		return;
 
 	switch (m_type)
 	{
 		case LEFT_PROJECTILE:
 			if (m_movement.getVel().y < 0)
-				projectilePos.render(rect.x - projectilePos.getWidth() - 1, rect.y - projectilePos.getHeight());
+				projectileText->getTexture()->render(rect.x - projectileText->getTexture()->getWidth() - 1, rect.y - projectileText->getTexture()->getHeight(), projectileText->getTexture()->getWidth(), projectileText->getTexture()->getHeight(), nullptr);
 
 			else if (m_movement.getVel().y > 0)
-				projectilePos.render(rect.x + rect.w, rect.y - projectilePos.getHeight());
+				projectileText->getTexture()->render(rect.x + rect.w, rect.y - projectileText->getTexture()->getHeight(), projectileText->getTexture()->getWidth(), projectileText->getTexture()->getHeight(), nullptr);
 			break;
 
 		case RIGHT_PROJECTILE:
 			if (m_movement.getVel().y < 0)
-				projectilePos.render(rect.x + rect.w, rect.y - projectilePos.getHeight());
+				projectileText->getTexture()->render(rect.x + rect.w, rect.y - projectileText->getTexture()->getHeight(), projectileText->getTexture()->getWidth(), projectileText->getTexture()->getHeight(), nullptr);
 
 			else if (m_movement.getVel().y > 0)
-				projectilePos.render(rect.x - projectilePos.getWidth() - 1, rect.y - projectilePos.getHeight());
+				projectileText->getTexture()->render(rect.x - projectileText->getTexture()->getWidth() - 1, rect.y - projectileText->getTexture()->getHeight(), projectileText->getTexture()->getWidth(), projectileText->getTexture()->getHeight(), nullptr);
 			break;
 	}
 

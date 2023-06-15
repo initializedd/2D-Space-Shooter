@@ -1,6 +1,5 @@
 #include "WraithEnemy.h"
-#include "Constants.h"
-#include "Globals.h"
+#include "Common.h"
 
 WraithEnemy::WraithEnemy(int x, int y)
 	: Enemy{ x, y }

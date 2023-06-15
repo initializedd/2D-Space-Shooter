@@ -5,24 +5,24 @@
 #include "Movement.h"
 #include "Collider.h"
 #include "Pair.h"
+#include <memory>
 
-enum ItemType
+enum UpgradeType
 {
-	ITEM_HEALTH,
-	ITEM_HEART,
-	ITEM_SHIELD,
-	ITEM_AMMO
+	UPGRADE_HEALTH,
+	UPGRADE_LIVES,
+	UPGRADE_SHIELD,
+	UPGRADE_WEAPON
 };
 
-struct Item
+struct Upgrade
 {
-	ItemType		type;
-	Collider		collider;
-	Vector2<int>	offset;
-	Texture			texture;
+	UpgradeType						type;
+	Collider						collider;
+	Vector2<int>					offset;
 
-	Item() = default;
-	Item(ItemType itemType, SDL_Rect rect) : type{ itemType }, collider{ rect }, offset{ rect.x, rect.y }, texture{} {}
+	Upgrade() = default;
+	Upgrade(UpgradeType itemType, SDL_Rect rect) : type{ itemType }, collider{ rect }, offset{ rect.x, rect.y } {}
 };
 
 class PickUp
@@ -30,20 +30,20 @@ class PickUp
 private:
 	Vector2<float>	m_pos;
 	Ability			m_ability;
-	Item			m_item;
+	Upgrade			m_upgrade;
 	Movement		m_movement;
 	Vector2<float>	m_direction;
 
 public:
 	PickUp();
 
-	void createItem(ItemType type);
+	void createItem(UpgradeType type);
 
 	void update(double dt);
 	void render();
 
 	Ability& getAbility();
-	Item& getItem();
+	Upgrade& getItem();
 };
 
 #endif // !PICK_UP_H

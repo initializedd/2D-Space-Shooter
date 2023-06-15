@@ -22,12 +22,12 @@ Sound::~Sound()
 	}
 }
 
-bool Sound::loadMusic(const char* path)
+bool Sound::loadMusic(const std::string& path)
 {
-	m_music = Mix_LoadMUS(path);
+	m_music = Mix_LoadMUS(path.c_str());
 	if (!m_music)
 	{
-		printf("Failed to load %s into music, Error: %s\n", path, Mix_GetError());
+		printf("Failed to load %s into music, Error: %s\n", path.c_str(), Mix_GetError());
 		return false;
 	}
 
@@ -45,12 +45,12 @@ bool Sound::playMusic(int loops)
 	return true;
 }
 
-bool Sound::loadChunk(const char* path)
+bool Sound::loadChunk(const std::string& path)
 {
-	m_chunk = Mix_LoadWAV(path);
+	m_chunk = Mix_LoadWAV(path.c_str());
 	if (!m_chunk)
 	{
-		printf("Failed to load %s into audio chunk, Error: %s\n", path, Mix_GetError());
+		printf("Failed to load %s into audio chunk, Error: %s\n", path.c_str(), Mix_GetError());
 		return false;
 	}
 
