@@ -1,6 +1,5 @@
 #include "Weapon.h"
-#include "Globals.h"
-#include "Constants.h"
+#include "Common.h"
 
 Weapon::Weapon(EntityType ownerType, Vector2<float> weaponDirection)
 	: m_ownerType{ ownerType }
@@ -42,7 +41,7 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned i
 
 	m_projectiles.push_back(rightProjectile);
 
-	gProjectileSound.playChunk(-1, 0, 100);
+	resourceManager.getSoundSystem().findSound("sfx_laser")->playChunk(-1, 0, 50);
 }
 
 void Weapon::updateProjectiles(double dt)

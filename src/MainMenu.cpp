@@ -1,24 +1,22 @@
 #include "MainMenu.h"
-#include "Constants.h"
-#include "Globals.h"
+#include "Common.h"
+#include <memory>
 
 MainMenu::MainMenu()
 {
-	m_backgroundTexture.loadFromFile("img/mainmenu_bg.jpg", false);
-	m_backgroundTexture.scale(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-	createButtons();
 }
 
 void MainMenu::createButtons()
 {
-	m_buttons.emplace_back(std::make_unique<Button>(PLAY,		"Play",			gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(200, 100, 200, 50)));
-	m_buttons.emplace_back(std::make_unique<Button>(CUSTOMISE,	"Customise",	gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(200, 175, 200, 50)));
-	m_buttons.emplace_back(std::make_unique<Button>(OPTIONS,	"Options",		gFuturaFont, SDL_Color(0xFF, 0xFF, 0xFF, 0xFF), SDL_Rect(200, 250, 200, 50)));
+	m_buttons.emplace_back(std::make_unique<Button>(PLAY,		SDL_Rect(200, 100, 200, 50)));
+	m_buttons.emplace_back(std::make_unique<Button>(CUSTOMISE,	SDL_Rect(200, 175, 200, 50)));
+	m_buttons.emplace_back(std::make_unique<Button>(OPTIONS,	SDL_Rect(200, 250, 200, 50)));
 }
 
 void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
 {
+	std::shared_ptr<Texture> texture = resourceManager.getTextureSystem().findTexture("tex_main_menu");
+
 	while (SDL_PollEvent(&event) != 0)
 	{
 		if (event.type == SDL_QUIT)
@@ -40,7 +38,7 @@ void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
 						break;
 
 					case CUSTOMISE:
-						gActiveMenu = gCustomiseMenu;
+						activeMenu = customiseMenu;
 						break;
 
 					case OPTIONS:
@@ -50,15 +48,15 @@ void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
 		}
 	}
 
-	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderClear(gWindow.getRenderer());
+	SDL_SetRenderDrawColor(resourceManager.getRenderSystem().getWindow().getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderClear(resourceManager.getRenderSystem().getWindow().getRenderer());
 
-	m_backgroundTexture.render(0, 0);
+	texture->render(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, nullptr);
 
 	for (int i = 0; i < m_buttons.size(); ++i)
 	{
 		m_buttons[i]->renderButton();
 	}
 
-	SDL_RenderPresent(gWindow.getRenderer());
+	SDL_RenderPresent(resourceManager.getRenderSystem().getWindow().getRenderer());
 }

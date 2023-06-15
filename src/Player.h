@@ -4,8 +4,10 @@
 #include "Entity.h"
 #include "PickUp.h"
 #include "Ability.h"
+#include "UI.h"
 #include <sstream>
 #include <SDL_events.h>
+//#include <memory>
 
 class Player : public Entity
 {
@@ -14,6 +16,9 @@ private:
 	int							m_abilityFrames;
 	SDL_Rect*					m_currentAbilityClip;
 	bool						m_shieldActivated;
+	bool						m_hasAbility;
+
+	UI							m_ui;
 
 	int							m_flameFrames;
 	Texture						m_healthTexture;
@@ -29,15 +34,19 @@ public:
 	void update(int i, double dt);
 	void render();
 
-	void handlePickUpCollision(std::vector<std::unique_ptr<PickUp>>& pickUp);
+	void handlePickUpCollision(std::vector<PickUp>& pickUp);
 
-	bool displayHealth();
-	bool displayShield();
-
+	void healthAnimation();
 	void shieldAnimation();
+
+	bool renderHealthAnimation();
+	bool renderShieldAnimation();
+
+	void createHealth();
 	void createShield();
 
 	Ability& getAbility();
+	UI& getUI();
 
 	void setShield(int shield);
 };

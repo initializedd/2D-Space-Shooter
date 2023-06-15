@@ -1,5 +1,6 @@
 #include "Enemy.h"
-#include "Globals.h"
+#include "Common.h"
+#include "Game.h"
 
 Enemy::Enemy(int x, int y)
 	: m_flameFrames{}
@@ -28,9 +29,9 @@ void Enemy::update(int i, double dt)
 
 	if (!isDead())
 	{
-		move(dt);
+		//move(dt);
 		exhaustAnimation();
-		shoot(1000);
+		//shoot(1000);
 	}
 	else
 	{
@@ -46,6 +47,8 @@ void Enemy::render()
 {
 	if (!isDead())
 	{
+		std::shared_ptr<Sprite> fire = resourceManager.getTextureSystem().findSprite("sprite_fire");
+
 		// Exhaust Textures
 		for (int i = 0; i < m_ship.getParts().size(); ++i)
 		{
@@ -54,17 +57,19 @@ void Enemy::render()
 
 			if (part.getPartType() == LEFT_EXHAUST || part.getPartType() == RIGHT_EXHAUST)
 			{
-				gExhaustParticle.getTexture().render(collider.x, collider.y, m_currentExhaustClip, collider.w, collider.h);
+				fire->render(collider.x, collider.y, collider.w, collider.h, m_currentExhaustClip);
 			}
 			else if (part.getPartType() == EXHAUST)
 			{
-				gExhaustParticle.getTexture().render(collider.x, collider.y, m_currentExhaustClip, collider.w, collider.h);
-				gExhaustParticle.getTexture().render(collider.x, collider.y, m_currentExhaustClip, collider.w, collider.h, 0, nullptr, SDL_FLIP_HORIZONTAL);
+				fire->render(collider.x, collider.y, collider.w, collider.h, m_currentExhaustClip);
+				fire->render(collider.x, collider.y, collider.w, collider.h, m_currentExhaustClip, 0, nullptr, SDL_FLIP_HORIZONTAL);
 			}
 		}
 
+		std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
+
 		// Ship Texture
-		m_ship.getTexture().render(m_pos.x, m_pos.y, &m_ship.getTexture().getClips()[m_ship.getTexture().getIndex()], m_width, m_height, 180);
+		ship->render(m_pos.x, m_pos.y, m_width, m_height , &ship->getClips()[m_ship.getIndex()], 180);
 	}
 
 	// Projejctiles

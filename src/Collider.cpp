@@ -1,6 +1,6 @@
 #include "Collider.h"
-#include "Constants.h"
-#include "Globals.h"
+#include "Common.h"
+#include "Game.h"
 #include <cmath>
 
 Collider::Collider()
@@ -22,8 +22,17 @@ bool Collider::intersects(const Collider& collider)
 
 void Collider::handleCollision(Vector2<float>& pos, const Vector2<float>& otherPos, const Collider& otherCollider)
 {
-	float overlapX = std::min(m_rect.x + m_rect.w, otherCollider.getRect().x + otherCollider.getRect().w) - std::max(m_rect.x, otherCollider.getRect().x);
-	float overlapY = std::min(m_rect.y + m_rect.h, otherCollider.getRect().y + otherCollider.getRect().h) - std::max(m_rect.y, otherCollider.getRect().y);
+	float overlapX = std::min
+	(
+		m_rect.x + m_rect.w,
+		otherCollider.getRect().x + otherCollider.getRect().w) - std::max(m_rect.x, otherCollider.getRect().x
+	);
+
+	float overlapY = std::min
+	(
+		m_rect.y + m_rect.h, 
+		otherCollider.getRect().y + otherCollider.getRect().h) - std::max(m_rect.y, otherCollider.getRect().y
+	);
 
 	if (overlapX < overlapY)
 	{
@@ -86,8 +95,8 @@ bool Collider::handleScreenCollision(Vector2<float>& pos, double rotation)
 
 void Collider::drawCollider()
 {
-	SDL_SetRenderDrawColor(gWindow.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
-	SDL_RenderDrawRect(gWindow.getRenderer(), &m_rect);
+	SDL_SetRenderDrawColor(resourceManager.getRenderSystem().getWindow().getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
+	SDL_RenderDrawRect(resourceManager.getRenderSystem().getWindow().getRenderer(), &m_rect);
 }
 
 const SDL_Rect& Collider::getRect() const

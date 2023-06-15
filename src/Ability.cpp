@@ -1,4 +1,5 @@
 #include "Ability.h"
+#include "Common.h"
 
 Ability::Ability(AbilityType type)
 	: m_particle{}
@@ -12,11 +13,13 @@ void Ability::createAbility()
 {
 	switch (m_type)
 	{
+		case HEALTH:
+			m_value = 200;
+			resourceManager.getSoundSystem().findSound("sfx_health_regen")->playChunk(-1, 0, 50);
+			break;
+
 		case SHIELD:
-			m_particle.getTexture().loadFromFile("img/blue_shield_sprite.png", false);
-			m_particle.getTexture().setClipsFromSprite(340, 340, 40, 11);
-			//m_sound.loadChunk("audio/front_shield_on.mp3");
-			//m_sound.loadChunk("audio/front_shield_off.mp3");
+			resourceManager.getSoundSystem().findSound("sfx_shield_activate")->playChunk(-1, 0, 50);
 			m_value = 300;
 			break;
 

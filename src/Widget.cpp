@@ -1,10 +1,9 @@
 #include "Widget.h"
+#include "Common.h"
 
 Widget::Widget(WidgetType type, Vector2<int> pos)
 	: m_type{type}
 	, m_pos{pos}
-	, m_texture{}
-	, m_text{}
 {
 }
 

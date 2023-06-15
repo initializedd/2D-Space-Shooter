@@ -10,6 +10,7 @@ class Window
 {
 private:
 	SDL_Window*					m_window;
+	SDL_Surface*				m_icon;
 	int							m_width;
 	int							m_height;
 
@@ -23,8 +24,6 @@ public:
 
 	bool createWindow();
 	bool createRenderer();
-
-	void free();
 
 	void calculateFPS(Timer& timer, int countedFrames);
 

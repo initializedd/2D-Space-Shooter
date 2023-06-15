@@ -6,6 +6,8 @@
 
 enum AbilityType
 {
+	HEALTH,
+	LIFE,
 	SHIELD,
 	RADAR
 };

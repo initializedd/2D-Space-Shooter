@@ -15,7 +15,6 @@ class Ship
 {
 private:
 	std::vector<ShipPart>				m_parts;
-	std::shared_ptr<Texture>			m_texture;
 	int									m_index;
 	//Weapon							m_weapon;
 	Particle							m_exhaustParticle;
@@ -27,10 +26,7 @@ public:
 	void createShip(int index);
 
 	std::vector<ShipPart>& getParts();
-	Texture& getTexture();
 	int getIndex();
-
-	void setTexture(std::shared_ptr<Texture>& texture);
 };
 
 #endif // !SHIP_H
