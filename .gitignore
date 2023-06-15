@@ -18,6 +18,7 @@ TestResults
 *.suo
 #*.user
 *.sln.docstates
+*.json
 
 # Build results
 /[Dd]ebug
@@ -44,6 +45,7 @@ TestResults
 *.vspscc
 *.vssscc
 .builds
+out/
 
 # Visual C++ cache files
 ipch/
@@ -52,7 +54,7 @@ ipch/
 *.opensdf
 *.sdf
 
-# Visual Studio 2017 cache files
+# Visual Studio cache files
 .vs/
 *.db
 *.opendb
