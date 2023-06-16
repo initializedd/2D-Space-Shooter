@@ -81,7 +81,7 @@ void Player::handleEvent(SDL_Event& event)
 
 void Player::update(int i, double dt)
 {
-	getWeapon().updateProjectiles(dt);
+	m_weapon.updateProjectiles(dt);
 
 	if (!isDead())
 	{

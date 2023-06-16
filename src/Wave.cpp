@@ -17,7 +17,6 @@ Wave::~Wave()
 {
 	for (int i = NUM_OF_PLAYERS; i < gEnts.size(); ++i)
 	{
-		delete gEnts[i];
 		gEnts.erase(gEnts.begin() + i);
 	}
 }
@@ -36,21 +35,21 @@ void Wave::createWave()
 
 		for (int i = 0; i < m_numOfEnemies; ++i)
 		{
-			Enemy* enemy = new Enemy(m_enemyPositions[i].x + 80, m_enemyPositions[i].y + 50);
+			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(m_enemyPositions[i].x + 80, m_enemyPositions[i].y + 50);
 
 			enemy->getShip().createShip(1);
 
 			enemy->createColliders();
 
-			gEnts.push_back(enemy);
+			gEnts.push_back(std::move(enemy));
 
-			WraithEnemy* wraithEnemy = new WraithEnemy(m_enemyPositions[i].x, m_enemyPositions[i].y);
+			std::unique_ptr<WraithEnemy> wraithEnemy = std::make_unique<WraithEnemy>(m_enemyPositions[i].x, m_enemyPositions[i].y);
 
 			wraithEnemy->getShip().createShip(1);
 
 			wraithEnemy->createColliders();
 
-			gEnts.push_back(wraithEnemy);
+			gEnts.push_back(std::move(wraithEnemy));
 		}
 	}
 }

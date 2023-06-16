@@ -33,7 +33,7 @@ bool Projectile::checkScreenBoundary()
 	return false;
 }
 
-bool Projectile::checkCollision(std::vector<Entity*>& ents, EntityType ownerType)
+bool Projectile::checkCollision(std::vector<std::unique_ptr<Entity>>& ents, EntityType ownerType)
 {
 	for (int i = 0; i < ents.size(); ++i)
 	{
@@ -51,7 +51,7 @@ bool Projectile::checkCollision(std::vector<Entity*>& ents, EntityType ownerType
 
 					if (ents[i]->isDead())
 					{
-						resourceManager.getSoundSystem().findSound("sfx_explosion")->playChunk(-1, 0, 10);
+						resourceManager.getSoundSystem().findSound("sfx_explosion")->playChunk(-1, 0, 50);
 					}
 				}
 

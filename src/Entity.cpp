@@ -81,13 +81,13 @@ void Entity::checkScreenBoundary()
 	createColliders();
 }
 
-void Entity::checkCollision(std::vector<Entity*>& ents)
+void Entity::checkCollision(std::vector<std::unique_ptr<Entity>>& ents)
 {
 	for (int i = 0; i < ents.size(); ++i)
 	{
 		m_canShoot = true;
 
-		if (this == ents[i])
+		if (this == ents[i].get())
 			continue;
 
 		for (int j = 0; j < m_ship.getParts().size(); ++j)
@@ -155,13 +155,16 @@ void Entity::exhaustAnimation()
 
 void Entity::renderDeathAnimation()
 {
-	std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
-	std::shared_ptr<Sprite> explosion = resourceManager.getTextureSystem().findSprite("sprite_explosion");
+	if (m_currentDeathClip)
+	{
+		std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
+		std::shared_ptr<Sprite> explosion = resourceManager.getTextureSystem().findSprite("sprite_explosion");
 
-	int explosionPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 4) - m_currentDeathClip->w / 2;
-	int explosionPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 4) - m_currentDeathClip->h / 2;
+		int explosionPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 4) - m_currentDeathClip->w / 2;
+		int explosionPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 4) - m_currentDeathClip->h / 2;
 
-	explosion->render(explosionPosX, explosionPosY, m_currentDeathClip->w, m_currentDeathClip->h, m_currentDeathClip);
+		explosion->render(explosionPosX, explosionPosY, m_currentDeathClip->w, m_currentDeathClip->h, m_currentDeathClip);
+	}
 }
 
 void Entity::reduceHealth(int damage)

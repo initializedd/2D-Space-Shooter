@@ -57,7 +57,7 @@ public:
 	virtual void handleEvent(SDL_Event& event);
 
 	void checkScreenBoundary();
-	void checkCollision(std::vector<Entity*>& ents);
+	void checkCollision(std::vector<std::unique_ptr<Entity>>& ents);
 	void debug();
 
 	bool deathAnimation();
