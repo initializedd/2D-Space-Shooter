@@ -88,8 +88,8 @@ void Player::update(int i, double dt)
 		move(dt);
 		handlePickUpCollision(gPickUp);
 		exhaustAnimation();
-		healthAnimation();
-		//shieldAnimation();
+		//healthAnimation();
+		shieldAnimation();
 	}
 	else
 	{
@@ -132,7 +132,7 @@ void Player::render()
 
 		ship->render(m_pos.x, m_pos.y, 64, 80, &ship->getClips()[m_ship.getIndex()]);
 
-		renderHealthAnimation();
+		//renderHealthAnimation();
 		renderShieldAnimation();
 	}
 
@@ -157,7 +157,7 @@ void Player::handlePickUpCollision(std::vector<PickUp>& pickUp)
 				{
 					m_ability = pickUp[j].getAbility();
 					m_hasAbility = true;
-					createHealth();
+					createShield();
 					pickUp.erase(pickUp.begin() + j);
 					continue;
 				}
@@ -194,7 +194,11 @@ void Player::shieldAnimation()
 		{
 			m_abilityFrames = 0;
 		}
+
+		m_shieldActivated = true;
 	}
+	else
+		m_shieldActivated = false;
 }
 
 bool Player::renderHealthAnimation()

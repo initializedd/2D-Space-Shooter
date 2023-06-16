@@ -31,7 +31,7 @@ void Entity::move(double dt)
 	m_movement.calculateVelocity(m_direction, m_speed);
 
 	m_movement.move(m_pos, dt);
-	setColliders();
+	createColliders();
 
 	checkScreenBoundary();
 	checkCollision(gEnts);
@@ -78,7 +78,7 @@ void Entity::checkScreenBoundary()
 				m_direction.x = -m_direction.x;
 	}
 
-	setColliders();
+	createColliders();
 }
 
 void Entity::checkCollision(std::vector<Entity*>& ents)
@@ -112,7 +112,7 @@ void Entity::checkCollision(std::vector<Entity*>& ents)
 		}
 	}
 
-	setColliders();
+	createColliders();
 }
 
 #if defined(_DEBUG)
@@ -170,11 +170,12 @@ void Entity::reduceHealth(int damage)
 	{
 		m_shield -= damage;
 
-		if (m_shield < 0)
+		if (m_shield <= 0)
 		{
 			int excessDamage = std::abs(m_shield);
 			m_health -= excessDamage;
 			m_shield = 0;
+			resourceManager.getSoundSystem().findSound("sfx_shield_destroy")->playChunk(-1, 0, 50);
 		}
 	}
 	else
@@ -216,11 +217,11 @@ Vector2<float> Entity::getPos() const
 	return m_pos;
 }
 
-void Entity::setColliders()
+void Entity::createColliders()
 {
 	for (int i = 0; i < m_ship.getParts().size(); ++i)
 	{
 		Collider& collider = m_ship.getParts()[i].getCollider();
-		collider.setColliders(m_pos, m_textureRotation);
+		collider.createColliders(m_pos, m_textureRotation);
 	}
 }
