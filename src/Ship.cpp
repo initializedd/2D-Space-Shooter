@@ -20,322 +20,322 @@ void Ship::createShip(int index)
 	{
 		case 0:
 		case 1:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(52 * 0.5, 0 * 0.5, 24 * 0.5, 33 * 0.5)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(42 * 0.5, 32 * 0.5, 4 * 0.5, 20 * 0.5)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(82 * 0.5, 32 * 0.5, 4 * 0.5, 20 * 0.5)),
-						ShipPart(WEAPON,			SDL_Rect(25 * 0.5, 32 * 0.5, 78 * 0.5, 21 * 0.5)),
-						ShipPart(BODY,				SDL_Rect(0 * 0.5, 52 * 0.5, 128 * 0.5, 89 * 0.5)),
-						ShipPart(TAIL,				SDL_Rect(57 * 0.5, 140 * 0.5, 14 * 0.5, 20 * 0.5)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(26, 0, 12, 17)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(21, 16, 2, 10)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(41, 16, 2, 10)),
+						ShipPart(WEAPON,			SDL_Rect(17, 16, 39, 11)),
+						ShipPart(BODY,				SDL_Rect(0, 26, 64, 45)),
+						ShipPart(TAIL,				SDL_Rect(29, 70, 7, 10)) };
 			break;
 
 		case 2:
 		case 3:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(35, 0, 58, 146)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(25, 49, 12, 15)),		
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(91, 49, 12, 15)),		
-						ShipPart(LEFT_WING,			SDL_Rect(0, 28, 35, 132)),
-						ShipPart(RIGHT_WING,		SDL_Rect(93, 28, 35, 132)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(18, 0, 29, 73)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(18, 25, 6, 8)),		
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(46, 25, 6, 8)),		
+						ShipPart(LEFT_WING,			SDL_Rect(0, 14, 18, 66)),
+						ShipPart(RIGHT_WING,		SDL_Rect(47, 14, 18, 66)) };
 			break;
 
 		case 4:
 		case 5:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(39, 35, 50, 125)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(36, 53, 4, 14)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(88, 53, 4, 14)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 26, 40, 124)),
-						ShipPart(RIGHT_WING,		SDL_Rect(88, 26, 40, 124)), 
-						ShipPart(TOP_LEFT_WING,		SDL_Rect(28, 0, 14, 26)),
-						ShipPart(TOP_RIGHT_WING,	SDL_Rect(86, 0, 14, 26)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(44, 160, 16, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(68, 160, 16, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(20, 18, 25, 63)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(18, 27, 2, 7)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(44, 27, 2, 7)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 13, 20, 62)),
+						ShipPart(RIGHT_WING,		SDL_Rect(44, 13, 20, 62)), 
+						ShipPart(TOP_LEFT_WING,		SDL_Rect(14, 0, 7, 13)),
+						ShipPart(TOP_RIGHT_WING,	SDL_Rect(43, 0, 7, 13)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(22, 80, 8, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(34, 80, 8, 10)) };
 			break;
 
 		case 6:
 		case 7:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(38, 0, 52, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(46, 11, 4, 17)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(78, 11, 4, 17)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 49, 38, 83)),
-						ShipPart(RIGHT_WING,		SDL_Rect(90, 49, 38, 83)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(11, 114, 20, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(97, 114, 20, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(19, 0, 26, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(23, 6, 2, 9)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(39, 6, 2, 9)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 25, 19, 42)),
+						ShipPart(RIGHT_WING,		SDL_Rect(45, 25, 19, 42)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(6, 57, 10, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(49, 57, 20, 20)) };
 			break;
 
 		case 8:
 		case 9:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(32, 0, 64, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(59, 0, 4, 10)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(65, 0, 4, 10)),	
-						ShipPart(LEFT_WING,			SDL_Rect(0, 16, 32, 144)),
-						ShipPart(RIGHT_WING,		SDL_Rect(96, 16, 32, 144)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(36, 160, 25, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(67, 160, 25, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(16, 0, 32, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(30, 0, 2, 5)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(33, 0, 2, 5)),	
+						ShipPart(LEFT_WING,			SDL_Rect(0, 8, 16, 72)),
+						ShipPart(RIGHT_WING,		SDL_Rect(48, 8, 16, 72)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(18, 80, 13, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(34, 80, 13, 10)) };
 			break;
 
 		case 10:
 		case 11:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(42, 0, 44, 147)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(8, 56, 4, 16)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(116, 56, 4, 16)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 56, 42, 104)),
-						ShipPart(RIGHT_WING,		SDL_Rect(86, 56, 42, 104)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(21, 0, 22, 79)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(4, 28, 2, 8)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(58, 28, 2, 8)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 28, 21, 52)),
+						ShipPart(RIGHT_WING,		SDL_Rect(43, 28, 21, 52)) };
 			break;
 
 		case 12:
 		case 13:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(27, 27, 57, 130)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(62, 27, 2, 10)),	
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(66, 27, 2, 10)),	
-						ShipPart(LEFT_WING,			SDL_Rect(0, 0, 27, 160)),
-						ShipPart(RIGHT_BODY,		SDL_Rect(84, 3, 23, 139)),
-						ShipPart(RIGHT_WING,		SDL_Rect(107, 54, 21, 62)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(47, 157, 28, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(92, 142, 10, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(14, 14, 29, 65)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(31, 14, 1, 5)),	
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(33, 14, 1, 5)),	
+						ShipPart(LEFT_WING,			SDL_Rect(0, 0, 14, 80)),
+						ShipPart(RIGHT_BODY,		SDL_Rect(42, 2, 12, 70)),
+						ShipPart(RIGHT_WING,		SDL_Rect(59, 27, 11, 31)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(24, 79, 14, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(46, 71, 5, 10)) };
 			break;
 
 		case 14:
 		case 15:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(34, 36, 60, 123)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(47, 36, 4, 18)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(77, 36, 4, 18)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 0, 34, 157)),
-						ShipPart(RIGHT_BODY,		SDL_Rect(94, 0, 34, 157)),
-						ShipPart(EXHAUST,			SDL_Rect(60, 147, 8, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(17, 18, 30, 62)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(24, 18, 2, 14)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(39, 18, 2, 9)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 0, 17, 79)),
+						ShipPart(RIGHT_BODY,		SDL_Rect(47, 0, 17, 79)),
+						ShipPart(EXHAUST,			SDL_Rect(30, 74, 4, 10)) };
 			break;
 
 		case 16:
 		case 17:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(20, 0, 88, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(34, 14, 14, 20)),	
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(80, 14, 14, 20)),	
-						ShipPart(LEFT_WING,			SDL_Rect(0, 20, 20, 86)),
-						ShipPart(RIGHT_WING,		SDL_Rect(108, 20, 20, 86)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(10, 0, 44, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(17, 7, 7, 10)),	
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(40, 7, 7, 10)),	
+						ShipPart(LEFT_WING,			SDL_Rect(0, 10, 10, 43)),
+						ShipPart(RIGHT_WING,		SDL_Rect(54, 10, 10, 43)) };
 			break;
 
 		case 18:
 		case 19:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(36, 25, 56, 122)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(18, 0, 4, 28)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(106, 0, 4, 28)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 0, 36, 160)),
-						ShipPart(RIGHT_WING,		SDL_Rect(92, 0, 36, 160)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(37, 146, 20, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(71, 146, 20, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(18, 13, 28, 61)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(9, 0, 2, 14)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(53, 0, 2, 14)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 0, 18, 80)),
+						ShipPart(RIGHT_WING,		SDL_Rect(46, 0, 18, 80)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(19, 73, 10, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(36, 73, 10, 10)) };
 			break;
 
 		case 20:
 		case 21:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(32, 0, 64, 157)),
-						ShipPart(LEFT_WEAPON,       SDL_Rect(18, 59, 4, 21)),
-						ShipPart(RIGHT_WEAPON,      SDL_Rect(106, 59, 4, 21)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 11, 32, 149)),
-						ShipPart(RIGHT_WING,		SDL_Rect(96, 11, 32, 149)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(43, 156, 7, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(78, 156, 7, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(16, 0, 32, 79)),
+						ShipPart(LEFT_WEAPON,       SDL_Rect(9, 30, 2, 11)),
+						ShipPart(RIGHT_WEAPON,      SDL_Rect(53, 30, 2, 11)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 6, 16, 75)),
+						ShipPart(RIGHT_WING,		SDL_Rect(48, 6, 16, 75)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(22, 78, 4, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(39, 78, 4, 10)) };
 			break;
 
 		case 22:
 		case 23:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(40, 0, 48, 113)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(49, 0, 4, 17)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(75, 0, 4, 17)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 25, 40, 133)),
-						ShipPart(RIGHT_WING,		SDL_Rect(88, 25, 40, 133)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(46, 113, 14, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(68, 113, 14, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(20, 0, 24, 57)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(25, 0, 2, 9)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(38, 0, 2, 9)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 13, 20, 67)),
+						ShipPart(RIGHT_WING,		SDL_Rect(44, 13, 20, 67)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(23, 57, 7, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(34, 57, 7, 10)) };
 			break;
 
 		case 24:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(35, 0, 58, 113)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(49, 0, 4, 17)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(75, 0, 4, 17)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 40, 35, 118)),
-						ShipPart(RIGHT_WING,		SDL_Rect(93, 40, 35, 118)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(46, 113, 14, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(68, 113, 14, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(18, 0, 29, 57)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(25, 0, 2, 9)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(38, 0, 2, 9)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 20, 18, 59)),
+						ShipPart(RIGHT_WING,		SDL_Rect(47, 20, 18, 59)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(23, 57, 7, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(34, 57, 7, 10)) };
 			break;
 
 		case 25:
 		case 26:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(34, 0, 60, 133)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(7, 17, 4, 7)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(117, 17, 4, 7)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 17, 34, 143)),
-						ShipPart(RIGHT_WING,		SDL_Rect(94, 17, 34, 143)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(43, 126, 13, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(72, 126, 13, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(17, 0, 30, 67)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(4, 9, 2, 4)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(59, 9, 2, 4)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 9, 17, 72)),
+						ShipPart(RIGHT_WING,		SDL_Rect(47, 9, 17, 72)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(22, 63, 7, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(36, 63, 7, 10)) };
 			break;
 
 		case 27:
 		case 28:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(45, 0, 38, 121)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(15, 11, 4, 25)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(109, 11, 4, 25)),
-						ShipPart(LEFT_WING,			SDL_Rect(1, 11, 44, 148)),
-						ShipPart(RIGHT_WING,		SDL_Rect(83, 11, 44, 148)),
-						ShipPart(EXHAUST,			SDL_Rect(54, 121, 20, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(23, 0, 19, 61)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(8, 6, 2, 13)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(55, 6, 2, 13)),
+						ShipPart(LEFT_WING,			SDL_Rect(1, 6, 22, 74)),
+						ShipPart(RIGHT_WING,		SDL_Rect(42, 6, 22, 74)),
+						ShipPart(EXHAUST,			SDL_Rect(27, 61, 10, 10)) };
 			break;
 
 		case 29:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(48, 0, 32, 144)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(38, 32, 4, 11)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(86, 32, 4, 11)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 70, 25, 87)),
-						ShipPart(RIGHT_WING,		SDL_Rect(103, 70, 25, 87)),
-						ShipPart(BODY,				SDL_Rect(25, 32, 78, 128)),
-						ShipPart(EXHAUST,			SDL_Rect(52, 144, 24, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(24, 0, 16, 72)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(19, 16, 2, 6)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(43, 16, 2, 6)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 35, 13, 44)),
+						ShipPart(RIGHT_WING,		SDL_Rect(52, 35, 13, 44)),
+						ShipPart(BODY,				SDL_Rect(13, 16, 39, 64)),
+						ShipPart(EXHAUST,			SDL_Rect(26, 72, 12, 10)) };
 			break;
 
 		case 30:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(29, 0, 70, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(37, 0, 4, 7)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(87, 0, 4, 7)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 47, 29, 81)),
-						ShipPart(RIGHT_WING,		SDL_Rect(99, 47, 29, 81)),
-						ShipPart(EXHAUST,			SDL_Rect(55, 159, 18, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(15, 0, 35, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(19, 0, 2, 4)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(44, 0, 2, 4)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 24, 15, 41)),
+						ShipPart(RIGHT_WING,		SDL_Rect(50, 24, 15, 41)),
+						ShipPart(EXHAUST,			SDL_Rect(28, 80, 9, 10)) };
 			break;
 
 		case 31:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(27, 0, 74, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(37, 9, 4, 9)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(87, 9, 4, 9)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 47, 27, 113)),
-						ShipPart(RIGHT_WING,		SDL_Rect(101, 47, 27, 113)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(40, 160, 18, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(70, 160, 18, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(14, 0, 37, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(19, 5, 2, 5)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(44, 5, 2, 5)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 24, 14, 57)),
+						ShipPart(RIGHT_WING,		SDL_Rect(51, 24, 14, 57)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(20, 80, 9, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(35, 80, 9, 10)) };
 			break;
 
 		case 32:
 		case 33:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(37, 0, 54, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(6, 47, 4, 12)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(118, 47, 4, 12)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 44, 37, 57)),
-						ShipPart(RIGHT_WING,		SDL_Rect(91, 44, 37, 57)),
-						ShipPart(EXHAUST,			SDL_Rect(54, 144, 20, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(19, 0, 27, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(3, 24, 2, 6)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(59, 24, 2, 6)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 22, 19, 29)),
+						ShipPart(RIGHT_WING,		SDL_Rect(46, 22, 19, 29)),
+						ShipPart(EXHAUST,			SDL_Rect(27, 72, 10, 10)) };
 			break;
 
 		case 34:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(21, 0, 86, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(31, 16, 4, 24)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(93, 16, 4, 24)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 32, 21, 93)),
-						ShipPart(RIGHT_WING,		SDL_Rect(107, 32, 21, 93)),
-						ShipPart(EXHAUST,			SDL_Rect(55, 160, 18, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(11, 0, 43, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(16, 8, 2, 12)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(47, 8, 2, 12)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 16, 11, 47)),
+						ShipPart(RIGHT_WING,		SDL_Rect(54, 16, 11, 47)),
+						ShipPart(EXHAUST,			SDL_Rect(28, 80, 9, 10)) };
 			break;
 
 		case 35:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(29, 0, 70, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(11, 22, 8, 34)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(109, 22, 8, 34)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 22, 29, 83)),
-						ShipPart(RIGHT_WING,		SDL_Rect(99, 22, 29, 83)),
-						ShipPart(EXHAUST,			SDL_Rect(53, 119, 22, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(15, 0, 35, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(6, 11, 4, 17)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(55, 11, 4, 17)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 11, 15, 44)),
+						ShipPart(RIGHT_WING,		SDL_Rect(50, 11, 15, 44)),
+						ShipPart(EXHAUST,			SDL_Rect(27, 60, 11, 10)) };
 			break;
 
 		case 36:
 		case 37:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(30, 0, 68, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(2, 32, 4, 12)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(122, 32, 4, 12)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 28, 30, 64)),
-						ShipPart(RIGHT_WING,		SDL_Rect(98, 28, 30, 64)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(43, 151, 17, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(68, 151, 17, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(15, 0, 34, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(1, 16, 2, 6)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(61, 16, 2, 6)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 14, 15, 32)),
+						ShipPart(RIGHT_WING,		SDL_Rect(49, 14, 15, 32)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(22, 76, 9, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(34, 76, 9, 10)) };
 			break;
 
 		case 38:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(30, 0, 68, 127)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(32, 27, 4, 8)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(92, 27, 4, 8)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 67, 30, 93)),
-						ShipPart(RIGHT_WING,		SDL_Rect(98, 67, 30, 93)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(44, 124, 14, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(70, 124, 14, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(15, 0, 34, 64)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(16, 14, 2, 4)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(46, 14, 2, 4)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 34, 15, 47)),
+						ShipPart(RIGHT_WING,		SDL_Rect(49, 39, 15, 47)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(22, 62, 7, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(35, 62, 7, 10)) };
 			break;
 
 		case 39:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(44, 0, 40, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(32, 40, 12, 36)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(84, 40, 12, 36)),
-						ShipPart(LEFT_WING,			SDL_Rect(0, 41, 44, 114)),
-						ShipPart(RIGHT_WING,		SDL_Rect(84, 41, 44, 114)),
-						ShipPart(EXHAUST,			SDL_Rect(55, 160, 18, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(22, 0, 20, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(16, 20, 6, 18)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(42, 20, 6, 18)),
+						ShipPart(LEFT_WING,			SDL_Rect(0, 21, 22, 57)),
+						ShipPart(RIGHT_WING,		SDL_Rect(42, 21, 22, 57)),
+						ShipPart(EXHAUST,			SDL_Rect(28, 80, 9, 10)) };
 			break;
 
 		case 40:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(46, 0, 36, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(34, 59, 4, 10)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(90, 59, 4, 10)),
-						ShipPart(LEFT_WING,			SDL_Rect(24, 59, 22, 99)),
-						ShipPart(RIGHT_WING,		SDL_Rect(82, 59, 22, 99)),
-						ShipPart(EXHAUST,			SDL_Rect(47, 160, 34, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(23, 0, 18, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(17, 30, 2, 5)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(45, 30, 2, 5)),
+						ShipPart(LEFT_WING,			SDL_Rect(12, 30, 11, 50)),
+						ShipPart(RIGHT_WING,		SDL_Rect(41, 30, 11, 50)),
+						ShipPart(EXHAUST,			SDL_Rect(24, 80, 17, 10)) };
 			break;
 
 		case 41:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(39, 0, 50, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(40, 9, 4, 9)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(84, 9, 4, 9)),
-						ShipPart(LEFT_WING,			SDL_Rect(16, 39, 23, 108)),
-						ShipPart(RIGHT_WING,		SDL_Rect(89, 39, 23, 108)),
-						ShipPart(EXHAUST,			SDL_Rect(55, 160, 18, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(20, 0, 25, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(20, 5, 2, 5)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(42, 5, 2, 5)),
+						ShipPart(LEFT_WING,			SDL_Rect(8, 20, 12, 54)),
+						ShipPart(RIGHT_WING,		SDL_Rect(45, 20, 12, 54)),
+						ShipPart(EXHAUST,			SDL_Rect(28, 80, 9, 10)) };
 			break;
 
 		case 42:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(41, 0, 48, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(34, 51, 4, 21)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(92, 51, 4, 21)),
-						ShipPart(LEFT_WING,			SDL_Rect(27, 51, 14, 46)),
-						ShipPart(RIGHT_WING,		SDL_Rect(89, 51, 14, 46)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(42, 160, 20, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(68, 160, 20, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(21, 0, 24, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(17, 26, 2, 11)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(46, 26, 2, 11)),
+						ShipPart(LEFT_WING,			SDL_Rect(14, 26, 7, 23)),
+						ShipPart(RIGHT_WING,		SDL_Rect(45, 26, 7, 23)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(21, 80, 10, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(34, 80, 10, 10)) };
 			break;
 
 		case 43:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(50, 0, 29, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(33, 57, 4, 6)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(92, 57, 4, 6)),
-						ShipPart(LEFT_WING,			SDL_Rect(33, 57, 17, 70)),
-						ShipPart(RIGHT_WING,		SDL_Rect(79, 57, 17, 70)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(51, 160, 9, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(69, 160, 9, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(25, 0, 15, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(17, 29, 2, 3)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(46, 29, 2, 3)),
+						ShipPart(LEFT_WING,			SDL_Rect(17, 29, 9, 35)),
+						ShipPart(RIGHT_WING,		SDL_Rect(40, 29, 9, 35)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(26, 80, 5, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(35, 80, 5, 10)) };
 			break;
 
 		case 44:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(50, 0, 28, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(50, 18, 4, 10)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(74, 18, 4, 10)),
-						ShipPart(LEFT_WING,			SDL_Rect(35, 66, 15, 31)),
-						ShipPart(RIGHT_WING,		SDL_Rect(78, 66, 15, 31)),
-						ShipPart(EXHAUST,			SDL_Rect(51, 160, 26, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(25, 0, 14, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(25, 9, 2, 5)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(37, 9, 2, 5)),
+						ShipPart(LEFT_WING,			SDL_Rect(18, 33, 8, 16)),
+						ShipPart(RIGHT_WING,		SDL_Rect(39, 33, 8, 16)),
+						ShipPart(EXHAUST,			SDL_Rect(26, 80, 13, 10)) };
 			break;
 			
 		case 45:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(43, 0, 42, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(33, 62, 4, 21)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(91, 62, 4, 21)),
-						ShipPart(LEFT_WING,			SDL_Rect(29, 62, 14, 58)),
-						ShipPart(RIGHT_WING,		SDL_Rect(85, 62, 14, 58)),
-						ShipPart(LEFT_EXHAUST,		SDL_Rect(47, 160, 9, 20)),
-						ShipPart(RIGHT_EXHAUST,		SDL_Rect(72, 160, 9, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(22, 0, 21, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(17, 31, 2, 11)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(46, 31, 2, 11)),
+						ShipPart(LEFT_WING,			SDL_Rect(15, 31, 7, 29)),
+						ShipPart(RIGHT_WING,		SDL_Rect(43, 31, 7, 29)),
+						ShipPart(LEFT_EXHAUST,		SDL_Rect(24, 80, 5, 10)),
+						ShipPart(RIGHT_EXHAUST,		SDL_Rect(36, 80, 5, 10)) };
 			break;
 
 		case 46:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(50, 0, 28, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(41, 71, 4, 9)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(83, 71, 4, 9)),
-						ShipPart(LEFT_WING,			SDL_Rect(41, 66, 9, 30)),
-						ShipPart(RIGHT_WING,		SDL_Rect(78, 66, 9, 30)),
-						ShipPart(EXHAUST,			SDL_Rect(51, 160, 26, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(25, 0, 14, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(21, 36, 2, 5)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(44, 36, 2, 5)),
+						ShipPart(LEFT_WING,			SDL_Rect(22, 33, 5, 15)),
+						ShipPart(RIGHT_WING,		SDL_Rect(39, 33, 5, 15)),
+						ShipPart(EXHAUST,			SDL_Rect(26, 80, 13, 10)) };
 			break;
 
 		case 47:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(46, 0, 36, 160)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(29, 52, 4, 18)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(95, 52, 4, 18)),
-						ShipPart(LEFT_WING,			SDL_Rect(24, 52, 22, 80)),
-						ShipPart(RIGHT_WING,		SDL_Rect(82, 52, 22, 80)),
-						ShipPart(EXHAUST,			SDL_Rect(50, 160, 28, 20)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(23, 0, 18, 80)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(15, 26, 2, 9)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(48, 26, 2, 9)),
+						ShipPart(LEFT_WING,			SDL_Rect(12, 26, 11, 40)),
+						ShipPart(RIGHT_WING,		SDL_Rect(41, 26, 11, 40)),
+						ShipPart(EXHAUST,			SDL_Rect(25, 80, 14, 10)) };
 			break;
 	}
 

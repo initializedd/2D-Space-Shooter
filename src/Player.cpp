@@ -130,7 +130,7 @@ void Player::render()
 		// Ship Texture
 		std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
 
-		ship->render(m_pos.x, m_pos.y, 128, 160, &ship->getClips()[m_ship.getIndex()]);
+		ship->render(m_pos.x, m_pos.y, 64, 80, &ship->getClips()[m_ship.getIndex()]);
 
 		renderHealthAnimation();
 		renderShieldAnimation();
