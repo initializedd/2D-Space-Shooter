@@ -65,7 +65,7 @@ void Game::loop()
 
 	{
 		PickUp pickUp{};
-		pickUp.createItem(UPGRADE_HEALTH);
+		pickUp.createItem(UPGRADE_SHIELD);
 		gPickUp.push_back(pickUp);
 	}
 
