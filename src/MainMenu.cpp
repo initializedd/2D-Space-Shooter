@@ -8,9 +8,9 @@ MainMenu::MainMenu()
 
 void MainMenu::createButtons()
 {
-	m_buttons.emplace_back(std::make_unique<Button>(PLAY,		SDL_Rect(200, 100, 200, 50)));
-	m_buttons.emplace_back(std::make_unique<Button>(CUSTOMISE,	SDL_Rect(200, 175, 200, 50)));
-	m_buttons.emplace_back(std::make_unique<Button>(OPTIONS,	SDL_Rect(200, 250, 200, 50)));
+	m_buttons.emplace_back(Button(PLAY,			SDL_Rect(200, 100, 200, 50)));
+	m_buttons.emplace_back(Button(CUSTOMISE,	SDL_Rect(200, 175, 200, 50)));
+	m_buttons.emplace_back(Button(OPTIONS,		SDL_Rect(200, 250, 200, 50)));
 }
 
 void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
@@ -27,11 +27,11 @@ void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
 
 		for (int i = 0; i < m_buttons.size(); ++i)
 		{
-			m_buttons[i]->handleEvent(event);
+			m_buttons[i].handleEvent(event);
 
-			if (m_buttons[i]->isSelected())
+			if (m_buttons[i].isSelected())
 			{
-				switch (m_buttons[i]->getType())
+				switch (m_buttons[i].getType())
 				{
 					case PLAY:
 						m_exitMenu = true;
@@ -55,7 +55,7 @@ void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
 
 	for (int i = 0; i < m_buttons.size(); ++i)
 	{
-		m_buttons[i]->renderButton();
+		m_buttons[i].renderButton();
 	}
 
 	SDL_RenderPresent(resourceManager.getRenderSystem().getWindow().getRenderer());
