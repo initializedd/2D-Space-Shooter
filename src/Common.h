@@ -23,20 +23,20 @@ const int PROJECTILE_SPEED{ 600 };
 inline ResourceManager resourceManager{};
 
 // Manages all living entities
-inline std::vector<Entity*> gEnts{};
-inline std::unique_ptr<Player> gPlayer{};
+inline std::vector<std::unique_ptr<Entity>> gEnts{};
+inline std::unique_ptr<Player> gPlayer = std::make_unique<Player>(100, 100);
 inline Wave gWave{};
 
 inline std::vector<PickUp> gPickUp{};
 
 inline int NUM_OF_PLAYERS{};
 
-inline Menu* activeMenu{};
-inline MainMenu* mainMenu = new MainMenu();
-inline CustomiseMenu* customiseMenu = new CustomiseMenu();
+inline std::shared_ptr<Menu> activeMenu{};
+inline std::shared_ptr<MainMenu> mainMenu = std::make_shared<MainMenu>();
+inline std::shared_ptr<CustomiseMenu> customiseMenu = std::make_shared<CustomiseMenu>();
 
-inline SDL_Rect					gRedProjectileClip{ 18, 13, 58, 41 };
-inline SDL_Rect					gLeftProjectileHitBox{ 26, 7, 4, 27 };
-inline SDL_Rect					gRightProjectileHitBox{ 28, 7, 4, 27 };
+inline SDL_Rect	gRedProjectileClip{ 18, 13, 58, 41 };
+inline SDL_Rect	gLeftProjectileHitBox{ 26, 7, 4, 27 };
+inline SDL_Rect	gRightProjectileHitBox{ 28, 7, 4, 27 };
 
 #endif // !COMMON_H

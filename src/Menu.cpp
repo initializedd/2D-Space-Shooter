@@ -18,7 +18,7 @@ Texture& Menu::getTexture()
 	return m_backgroundTexture;
 }
 
-std::vector<std::unique_ptr<Button>>& Menu::getButtons()
+std::vector<Button>& Menu::getButtons()
 {
 	return m_buttons;
 }

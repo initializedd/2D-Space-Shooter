@@ -3,9 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-	gPlayer = std::make_unique<Player>(100, 100);
-
-	resourceManager.loadDatabase("../../../src/resourcedata.bin");
+	resourceManager.loadDatabase("../../../resources/resourcedata.bin");
 
 	Game game{};
 	
@@ -16,9 +14,6 @@ int main(int argc, char* argv[])
 			game.loop();
 		}
 	}
-
-	delete mainMenu;
-	delete customiseMenu;
 
 	return 0;
 }

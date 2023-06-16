@@ -9,10 +9,10 @@ CustomiseMenu::CustomiseMenu()
 
 void CustomiseMenu::createButtons()
 {
-	m_buttons.emplace_back(std::make_unique<Button>(BACK,	SDL_Rect(0, 0, 200, 50)));
-	m_buttons.emplace_back(std::make_unique<Button>(LEFT,	SDL_Rect(0, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
-	m_buttons.emplace_back(std::make_unique<Button>(RIGHT,	SDL_Rect(440, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
-	m_buttons.emplace_back(std::make_unique<Button>(SELECT,	SDL_Rect(220, 430, 200, 50)));
+	m_buttons.emplace_back(Button(BACK,		SDL_Rect(0, 0, 200, 50)));
+	m_buttons.emplace_back(Button(LEFT,		SDL_Rect(0, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
+	m_buttons.emplace_back(Button(RIGHT,	SDL_Rect(440, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
+	m_buttons.emplace_back(Button(SELECT,	SDL_Rect(220, 430, 200, 50)));
 }
 
 void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
@@ -29,11 +29,11 @@ void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 		
 		for (int i = 0; i < m_buttons.size(); ++i)
 		{
-			m_buttons[i]->handleEvent(event);
+			m_buttons[i].handleEvent(event);
 
-			if (m_buttons[i]->isSelected())
+			if (m_buttons[i].isSelected())
 			{
-				switch (m_buttons[i]->getType())
+				switch (m_buttons[i].getType())
 				{
 					case BACK:
 						activeMenu = mainMenu;
@@ -77,7 +77,7 @@ void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 
 	for (int i = 0; i < m_buttons.size(); ++i)
 	{
-		m_buttons[i]->renderButton();
+		m_buttons[i].renderButton();
 	}
 
 	SDL_RenderPresent(resourceManager.getRenderSystem().getWindow().getRenderer());

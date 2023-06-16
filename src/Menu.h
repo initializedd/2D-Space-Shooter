@@ -10,7 +10,7 @@ class Menu
 {
 protected:
 	Texture										m_backgroundTexture;
-	std::vector<std::unique_ptr<Button>>		m_buttons;
+	std::vector<Button>							m_buttons;
 	bool										m_exitMenu;
 
 public:
@@ -21,7 +21,7 @@ public:
 	bool isQuit();
 
 	Texture& getTexture();
-	std::vector<std::unique_ptr<Button>>& getButtons();
+	std::vector<Button>& getButtons();
 };
 
 #endif // !MENU_H
