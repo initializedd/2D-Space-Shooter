@@ -104,7 +104,7 @@ const SDL_Rect& Collider::getRect() const
 	return m_rect;
 }
 
-void Collider::setColliders(Vector2<float>& pos, double rotation)
+void Collider::createColliders(Vector2<float>& pos, double rotation)
 {
 	double textureRadians = rotation * (M_PI / 180.0);
 

@@ -24,7 +24,7 @@ public:
 
 	const SDL_Rect& getRect() const;
 
-	void setColliders(Vector2<float>& pos, double rotation);
+	void createColliders(Vector2<float>& pos, double rotation);
 };
 
 #endif // !COLLIDER_H
