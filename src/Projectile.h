@@ -6,6 +6,7 @@
 #include "Collider.h"
 #include "Pair.h"
 #include <vector>
+#include <memory>
 
 class Entity;
 enum EntityType;
@@ -33,7 +34,7 @@ public:
 	void move(double dt);
 
 	bool checkScreenBoundary();
-	bool checkCollision(std::vector<Entity*>& ents, EntityType ownerType);
+	bool checkCollision(std::vector<std::unique_ptr<Entity>>& ents, EntityType ownerType);
 
 	void createCollider();
 	void updateCollider();

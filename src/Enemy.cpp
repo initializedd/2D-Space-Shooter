@@ -37,7 +37,6 @@ void Enemy::update(int i, double dt)
 	{
 		if (deathAnimation() && m_weapon.getProjectiles().empty())
 		{
-			delete this;
 			gEnts.erase(gEnts.begin() + i);
 		}
 	}

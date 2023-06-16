@@ -54,7 +54,7 @@ void Game::loop()
 
 	SDL_Color textColor{ 0x00, 0xFF, 0x00, 0xFF };
 
-	gEnts.push_back(gPlayer.get());
+	gEnts.push_back(std::move(gPlayer));
 
 	Timer deltaTimer;
 	double fixedDt = 1.0 / 60.0;
