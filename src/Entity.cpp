@@ -158,8 +158,8 @@ void Entity::renderDeathAnimation()
 	std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
 	std::shared_ptr<Sprite> explosion = resourceManager.getTextureSystem().findSprite("sprite_explosion");
 
-	int explosionPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 2) - m_currentDeathClip->w / 2;
-	int explosionPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 2) - m_currentDeathClip->h / 2;
+	int explosionPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 4) - m_currentDeathClip->w / 2;
+	int explosionPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 4) - m_currentDeathClip->h / 2;
 
 	explosion->render(explosionPosX, explosionPosY, m_currentDeathClip->w, m_currentDeathClip->h, m_currentDeathClip);
 }
