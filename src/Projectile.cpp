@@ -79,7 +79,7 @@ void Projectile::createCollider()
 
 void Projectile::updateCollider()
 {
-	m_collider.setColliders(m_pos, 0.0);
+	m_collider.createColliders(m_pos, 0.0);
 }
 
 void Projectile::render()

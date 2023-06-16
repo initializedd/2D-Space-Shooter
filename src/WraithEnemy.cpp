@@ -23,7 +23,7 @@ void WraithEnemy::move(double dt)
 	m_movement.calculateVelocity(m_direction, m_speed);
 
 	m_movement.move(m_pos, dt);
-	setColliders();
+	createColliders();
 
 	checkScreenBoundaryX();
 	checkScreenBoundaryY();
@@ -41,7 +41,7 @@ void WraithEnemy::checkScreenBoundaryX()
 		{
 			m_pos.x += std::abs(collider.x);
 
-			setColliders();
+			createColliders();
 
 			m_direction.x = 1;
 		}
@@ -52,7 +52,7 @@ void WraithEnemy::checkScreenBoundaryX()
 			float difference = std::abs(collider.x - m_pos.x);
 			m_pos.x = SCREEN_WIDTH - collider.w - difference;
 
-			setColliders();
+			createColliders();
 
 			m_direction.x = -1;
 		}
@@ -70,7 +70,7 @@ void WraithEnemy::checkScreenBoundaryY()
 		{
 			m_pos.y += std::abs(collider.y);
 
-			setColliders();
+			createColliders();
 
 			m_direction.y = 1;
 		}
@@ -81,7 +81,7 @@ void WraithEnemy::checkScreenBoundaryY()
 			float difference = std::abs(collider.y - m_pos.y);
 			m_pos.y = SCREEN_HEIGHT / 2 - collider.h - difference;
 
-			setColliders();
+			createColliders();
 
 			m_direction.y = -1;
 		}

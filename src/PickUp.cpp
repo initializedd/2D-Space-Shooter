@@ -43,7 +43,7 @@ void PickUp::update(double dt)
 {
 	m_movement.calculateVelocity(m_direction, 200);
 	m_movement.move(m_pos, dt);
-	m_upgrade.collider.setColliders(m_pos, 0.0);
+	m_upgrade.collider.createColliders(m_pos, 0.0);
 }
 
 void PickUp::render()

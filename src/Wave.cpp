@@ -40,7 +40,7 @@ void Wave::createWave()
 
 			enemy->getShip().createShip(1);
 
-			enemy->setColliders();
+			enemy->createColliders();
 
 			gEnts.push_back(enemy);
 
@@ -48,7 +48,7 @@ void Wave::createWave()
 
 			wraithEnemy->getShip().createShip(1);
 
-			wraithEnemy->setColliders();
+			wraithEnemy->createColliders();
 
 			gEnts.push_back(wraithEnemy);
 		}

@@ -75,7 +75,7 @@ public:
 	int getHealth() const;
 	Vector2<float> getPos() const;
 
-	void setColliders();
+	void createColliders();
 };
 
 #endif // !ENTITY_H

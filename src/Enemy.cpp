@@ -29,9 +29,9 @@ void Enemy::update(int i, double dt)
 
 	if (!isDead())
 	{
-		//move(dt);
+		move(dt);
 		exhaustAnimation();
-		//shoot(1000);
+		shoot(1000);
 	}
 	else
 	{
