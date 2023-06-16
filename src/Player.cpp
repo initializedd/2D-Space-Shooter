@@ -205,8 +205,8 @@ bool Player::renderHealthAnimation()
 	std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
 	std::shared_ptr<Sprite> healthSprite = resourceManager.getTextureSystem().findSprite("sprite_health_regen");
 
-	int abilityPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 2) - m_currentAbilityClip->w / 2;
-	int abilityPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 2) - m_currentAbilityClip->h / 2;
+	int abilityPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 4) - m_currentAbilityClip->w / 2;
+	int abilityPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 4) - m_currentAbilityClip->h / 2;
 
 	healthSprite->render(abilityPosX, abilityPosY, m_currentAbilityClip->w, m_currentAbilityClip->h, m_currentAbilityClip);
 
@@ -221,8 +221,8 @@ bool Player::renderShieldAnimation()
 	std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
 	std::shared_ptr<Sprite> shieldSprite = resourceManager.getTextureSystem().findSprite("sprite_blue_shield");
 
-	int abilityPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 2) - m_currentAbilityClip->w / 2;
-	int abilityPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 2) - m_currentAbilityClip->h / 2;
+	int abilityPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 4) - m_currentAbilityClip->w / 2;
+	int abilityPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 4) - m_currentAbilityClip->h / 2;
 
 	shieldSprite->render(abilityPosX, abilityPosY, m_currentAbilityClip->w, m_currentAbilityClip->h, m_currentAbilityClip);
 
