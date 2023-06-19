@@ -6,7 +6,7 @@ Ship::Ship()
 	  m_parts{}
 	, m_index{}
 	//, m_weapon{}
-	, m_exhaustParticle{}
+	, m_exhaustSprite{}
 {
 }
 

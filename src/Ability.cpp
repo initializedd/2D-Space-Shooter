@@ -2,7 +2,7 @@
 #include "Common.h"
 
 Ability::Ability(AbilityType type)
-	: m_particle{}
+	: m_sprite{}
 	, m_sound{}
 	, m_type{ type }
 	, m_value{}
@@ -28,9 +28,9 @@ void Ability::createAbility()
 	}
 }
 
-Particle& Ability::getParticle()
+Sprite& Ability::getSprite()
 {
-	return m_particle;
+	return m_sprite;
 }
 
 Sound& Ability::getSound()
