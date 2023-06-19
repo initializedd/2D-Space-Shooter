@@ -74,7 +74,7 @@ void Entity::shoot(int delay)
 	}
 }
 
-void Entity::handleEvent(SDL_Event& event)
+void Entity::handleKeyboardInputs()
 {
 }
 

@@ -32,7 +32,7 @@ public:
 	Player(int x, int y);
 	~Player();
 
-	void handleEvent(SDL_Event& event);
+	void handleKeyboardInputs();
 	void update(int i, double dt);
 	void render();
 

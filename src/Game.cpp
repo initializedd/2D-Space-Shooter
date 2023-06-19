@@ -84,11 +84,11 @@ void Game::loop()
 			{
 				quitGame = true;
 			}
+		}
 
-			for (int i = 0; i < gEnts.size(); ++i)
-			{
-				gEnts[i]->handleEvent(event);
-			}
+		for (int i = 0; i < gEnts.size(); ++i)
+		{
+			gEnts[i]->handleKeyboardInputs();
 		}
 
 		resourceManager.getRenderSystem().getWindow().calculateFPS(fpsTimer, countedFrames);

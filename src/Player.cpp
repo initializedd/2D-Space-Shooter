@@ -33,43 +33,35 @@ Player::~Player()
 	--NUM_OF_PLAYERS;
 }
 
-void Player::handleEvent(SDL_Event& event)
+void Player::handleKeyboardInputs()
 {
 	// Get the state of the keyboard
 	const Uint8* keyboardState = SDL_GetKeyboardState(nullptr);
+
+	m_direction = { 0, 0 };
 
 	// Handle vertical movement
 	if (keyboardState[SDL_SCANCODE_UP] || keyboardState[SDL_SCANCODE_W])
 	{
 		// Move upward
-		m_direction.y = -1;
+		m_direction.y -= 1;
 	}
-	else if (keyboardState[SDL_SCANCODE_DOWN] || keyboardState[SDL_SCANCODE_S])
+	if (keyboardState[SDL_SCANCODE_DOWN] || keyboardState[SDL_SCANCODE_S])
 	{
 		// Move downward
-		m_direction.y = 1;
-	}
-	else
-	{
-		// No vertical movement
-		m_direction.y = 0;
+		m_direction.y += 1;
 	}
 
 	// Handle horizontal movement
 	if (keyboardState[SDL_SCANCODE_LEFT] || keyboardState[SDL_SCANCODE_A])
 	{
 		// Move left
-		m_direction.x = -1;
+		m_direction.x -= 1;
 	}
-	else if (keyboardState[SDL_SCANCODE_RIGHT] || keyboardState[SDL_SCANCODE_D])
+	if (keyboardState[SDL_SCANCODE_RIGHT] || keyboardState[SDL_SCANCODE_D])
 	{
 		// Move right
-		m_direction.x = 1;
-	}
-	else
-	{
-		// No horizontal movement
-		m_direction.x = 0;
+		m_direction.x += 1;
 	}
 
 	// Shoot if the spacebar is pressed
