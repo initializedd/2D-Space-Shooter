@@ -20,7 +20,7 @@ private:
 public:
 	Weapon(EntityType ownerType, Vector2<float> weaponDirection);
 
-	void shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos);
+	void shoot(Pair<int> leftProjectilePos, Pair<int> rightProjectilePos);
 
 	void updateProjectiles(double dt);
 	void renderProjectiles();
