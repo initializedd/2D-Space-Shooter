@@ -7,22 +7,11 @@ Weapon::Weapon(EntityType ownerType, Vector2<float> weaponDirection)
 	, m_damage{}
 	, m_projectiles{}
 	, m_weaponDirection{ weaponDirection }
-	, m_lastShot{}
 {
 }
 
-void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay)
+void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos)
 {
-	if (!m_lastShot.isStarted())
-	{
-		m_lastShot.start();
-	}
-	else if (m_lastShot.getTicks() < delay)
-	{
-		return; // not enough time has passed
-	}
-	m_lastShot.start();
-
 	Projectile leftProjectile{};
 	leftProjectile.setPos(leftCannonPos);
 	leftProjectile.setDirection(m_weaponDirection);

@@ -23,6 +23,7 @@ Entity::Entity()
 	, m_flameFrames{}
 	, m_weapon{ m_type, Vector2<float>(0, 0) }
 	, m_canShoot{}
+	, m_lastShot{}
 {
 }
 
@@ -41,6 +42,16 @@ void Entity::shoot(int delay)
 {
 	if (!isDead())
 	{
+		if (!m_lastShot.isStarted())
+		{
+			m_lastShot.start();
+		}
+		else if (m_lastShot.getTicks() < delay)
+		{
+			return; // not enough time has passed
+		}
+		m_lastShot.start();
+
 		Pair<int> leftCollider{};
 		Pair<int> rightCollider{};
 
@@ -59,7 +70,7 @@ void Entity::shoot(int delay)
 			}
 		}
 
-		m_weapon.shoot(leftCollider, rightCollider, delay);
+		m_weapon.shoot(leftCollider, rightCollider);
 	}
 }
 

@@ -3,7 +3,6 @@
 
 #include "Texture.h"
 #include "Projectile.h"
-#include "Timer.h"
 #include <string>
 #include <vector>
 
@@ -17,12 +16,11 @@ private:
 	int														m_damage;
 	std::vector<Projectile>									m_projectiles;
 	Vector2<float>											m_weaponDirection;
-	Timer													m_lastShot;
 
 public:
 	Weapon(EntityType ownerType, Vector2<float> weaponDirection);
 
-	void shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos, unsigned int delay);
+	void shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos);
 
 	void updateProjectiles(double dt);
 	void renderProjectiles();
