@@ -10,10 +10,10 @@ Weapon::Weapon(EntityType ownerType, Vector2<float> weaponDirection)
 {
 }
 
-void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos)
+void Weapon::shoot(Pair<int> leftProjectilePos, Pair<int> rightProjectilePos)
 {
 	Projectile leftProjectile{};
-	leftProjectile.setPos(leftCannonPos);
+	leftProjectile.setPos(leftProjectilePos);
 	leftProjectile.setDirection(m_weaponDirection);
 	leftProjectile.setType(LEFT_PROJECTILE);
 	leftProjectile.createCollider();
@@ -22,7 +22,7 @@ void Weapon::shoot(Pair<int> leftCannonPos, Pair<int> rightCannonPos)
 	m_projectiles.push_back(leftProjectile);
 
 	Projectile rightProjectile{};
-	rightProjectile.setPos(rightCannonPos);
+	rightProjectile.setPos(rightProjectilePos);
 	rightProjectile.setDirection(m_weaponDirection);
 	rightProjectile.setType(RIGHT_PROJECTILE);
 	rightProjectile.createCollider();
