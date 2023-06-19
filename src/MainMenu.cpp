@@ -1,6 +1,7 @@
 #include "MainMenu.h"
 #include "Common.h"
 #include <memory>
+#include "Random.h"
 
 MainMenu::MainMenu()
 {
@@ -34,6 +35,12 @@ void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
 				switch (m_buttons[i].getType())
 				{
 					case PLAY:
+
+						if (!gPlayer->hasSelectedShip())
+						{
+							int num = getRandomNumber(0, 47);
+							gPlayer->getShip().createShip(num);
+						}
 						m_exitMenu = true;
 						break;
 

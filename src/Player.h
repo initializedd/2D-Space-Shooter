@@ -26,6 +26,8 @@ private:
 	Texture						m_shieldTexture;
 	std::stringstream			m_shieldText;
 
+	bool						m_hasSelectedShip;
+
 public:
 	Player(int x, int y);
 	~Player();
@@ -42,12 +44,15 @@ public:
 	bool renderHealthAnimation();
 	bool renderShieldAnimation();
 
+	bool hasSelectedShip();
+
 	void createHealth();
 	void createShield();
 
 	Ability& getAbility();
 	UI& getUI();
 
+	void setHasSelectedShip(bool flag);
 	void setShield(int shield);
 };
 

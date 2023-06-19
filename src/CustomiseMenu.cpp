@@ -55,6 +55,7 @@ void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 
 					case SELECT:
 						gPlayer->getShip().createShip(m_index);
+						gPlayer->setHasSelectedShip(true);
 						break;
 				}
 			}

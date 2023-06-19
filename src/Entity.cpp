@@ -52,25 +52,25 @@ void Entity::shoot(int delay)
 		}
 		m_lastShot.start();
 
-		Pair<int> leftCollider{};
-		Pair<int> rightCollider{};
+		Pair<int> leftProjectilePos{};
+		Pair<int> rightProjectilePos{};
 
 		for (int i = 0; i < m_ship.getParts().size(); ++i)
 		{
 			ShipPart& part = m_ship.getParts()[i];
 			if (part.getPartType() == LEFT_WEAPON)
 			{
-				leftCollider.x = (m_ship.getParts()[i].getCollider().getRect().x) - (gLeftProjectileHitBox.x - (std::round(m_ship.getParts()[i].getCollider().getRect().w / 2) - (gLeftProjectileHitBox.w / 2)));	// Centre the projectile
-				leftCollider.y = m_ship.getParts()[i].getCollider().getRect().y;
+				leftProjectilePos.x = (m_ship.getParts()[i].getCollider().getRect().x) - (gLeftProjectileHitBox.x - (std::round(m_ship.getParts()[i].getCollider().getRect().w / 2) - (gLeftProjectileHitBox.w / 2)));	// Centre the projectile
+				leftProjectilePos.y = m_ship.getParts()[i].getCollider().getRect().y;
 			}
 			else if (part.getPartType() == RIGHT_WEAPON)
 			{
-				rightCollider.x = (m_ship.getParts()[i].getCollider().getRect().x) - (gRightProjectileHitBox.x - (std::round(m_ship.getParts()[i].getCollider().getRect().w / 2) - (gRightProjectileHitBox.w / 2))); // Centre the projectile;
-				rightCollider.y = m_ship.getParts()[i].getCollider().getRect().y;
+				rightProjectilePos.x = (m_ship.getParts()[i].getCollider().getRect().x) - (gRightProjectileHitBox.x - (std::round(m_ship.getParts()[i].getCollider().getRect().w / 2) - (gRightProjectileHitBox.w / 2))); // Centre the projectile;
+				rightProjectilePos.y = m_ship.getParts()[i].getCollider().getRect().y;
 			}
 		}
 
-		m_weapon.shoot(leftCollider, rightCollider);
+		m_weapon.shoot(leftProjectilePos, rightProjectilePos);
 	}
 }
 
