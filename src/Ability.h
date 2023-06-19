@@ -1,7 +1,7 @@
 #ifndef ABILITY_H
 #define ABILITY_H
 
-#include "Particle.h"
+#include "Sprite.h"
 #include "Sound.h"
 
 enum AbilityType
@@ -15,7 +15,7 @@ enum AbilityType
 class Ability
 {
 private:
-	Particle		m_particle;
+	Sprite			m_sprite;
 	Sound			m_sound;
 	AbilityType		m_type;
 	int				m_value;
@@ -26,7 +26,7 @@ public:
 
 	void createAbility();
 
-	Particle& getParticle();
+	Sprite& getSprite();
 	Sound& getSound();
 	int getValue();
 };

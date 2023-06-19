@@ -4,7 +4,7 @@
 #include "Ship.h"
 #include "Movement.h"
 #include "Weapon.h"
-#include "Particle.h"
+#include "Sprite.h"
 #include "Pair.h"
 #include <vector>
 
@@ -39,7 +39,7 @@ protected:
 	int						m_health;
 	int						m_shield;
 
-	Particle				m_particle;
+	Sprite					m_sprite;
 
 	int						m_explosionFrames;
 	int						m_flameFrames;
@@ -69,7 +69,7 @@ public:
 	bool isDead();
 
 	Ship& getShip();
-	Particle& getParticle();
+	Sprite& getSprite();
 	Weapon& getWeapon();
 	int getType() const;
 	int getHealth() const;

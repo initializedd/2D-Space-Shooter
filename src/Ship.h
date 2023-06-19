@@ -4,7 +4,7 @@
 #include "ShipPart.h"
 #include "Texture.h"
 #include "Weapon.h"
-#include "Particle.h"
+#include "Sprite.h"
 #include "Pair.h"
 #include <memory>
 
@@ -17,7 +17,7 @@ private:
 	std::vector<ShipPart>				m_parts;
 	int									m_index;
 	//Weapon							m_weapon;
-	Particle							m_exhaustParticle;
+	Sprite								m_exhaustSprite;
 
 public:
 	Ship();

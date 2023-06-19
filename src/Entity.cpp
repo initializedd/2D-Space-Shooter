@@ -18,7 +18,7 @@ Entity::Entity()
 	, m_rightCannonPos{}
 	, m_health{}
 	, m_shield{}
-	, m_particle{}
+	, m_sprite{}
 	, m_explosionFrames{}
 	, m_flameFrames{}
 	, m_weapon{ m_type, Vector2<float>(0, 0) }
@@ -195,9 +195,9 @@ Ship& Entity::getShip()
 	return m_ship;
 }
 
-Particle& Entity::getParticle()
+Sprite& Entity::getSprite()
 {
-	return m_particle;
+	return m_sprite;
 }
 
 Weapon& Entity::getWeapon()
