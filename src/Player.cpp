@@ -35,7 +35,7 @@ Player::~Player()
 void Player::handleEvent(SDL_Event& event)
 {
 	// Get the state of the keyboard
-	const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+	const Uint8* keyboardState = SDL_GetKeyboardState(nullptr);
 
 	// Handle vertical movement
 	if (keyboardState[SDL_SCANCODE_UP] || keyboardState[SDL_SCANCODE_W])

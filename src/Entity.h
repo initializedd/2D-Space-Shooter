@@ -5,6 +5,7 @@
 #include "Movement.h"
 #include "Weapon.h"
 #include "Sprite.h"
+#include "Timer.h"
 #include "Pair.h"
 #include <vector>
 
@@ -46,6 +47,8 @@ protected:
 
 	Weapon					m_weapon;
 	bool					m_canShoot;
+	Timer													m_lastShot;
+
 
 public:
 	Entity();
