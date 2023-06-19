@@ -13,6 +13,7 @@ Player::Player(int x, int y)
 	, m_healthText{}
 	, m_shieldTexture{}
 	, m_shieldText{}
+	, m_hasSelectedShip{}
 {
 	m_type = PLAYER;
 	m_weapon = { m_type, Vector2<float>(0, -1) };
@@ -233,6 +234,11 @@ bool Player::renderShieldAnimation()
 	return true;
 }
 
+bool Player::hasSelectedShip()
+{
+	return m_hasSelectedShip;
+}
+
 void Player::createHealth()
 {
 	m_ability.createAbility();
@@ -263,6 +269,11 @@ Ability& Player::getAbility()
 UI& Player::getUI()
 {
 	return m_ui;
+}
+
+void Player::setHasSelectedShip(bool flag)
+{
+	m_hasSelectedShip = flag;
 }
 
 void Player::setShield(int shield)
