@@ -23,7 +23,7 @@ void Ship::createShip(int index)
 			m_parts = { ShipPart(COCKPIT,			SDL_Rect(26, 0, 12, 17)),
 						ShipPart(LEFT_WEAPON,		SDL_Rect(21, 16, 2, 10)),
 						ShipPart(RIGHT_WEAPON,		SDL_Rect(41, 16, 2, 10)),
-						ShipPart(WEAPON,			SDL_Rect(17, 16, 39, 11)),
+						ShipPart(WEAPON,			SDL_Rect(11, 16, 42, 11)),
 						ShipPart(BODY,				SDL_Rect(0, 26, 64, 45)),
 						ShipPart(TAIL,				SDL_Rect(29, 70, 7, 10)) };
 			break;
