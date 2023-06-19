@@ -35,7 +35,6 @@ void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
 				switch (m_buttons[i].getType())
 				{
 					case PLAY:
-
 						if (!gPlayer->hasSelectedShip())
 						{
 							int num = getRandomNumber(0, 47);

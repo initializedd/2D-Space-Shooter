@@ -57,7 +57,7 @@ public:
 	void shoot(int delay);
 	virtual void update(int i, double dt) = 0;
 	virtual void render() = 0;
-	virtual void handleEvent(SDL_Event& event);
+	virtual void handleKeyboardInputs();
 
 	void checkScreenBoundary();
 	void checkCollision(std::vector<std::unique_ptr<Entity>>& ents);
