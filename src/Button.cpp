@@ -21,10 +21,16 @@ void Button::handleEvent(SDL_Event& event)
 
 		m_hover = true;
 
-		if (x < m_rect.x || x > m_rect.x + m_rect.w)
+		SDL_Rect button;
+		button.x = m_rect.x * sf.x;
+		button.y = m_rect.y * sf.y;
+		button.w = m_rect.w * sf.x;
+		button.h = m_rect.h * sf.y;
+
+		if (x < button.x || x > button.x + button.w)
 			m_hover = false;
 
-		else if (y < m_rect.y || y > m_rect.y + m_rect.h)
+		else if (y < button.y || y > button.y + button.h)
 			m_hover = false;
 
 		if (m_hover)
@@ -32,16 +38,13 @@ void Button::handleEvent(SDL_Event& event)
 			switch (event.type)
 			{
 				case SDL_MOUSEMOTION:
-					printf("Mouse hovering...\n");
 					break;
 
 				case SDL_MOUSEBUTTONDOWN:
-					printf("Mouse button down...\n");
 					m_down = true;
 					break;
 
 				case SDL_MOUSEBUTTONUP:
-					printf("Mouse button up...\n");
 					m_selected = true;
 					break;
 			}
@@ -56,10 +59,16 @@ void Button::handleEvent(SDL_Event& event)
 
 void Button::renderButton()
 {
+	SDL_Rect button;
+	button.x = m_rect.x * sf.x;
+	button.y = m_rect.y * sf.y;
+	button.w = m_rect.w * sf.x;
+	button.h = m_rect.h * sf.y;
+
 	if (m_hover)
 	{
 		SDL_SetRenderDrawColor(resourceManager.getRenderSystem().getWindow().getRenderer(), 0xFF, 0xFF, 0xFF, 0x22);
-		SDL_RenderFillRect(resourceManager.getRenderSystem().getWindow().getRenderer(), &m_rect);
+		SDL_RenderFillRect(resourceManager.getRenderSystem().getWindow().getRenderer(), &button);
 	}
 
 	SDL_SetRenderDrawColor
@@ -71,12 +80,12 @@ void Button::renderButton()
 		0xFF
 	);
 
-	SDL_RenderDrawRect(resourceManager.getRenderSystem().getWindow().getRenderer(), &m_rect);
+	SDL_RenderDrawRect(resourceManager.getRenderSystem().getWindow().getRenderer(), &button);
 
 	//int x = m_rect.x + (m_rect.w / 2) - (m_texture->getWidth() / 2);
-	int x = m_rect.x + (m_rect.w / 2) - (20 / 2);
+	int x = button.x + (button.w / 2) - (20 / 2);
 	//int y = m_rect.y + (m_rect.h / 2) - (m_texture->getHeight() / 2);
-	int y = m_rect.y + (m_rect.h / 2) - (20 / 2);
+	int y = button.y + (button.h / 2) - (20 / 2);
 
 	if (m_down)
 	{
@@ -90,8 +99,8 @@ void Button::renderButton()
 		case PLAY:
 		{
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_play");
-			SDL_Rect rect{ (m_rect.x + (m_rect.w / 2) - (texture->getTexture()->getWidth() / 2)),
-						 (m_rect.y + (m_rect.h / 2) - (texture->getTexture()->getHeight() / 2)),
+			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
+						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
 						 (texture->getTexture()->getWidth()), 
 						 (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
@@ -100,8 +109,8 @@ void Button::renderButton()
 		case CUSTOMISE:
 		{
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_customise");
-			SDL_Rect rect{ (m_rect.x + (m_rect.w / 2) - (texture->getTexture()->getWidth() / 2)),
-						 (m_rect.y + (m_rect.h / 2) - (texture->getTexture()->getHeight() / 2)),
+			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
+						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
 						 (texture->getTexture()->getWidth()), 
 						 (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
@@ -110,8 +119,8 @@ void Button::renderButton()
 		case OPTIONS:
 		{
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_options");
-			SDL_Rect rect{ (m_rect.x + (m_rect.w / 2) - (texture->getTexture()->getWidth() / 2)),
-						 (m_rect.y + (m_rect.h / 2) - (texture->getTexture()->getHeight() / 2)),
+			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
+						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
 						 (texture->getTexture()->getWidth()), 
 						 (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
@@ -123,8 +132,8 @@ void Button::renderButton()
 		case BACK:
 		{
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_back");
-			SDL_Rect rect{ (m_rect.x + (m_rect.w / 2) - (texture->getTexture()->getWidth() / 2)),
-						 (m_rect.y + (m_rect.h / 2) - (texture->getTexture()->getHeight() / 2)),
+			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
+						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
 						 (texture->getTexture()->getWidth()), 
 				         (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
@@ -133,8 +142,8 @@ void Button::renderButton()
 		case LEFT:
 		{
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_left");
-			SDL_Rect rect{ (m_rect.x + (m_rect.w / 2) - (texture->getTexture()->getWidth() / 2)),
-						 (m_rect.y + (m_rect.h / 2) - (texture->getTexture()->getHeight() / 2)),
+			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
+						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
 						 (texture->getTexture()->getWidth()), 
 						 (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
@@ -143,8 +152,8 @@ void Button::renderButton()
 		case RIGHT:
 		{
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_right");
-			SDL_Rect rect{ (m_rect.x + (m_rect.w / 2) - (texture->getTexture()->getWidth() / 2)),
-						 (m_rect.y + (m_rect.h / 2) - (texture->getTexture()->getHeight() / 2)),
+			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
+						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
 						 (texture->getTexture()->getWidth()), 
 						 (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
@@ -153,12 +162,26 @@ void Button::renderButton()
 		case SELECT:
 		{
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_select");
-			SDL_Rect rect{ (m_rect.x + (m_rect.w / 2) - (texture->getTexture()->getWidth() / 2)),
-						 (m_rect.y + (m_rect.h / 2) - (texture->getTexture()->getHeight() / 2)),
+			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
+						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
 						 (texture->getTexture()->getWidth()), 
 						 (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
 			break;
+		}
+
+		// Options Menu Buttons
+
+		case RESOLUTION:
+		{
+			Text resolution{};
+			const std::string res = std::to_string(SCREEN_WIDTH) + 'x' + std::to_string(SCREEN_HEIGHT);
+			resolution.loadFromText(res, resourceManager.getTextSystem().findFont("ttf_futura")->getFont(), SDL_Color(0xFF, 0xFF, 0xFF, 0xFF));
+			SDL_Rect rect{ (button.x + (button.w / 2) - (resolution.getTexture()->getWidth() / 2)),
+						 (button.y + (button.h / 2) - (resolution.getTexture()->getHeight() / 2)),
+						 (resolution.getTexture()->getWidth()),
+						 (resolution.getTexture()->getHeight()) };
+			resolution.getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
 		}
 	}
 }

@@ -123,7 +123,7 @@ void Player::render()
 		// Ship Texture
 		std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
 
-		ship->render(m_pos.x, m_pos.y, 64, 80, &ship->getClips()[m_ship.getIndex()]);
+		ship->render(m_pos.x, m_pos.y, 64 * sf.x, 80 * sf.y, &ship->getClips()[m_ship.getIndex()]);
 
 		//renderHealthAnimation();
 		renderShieldAnimation();
@@ -202,10 +202,10 @@ bool Player::renderHealthAnimation()
 	std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
 	std::shared_ptr<Sprite> healthSprite = resourceManager.getTextureSystem().findSprite("sprite_health_regen");
 
-	int abilityPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 4) - m_currentAbilityClip->w / 2;
-	int abilityPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 4) - m_currentAbilityClip->h / 2;
+	int abilityPosX = (m_pos.x + (64 * sf.x) / 4) - (m_currentAbilityClip->w * sf.x) / 2;
+	int abilityPosY = (m_pos.y + (80 * sf.y) / 4) - (m_currentAbilityClip->h * sf.y) / 2;
 
-	healthSprite->render(abilityPosX, abilityPosY, m_currentAbilityClip->w, m_currentAbilityClip->h, m_currentAbilityClip);
+	healthSprite->render(abilityPosX, abilityPosY, m_currentAbilityClip->w * sf.x, m_currentAbilityClip->h * sf.y, m_currentAbilityClip);
 
 	return true;
 }
@@ -215,13 +215,16 @@ bool Player::renderShieldAnimation()
 	if (!m_shieldActivated)
 		return false;
 
-	std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
-	std::shared_ptr<Sprite> shieldSprite = resourceManager.getTextureSystem().findSprite("sprite_blue_shield");
+	if (m_currentAbilityClip)
+	{
+		std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
+		std::shared_ptr<Sprite> shieldSprite = resourceManager.getTextureSystem().findSprite("sprite_blue_shield");
 
-	int abilityPosX = (m_pos.x + ship->getClips()[m_ship.getIndex()].w / 4) - m_currentAbilityClip->w / 2;
-	int abilityPosY = (m_pos.y + ship->getClips()[m_ship.getIndex()].h / 4) - m_currentAbilityClip->h / 2;
+		int abilityPosX = (m_pos.x + (64 * sf.x) / 2) - (m_currentAbilityClip->w * sf.x) / 2;
+		int abilityPosY = (m_pos.y + (80 * sf.y) / 2) - (m_currentAbilityClip->h * sf.y) / 2;
 
-	shieldSprite->render(abilityPosX, abilityPosY, m_currentAbilityClip->w, m_currentAbilityClip->h, m_currentAbilityClip);
+		shieldSprite->render(abilityPosX, abilityPosY, m_currentAbilityClip->w * sf.x, m_currentAbilityClip->h * sf.y, m_currentAbilityClip);
+	}
 
 	return true;
 }

@@ -20,6 +20,9 @@ enum ButtonTypes
 	LEFT,
 	RIGHT,
 	SELECT,
+
+	// Options Menu Buttons
+	RESOLUTION
 };
 
 class Button

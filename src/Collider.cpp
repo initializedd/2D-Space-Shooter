@@ -114,9 +114,9 @@ void Collider::createColliders(Vector2<float>& pos, double rotation)
 
 	// Calculate the centre coordinates of the rotated texture
 	//double textureCentreX = m_ship.getTexture().getWidth() / 2.0;
-	double textureCentreX = 64.0 / 2.0;
+	double textureCentreX = (64.0 * sf.x) / 2.0;
 	//double textureCentreY = m_ship.getTexture().getHeight() / 2.0;
-	double textureCentreY = 80.0 / 2.0;
+	double textureCentreY = (80.0 * sf.y) / 2.0;
 
 	// Calculate the centre coordinates of the collider
 	double colliderCentreX = m_rect.w / 2.0;

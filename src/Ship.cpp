@@ -20,12 +20,12 @@ void Ship::createShip(int index)
 	{
 		case 0:
 		case 1:
-			m_parts = { ShipPart(COCKPIT,			SDL_Rect(26, 0, 12, 17)),
-						ShipPart(LEFT_WEAPON,		SDL_Rect(21, 16, 2, 10)),
-						ShipPart(RIGHT_WEAPON,		SDL_Rect(41, 16, 2, 10)),
-						ShipPart(WEAPON,			SDL_Rect(11, 16, 42, 11)),
-						ShipPart(BODY,				SDL_Rect(0, 26, 64, 45)),
-						ShipPart(TAIL,				SDL_Rect(29, 70, 7, 10)) };
+			m_parts = { ShipPart(COCKPIT,			SDL_Rect(26 * sf.x, 0 * sf.y, 12 * sf.x, 17 * sf.y)),
+						ShipPart(LEFT_WEAPON,		SDL_Rect(21 * sf.x, 16 * sf.y, 2 * sf.x, 10 * sf.y)),
+						ShipPart(RIGHT_WEAPON,		SDL_Rect(41 * sf.x, 16 * sf.y, 2 * sf.x, 10 * sf.y)),
+						ShipPart(WEAPON,			SDL_Rect(11 * sf.x, 16 * sf.y, 42 * sf.x, 11 * sf.y)),
+						ShipPart(BODY,				SDL_Rect(0 * sf.x, 26 * sf.y, 64 * sf.x, 45 * sf.y)),
+						ShipPart(TAIL,				SDL_Rect(29 * sf.x, 70 * sf.y, 7 * sf.x, 10 * sf.y)) };
 			break;
 
 		case 2:
