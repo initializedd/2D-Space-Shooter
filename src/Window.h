@@ -25,6 +25,7 @@ public:
 	bool createWindow();
 	bool createRenderer();
 
+	void resizeWindow(int width, int height);
 	void calculateFPS(Timer& timer, int countedFrames);
 
 	SDL_Window*			getWindow()		const;

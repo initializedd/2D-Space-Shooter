@@ -76,6 +76,13 @@ bool Window::createRenderer()
 	return true;
 }
 
+void Window::resizeWindow(int width, int height)
+{
+	SDL_SetWindowSize(m_window, width, height);
+	SDL_SetWindowPosition(m_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+}
+
+
 void Window::calculateFPS(Timer& timer, int countedFrames)
 {
 	float avgFPS = countedFrames / (timer.getTicks() / 1000.f);
