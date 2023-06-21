@@ -68,7 +68,7 @@ void Enemy::render()
 		std::shared_ptr<Sprite> ship = resourceManager.getTextureSystem().findSprite("sprite_ships");
 
 		// Ship Texture
-		ship->render(m_pos.x, m_pos.y, m_width, m_height , &ship->getClips()[m_ship.getIndex()], 180);
+		ship->render(m_pos.x, m_pos.y, 64 * sf.x, 80 * sf.y, &ship->getClips()[m_ship.getIndex()], 180);
 	}
 
 	// Projejctiles

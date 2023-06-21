@@ -14,8 +14,6 @@ public:
 
 	void createUI();
 
-	//void render();
-
 	void displayHealth(int health);
 	void displayShield(int shield);
 

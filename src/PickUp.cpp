@@ -22,19 +22,19 @@ void PickUp::createItem(UpgradeType type)
 	switch (type)
 	{
 		case UPGRADE_HEALTH:
-			m_upgrade = { type, SDL_Rect(33 * 0.5, 51 * 0.5, 184 * 0.5, 184 * 0.5) };
+			m_upgrade = { type, SDL_Rect(33 * 0.5 * sf.x, 51 * 0.5 * sf.y, 184 * 0.5 * sf.x, 184 * 0.5 * sf.y) };
 			break;
 
 		case UPGRADE_LIVES:
-			m_upgrade = { type, SDL_Rect(33 * 0.5, 51 * 0.5, 184 * 0.5, 184 * 0.5) };
+			m_upgrade = { type, SDL_Rect(33 * 0.5 * sf.x, 51 * 0.5 * sf.y, 184 * 0.5 * sf.x, 184 * 0.5 * sf.y) };
 			break;
 
 		case UPGRADE_SHIELD:
-			m_upgrade = { type, SDL_Rect(33 * 0.5, 51 * 0.5, 184 * 0.5, 184 * 0.5) };
+			m_upgrade = { type, SDL_Rect(33 * 0.5 * sf.x, 51 * 0.5 * sf.y, 184 * 0.5 * sf.x, 184 * 0.5 * sf.y) };
 			break;
 
 		case UPGRADE_WEAPON:
-			m_upgrade = { type, SDL_Rect(33 * 0.5, 51 * 0.5, 184 * 0.5, 184 * 0.5) };
+			m_upgrade = { type, SDL_Rect(33 * 0.5 * sf.x, 51 * 0.5 * sf.y, 184 * 0.5 * sf.x, 184 * 0.5 * sf.y) };
 			break;
 	}
 }
@@ -53,8 +53,8 @@ void PickUp::render()
 	(
 		m_pos.x,
 		m_pos.y,
-		upgrades->getClips()[m_upgrade.type].w * 0.5,
-		upgrades->getClips()[m_upgrade.type].h * 0.5,
+		upgrades->getClips()[m_upgrade.type].w * 0.5 * sf.x,
+		upgrades->getClips()[m_upgrade.type].h * 0.5 * sf.y,
 		&upgrades->getClips()[m_upgrade.type]
 	);
 

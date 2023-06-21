@@ -54,6 +54,9 @@ void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 						break;
 
 					case SELECT:
+						if (!gPlayer)
+							gPlayer = std::make_unique<Player>(100 * sf.x, 100 * sf.y);
+
 						gPlayer->getShip().createShip(m_index);
 						gPlayer->setHasSelectedShip(true);
 						break;
@@ -69,10 +72,10 @@ void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 
 	shipSprite->render
 	(
-		(SCREEN_WIDTH / 2) - (shipSprite->getClips()[m_index].w / 2), 
-		(SCREEN_HEIGHT / 2) - (shipSprite->getClips()[m_index].h / 2), 
-		shipSprite->getClips()[m_index].w,
-		shipSprite->getClips()[m_index].h,
+		(SCREEN_WIDTH / 2) - (shipSprite->getClips()[m_index].w / 2) * sf.x, 
+		(SCREEN_HEIGHT / 2) - (shipSprite->getClips()[m_index].h / 2) * sf.y, 
+		shipSprite->getClips()[m_index].w * sf.x,
+		shipSprite->getClips()[m_index].h * sf.y,
 		&shipSprite->getClips()[m_index]
 	);
 

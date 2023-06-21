@@ -35,7 +35,7 @@ void Wave::createWave()
 
 		for (int i = 0; i < m_numOfEnemies; ++i)
 		{
-			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(m_enemyPositions[i].x + 80, m_enemyPositions[i].y + 50);
+			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>((m_enemyPositions[i].x + 80) * sf.x, (m_enemyPositions[i].y + 50) * sf.y);
 
 			enemy->getShip().createShip(1);
 
@@ -43,7 +43,7 @@ void Wave::createWave()
 
 			gEnts.push_back(std::move(enemy));
 
-			std::unique_ptr<WraithEnemy> wraithEnemy = std::make_unique<WraithEnemy>(m_enemyPositions[i].x, m_enemyPositions[i].y);
+			std::unique_ptr<WraithEnemy> wraithEnemy = std::make_unique<WraithEnemy>(m_enemyPositions[i].x * sf.x, m_enemyPositions[i].y * sf.y);
 
 			wraithEnemy->getShip().createShip(1);
 
@@ -64,7 +64,7 @@ bool Wave::displayWaveNum()
 	if (!waveText->loadFromText(waveString, futura->getFont(), SDL_Color(0x00, 0xFF, 0x00, 0xFF)))
 		return false;
 
-	waveText->getTexture()->render(0, SCREEN_HEIGHT - 150, waveText->getTexture()->getWidth(), waveText->getTexture()->getHeight(), nullptr);
+	waveText->getTexture()->render(0, SCREEN_HEIGHT - 150 * sf.y, waveText->getTexture()->getWidth() * sf.x, waveText->getTexture()->getHeight() * sf.y, nullptr);
 
 	return true;
 }

@@ -28,6 +28,7 @@ bool Game::load()
 {
 	mainMenu->createButtons();
 	customiseMenu->createButtons();
+	optionsMenu->createButtons();
 
 	return true;
 }
@@ -148,7 +149,7 @@ void Game::render()
 
 	std::shared_ptr<Text> fpsText = resourceManager.getTextSystem().findTextStream("txt_fps");
 
-	fpsText->getTexture()->render(SCREEN_WIDTH - fpsText->getTexture()->getWidth(), 0, fpsText->getTexture()->getWidth(), fpsText->getTexture()->getHeight(), nullptr);
+	fpsText->getTexture()->render(SCREEN_WIDTH - fpsText->getTexture()->getWidth() * sf.x, 0, fpsText->getTexture()->getWidth() * sf.x, fpsText->getTexture()->getHeight() * sf.y, nullptr);
 
 	SDL_RenderPresent(resourceManager.getRenderSystem().getWindow().getRenderer());
 }

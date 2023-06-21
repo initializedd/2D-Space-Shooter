@@ -35,11 +35,15 @@ void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
 				switch (m_buttons[i].getType())
 				{
 					case PLAY:
+						if (!gPlayer)
+							gPlayer = std::make_unique<Player>(100 * sf.x, 100 * sf.y);
+
 						if (!gPlayer->hasSelectedShip())
 						{
 							int num = getRandomNumber(0, 47);
 							gPlayer->getShip().createShip(num);
 						}
+
 						m_exitMenu = true;
 						break;
 
@@ -48,6 +52,7 @@ void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
 						break;
 
 					case OPTIONS:
+						activeMenu = optionsMenu;
 						break;
 				}
 			}

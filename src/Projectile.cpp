@@ -16,7 +16,7 @@ Projectile::Projectile()
 
 void Projectile::move(double dt)
 {
-	m_movement.calculateVelocity(m_direction, PROJECTILE_SPEED);
+	m_movement.calculateVelocity(m_direction, PROJECTILE_SPEED * sf.y);
 	m_movement.move(m_pos, dt);
 }
 
