@@ -27,6 +27,10 @@ Entity::Entity()
 {
 }
 
+Entity::~Entity()
+{
+}
+
 void Entity::move(double dt)
 {
 	m_movement.calculateVelocity(m_direction, m_speed);

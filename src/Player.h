@@ -30,7 +30,7 @@ private:
 
 public:
 	Player(int x, int y);
-	~Player();
+	~Player() final;
 
 	void handleKeyboardInputs();
 	void update(int i, double dt);
