@@ -23,7 +23,7 @@ Player::Player(int x, int y)
 
 	m_health = 1000;
 
-	m_speed = PLAYER_SPEED;
+	m_speed = PLAYER_SPEED * sf.y;
 
 	++NUM_OF_PLAYERS;
 }

@@ -52,6 +52,7 @@ protected:
 
 public:
 	Entity();
+	virtual ~Entity();
 
 	virtual void move(double dt);
 	void shoot(int delay);
