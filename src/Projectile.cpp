@@ -16,7 +16,7 @@ Projectile::Projectile()
 
 void Projectile::move(double dt)
 {
-	m_movement.calculateVelocity(m_direction, PROJECTILE_SPEED * sf.y);
+	m_movement.calculateVelocity(m_direction, PROJECTILE_SPEED);
 	m_movement.move(m_pos, dt);
 }
 
@@ -122,18 +122,46 @@ void Projectile::debug()
 	{
 		case LEFT_PROJECTILE:
 			if (m_movement.getVel().y < 0)
-				projectileText->getTexture()->render(rect.x - projectileText->getTexture()->getWidth() - 1, rect.y - projectileText->getTexture()->getHeight(), projectileText->getTexture()->getWidth(), projectileText->getTexture()->getHeight(), nullptr);
+				projectileText->getTexture()->render
+				(
+					rect.x - projectileText->getTexture()->getWidth() - 1, 
+					rect.y - projectileText->getTexture()->getHeight(), 
+					projectileText->getTexture()->getWidth(), 
+					projectileText->getTexture()->getHeight(), 
+					nullptr
+				);
 
 			else if (m_movement.getVel().y > 0)
-				projectileText->getTexture()->render(rect.x + rect.w, rect.y - projectileText->getTexture()->getHeight(), projectileText->getTexture()->getWidth(), projectileText->getTexture()->getHeight(), nullptr);
+				projectileText->getTexture()->render
+				(
+					rect.x + rect.w, 
+					rect.y - projectileText->getTexture()->getHeight(), 
+					projectileText->getTexture()->getWidth(), 
+					projectileText->getTexture()->getHeight(), 
+					nullptr
+				);
 			break;
 
 		case RIGHT_PROJECTILE:
 			if (m_movement.getVel().y < 0)
-				projectileText->getTexture()->render(rect.x + rect.w, rect.y - projectileText->getTexture()->getHeight(), projectileText->getTexture()->getWidth(), projectileText->getTexture()->getHeight(), nullptr);
+				projectileText->getTexture()->render
+				(
+					rect.x + rect.w, 
+					rect.y - projectileText->getTexture()->getHeight(), 
+					projectileText->getTexture()->getWidth(), 
+					projectileText->getTexture()->getHeight(), 
+					nullptr
+				);
 
 			else if (m_movement.getVel().y > 0)
-				projectileText->getTexture()->render(rect.x - projectileText->getTexture()->getWidth() - 1, rect.y - projectileText->getTexture()->getHeight(), projectileText->getTexture()->getWidth(), projectileText->getTexture()->getHeight(), nullptr);
+				projectileText->getTexture()->render
+				(
+					rect.x - projectileText->getTexture()->getWidth() - 1, 
+					rect.y - projectileText->getTexture()->getHeight(), 
+					projectileText->getTexture()->getWidth(), 
+					projectileText->getTexture()->getHeight(), 
+					nullptr
+				);
 			break;
 	}
 

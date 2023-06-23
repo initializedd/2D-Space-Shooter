@@ -1,4 +1,5 @@
 #include "Movement.h"
+#include "Common.h"
 
 Movement::Movement()
 	: m_vel{}
@@ -16,8 +17,8 @@ void Movement::move(Vector2<float>& pos, double dt)
 
 void Movement::calculateVelocity(Vector2<float> direction, int speed)
 {
-	m_vel.x = direction.x * speed;
-	m_vel.y = direction.y * speed;
+	m_vel.x = direction.x * speed * sf.x;
+	m_vel.y = direction.y * speed * sf.y;
 }
 
 Vector2<float> Movement::getVel()
