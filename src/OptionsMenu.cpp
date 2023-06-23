@@ -9,7 +9,7 @@ void OptionsMenu::createButtons()
 {
 	m_buttons.emplace_back(Button(BACK,			SDL_Rect(0, 0, 200, 50)));
 	m_buttons.emplace_back(Button(RESOLUTION,	SDL_Rect(200, 175, 200, 50)));
-	m_buttons.emplace_back(Button(OPTIONS,		SDL_Rect(200, 250, 200, 50)));
+	//m_buttons.emplace_back(Button(SOUND,		SDL_Rect(200, 250, 200, 50)));
 }
 
 void OptionsMenu::displayMenu(SDL_Event& event, bool& quitGame)
@@ -37,14 +37,26 @@ void OptionsMenu::displayMenu(SDL_Event& event, bool& quitGame)
 						break;
 
 					case RESOLUTION:
-						sf.x = 1920.0 / 640.0;
-						sf.y = 1080.0 / 480.0;
-						SCREEN_WIDTH = 1920;
-						SCREEN_HEIGHT = 1080;
+						SCREEN_WIDTH *= 2;
+						SCREEN_HEIGHT *= 2;
+
+						if (SCREEN_WIDTH >= 1920 * 2 || SCREEN_HEIGHT >= 1080 * 2)
+						{
+							SCREEN_WIDTH = 640;
+							SCREEN_HEIGHT = 480;
+						}
+						else if (SCREEN_WIDTH > 1920 || SCREEN_HEIGHT > 1080)
+						{
+							SCREEN_WIDTH = 1920;
+							SCREEN_HEIGHT = 1080;
+						}
+
+						sf.x = SCREEN_WIDTH / 640.0;
+						sf.y = SCREEN_HEIGHT / 480.0;
 						resourceManager.getRenderSystem().getWindow().resizeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
 						break;
 
-					case OPTIONS:
+					case SOUND:
 						break;
 				}
 			}

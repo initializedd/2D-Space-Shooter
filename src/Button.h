@@ -22,7 +22,8 @@ enum ButtonTypes
 	SELECT,
 
 	// Options Menu Buttons
-	RESOLUTION
+	RESOLUTION,
+	SOUND
 };
 
 class Button
