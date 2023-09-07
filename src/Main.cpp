@@ -1,5 +1,5 @@
-#include "Game.h"
-#include "Common.h"
+#include "Game/Game.h"
+#include "Common/Common.h"
 
 int main(int argc, char* argv[])
 {
