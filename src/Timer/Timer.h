@@ -8,7 +8,7 @@ class Timer
 private:
 	Uint64				m_startTicks;
 	Uint64				m_pausedTicks;
-	
+
 	bool				m_started;
 	bool				m_paused;
 

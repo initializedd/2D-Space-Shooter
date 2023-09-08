@@ -30,7 +30,7 @@ void Collider::handleCollision(Vector2<float>& pos, const Vector2<float>& otherP
 
 	float overlapY = std::min
 	(
-		m_rect.y + m_rect.h, 
+		m_rect.y + m_rect.h,
 		otherCollider.getRect().y + otherCollider.getRect().h) - std::max(m_rect.y, otherCollider.getRect().y
 	);
 

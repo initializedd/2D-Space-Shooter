@@ -90,7 +90,7 @@ bool Texture::loadFromRenderedText(const std::string& text, TTF_Font* font, SDL_
 {
 	free();
 
-	SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+	SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), textColor);
 	if (!surface)
 	{
 		printf("Failed to render text solid to surface, Error: %s\n", TTF_GetError());

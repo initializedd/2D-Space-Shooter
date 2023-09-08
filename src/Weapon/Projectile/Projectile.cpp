@@ -124,20 +124,20 @@ void Projectile::debug()
 			if (m_movement.getVel().y < 0)
 				projectileText->getTexture()->render
 				(
-					rect.x - projectileText->getTexture()->getWidth() - 1, 
-					rect.y - projectileText->getTexture()->getHeight(), 
-					projectileText->getTexture()->getWidth(), 
-					projectileText->getTexture()->getHeight(), 
+					rect.x - projectileText->getTexture()->getWidth() - 1,
+					rect.y - projectileText->getTexture()->getHeight(),
+					projectileText->getTexture()->getWidth(),
+					projectileText->getTexture()->getHeight(),
 					nullptr
 				);
 
 			else if (m_movement.getVel().y > 0)
 				projectileText->getTexture()->render
 				(
-					rect.x + rect.w, 
-					rect.y - projectileText->getTexture()->getHeight(), 
-					projectileText->getTexture()->getWidth(), 
-					projectileText->getTexture()->getHeight(), 
+					rect.x + rect.w,
+					rect.y - projectileText->getTexture()->getHeight(),
+					projectileText->getTexture()->getWidth(),
+					projectileText->getTexture()->getHeight(),
 					nullptr
 				);
 			break;
@@ -146,20 +146,20 @@ void Projectile::debug()
 			if (m_movement.getVel().y < 0)
 				projectileText->getTexture()->render
 				(
-					rect.x + rect.w, 
-					rect.y - projectileText->getTexture()->getHeight(), 
-					projectileText->getTexture()->getWidth(), 
-					projectileText->getTexture()->getHeight(), 
+					rect.x + rect.w,
+					rect.y - projectileText->getTexture()->getHeight(),
+					projectileText->getTexture()->getWidth(),
+					projectileText->getTexture()->getHeight(),
 					nullptr
 				);
 
 			else if (m_movement.getVel().y > 0)
 				projectileText->getTexture()->render
 				(
-					rect.x - projectileText->getTexture()->getWidth() - 1, 
-					rect.y - projectileText->getTexture()->getHeight(), 
-					projectileText->getTexture()->getWidth(), 
-					projectileText->getTexture()->getHeight(), 
+					rect.x - projectileText->getTexture()->getWidth() - 1,
+					rect.y - projectileText->getTexture()->getHeight(),
+					projectileText->getTexture()->getWidth(),
+					projectileText->getTexture()->getHeight(),
 					nullptr
 				);
 			break;

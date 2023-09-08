@@ -101,7 +101,7 @@ void Button::renderButton()
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_play");
 			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
 						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
-						 (texture->getTexture()->getWidth()), 
+						 (texture->getTexture()->getWidth()),
 						 (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
 			break;
@@ -111,7 +111,7 @@ void Button::renderButton()
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_customise");
 			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
 						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
-						 (texture->getTexture()->getWidth()), 
+						 (texture->getTexture()->getWidth()),
 						 (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
 			break;
@@ -121,7 +121,7 @@ void Button::renderButton()
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_options");
 			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
 						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
-						 (texture->getTexture()->getWidth()), 
+						 (texture->getTexture()->getWidth()),
 						 (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
 			break;
@@ -134,7 +134,7 @@ void Button::renderButton()
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_back");
 			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
 						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
-						 (texture->getTexture()->getWidth()), 
+						 (texture->getTexture()->getWidth()),
 				         (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
 			break;
@@ -144,7 +144,7 @@ void Button::renderButton()
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_left");
 			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
 						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
-						 (texture->getTexture()->getWidth()), 
+						 (texture->getTexture()->getWidth()),
 						 (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
 			break;
@@ -154,7 +154,7 @@ void Button::renderButton()
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_right");
 			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
 						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
-						 (texture->getTexture()->getWidth()), 
+						 (texture->getTexture()->getWidth()),
 						 (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
 			break;
@@ -164,7 +164,7 @@ void Button::renderButton()
 			std::shared_ptr<Text> texture = resourceManager.getTextSystem().findText("txt_select");
 			SDL_Rect rect{ (button.x + (button.w / 2) - (texture->getTexture()->getWidth() / 2)),
 						 (button.y + (button.h / 2) - (texture->getTexture()->getHeight() / 2)),
-						 (texture->getTexture()->getWidth()), 
+						 (texture->getTexture()->getWidth()),
 						 (texture->getTexture()->getHeight()) };
 			texture->getTexture()->render(rect.x, rect.y, rect.w, rect.h, nullptr);
 			break;

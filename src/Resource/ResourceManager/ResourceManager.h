@@ -14,7 +14,7 @@ class ResourceManager
 {
 private:
 	const ResourceDB::Root*						m_root;
-												
+
 	RenderSystem								m_renderSystem;
 	TextureSystem								m_textureSystem;
 	SoundSystem									m_soundSystem;
@@ -29,7 +29,7 @@ private:
 public:
 	ResourceManager();
 	~ResourceManager();
-	
+
 	bool loadDatabase(const std::string& path);
 
 	RenderSystem& getRenderSystem();
