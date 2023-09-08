@@ -3,10 +3,10 @@
 
 int main(int argc, char* argv[])
 {
-	resourceManager.loadDatabase("../../../resources/resourcedata.bin");
+	resourceManager.loadDatabase("resources/resourcedata.bin");
 
 	Game game{};
-	
+
 	if (game.init())
 	{
 		if (game.load())

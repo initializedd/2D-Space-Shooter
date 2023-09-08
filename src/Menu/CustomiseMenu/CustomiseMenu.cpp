@@ -26,7 +26,7 @@ void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 			m_exitMenu = true;
 			quitGame = true;
 		}
-		
+
 		for (int i = 0; i < m_buttons.size(); ++i)
 		{
 			m_buttons[i].handleEvent(event);
@@ -72,8 +72,8 @@ void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 
 	shipSprite->render
 	(
-		(SCREEN_WIDTH / 2) - (shipSprite->getClips()[m_index].w / 2) * sf.x, 
-		(SCREEN_HEIGHT / 2) - (shipSprite->getClips()[m_index].h / 2) * sf.y, 
+		(SCREEN_WIDTH / 2) - (shipSprite->getClips()[m_index].w / 2) * sf.x,
+		(SCREEN_HEIGHT / 2) - (shipSprite->getClips()[m_index].h / 2) * sf.y,
 		shipSprite->getClips()[m_index].w * sf.x,
 		shipSprite->getClips()[m_index].h * sf.y,
 		&shipSprite->getClips()[m_index]

@@ -137,7 +137,7 @@ void Game::render()
 
 		#if defined(_DEBUG)
 		gEnts[i]->debug();
-		#endif			
+		#endif
 	}
 
 	for (int i = 0; i < gPickUp.size(); ++i)
