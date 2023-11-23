@@ -40,8 +40,8 @@ inline std::shared_ptr<MainMenu> mainMenu = std::make_shared<MainMenu>();
 inline std::shared_ptr<CustomiseMenu> customiseMenu = std::make_shared<CustomiseMenu>();
 inline std::shared_ptr<OptionsMenu> optionsMenu = std::make_shared<OptionsMenu>();
 
-inline SDL_Rect	gRedProjectileClip{ 18, 13, 58, 41 };
-inline SDL_Rect	gLeftProjectileHitBox{ 26, 7, 4, 27 };
-inline SDL_Rect	gRightProjectileHitBox{ 28, 7, 4, 27 };
+inline SDL_FRect gRedProjectileClip{ 18, 13, 58, 41 };
+inline SDL_FRect gLeftProjectileHitBox{ 26, 7, 4, 27 };
+inline SDL_FRect gRightProjectileHitBox{ 28, 7, 4, 27 };
 
 #endif // !COMMON_H

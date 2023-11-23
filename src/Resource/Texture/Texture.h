@@ -2,8 +2,8 @@
 #define TEXTURE_H
 
 //#include "Resource.h"
-#include <SDL_render.h>
-#include <SDL_ttf.h>
+#include <SDL3/SDL_render.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 
 class Texture
@@ -23,7 +23,7 @@ public:
 	bool loadFromFile(const std::string& path, const bool flag, const Uint8 red = 0xFF, const Uint8 green = 0xFF, const Uint8 blue = 0xFF, const Uint8 alpha = 0xFF);
 	bool loadFromRenderedText(const std::string& text, TTF_Font* font, SDL_Color textColor);
 
-	void render(int x, int y, int w, int h, SDL_Rect* srcrect = nullptr, double angle = 0.0, SDL_Point* centre = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
+	void render(int x, int y, int w, int h, SDL_FRect* srcrect = nullptr, double angle = 0.0, SDL_FPoint* centre = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
 	void scale(int width, int height);
 	void free();
 

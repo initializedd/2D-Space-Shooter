@@ -10,7 +10,7 @@ Enemy::Enemy(int x, int y)
 	m_width = 64;
 	m_height = 80;
 
-	m_type = ENEMY;
+	m_type = EntityType::ENEMY;
 	m_textureRotation = 180.f;
 
 	m_direction = Vector2<float>(1, 0);
@@ -52,7 +52,7 @@ void Enemy::render()
 		for (int i = 0; i < m_ship.getParts().size(); ++i)
 		{
 			ShipPart& part = m_ship.getParts()[i];
-			const SDL_Rect& collider = part.getCollider().getRect();
+			const SDL_FRect& collider = part.getCollider().getRect();
 
 			if (part.getPartType() == LEFT_EXHAUST || part.getPartType() == RIGHT_EXHAUST)
 			{

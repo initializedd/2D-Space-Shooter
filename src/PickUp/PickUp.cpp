@@ -22,19 +22,19 @@ void PickUp::createItem(UpgradeType type)
 	switch (type)
 	{
 		case UPGRADE_HEALTH:
-			m_upgrade = { type, SDL_Rect(33 * 0.5 * sf.x, 51 * 0.5 * sf.y, 184 * 0.5 * sf.x, 184 * 0.5 * sf.y) };
+			m_upgrade = { type, SDL_FRect(33 * 0.5 * sf.x, 51 * 0.5 * sf.y, 184 * 0.5 * sf.x, 184 * 0.5 * sf.y) };
 			break;
 
 		case UPGRADE_LIVES:
-			m_upgrade = { type, SDL_Rect(33 * 0.5 * sf.x, 51 * 0.5 * sf.y, 184 * 0.5 * sf.x, 184 * 0.5 * sf.y) };
+			m_upgrade = { type, SDL_FRect(33 * 0.5 * sf.x, 51 * 0.5 * sf.y, 184 * 0.5 * sf.x, 184 * 0.5 * sf.y) };
 			break;
 
 		case UPGRADE_SHIELD:
-			m_upgrade = { type, SDL_Rect(33 * 0.5 * sf.x, 51 * 0.5 * sf.y, 184 * 0.5 * sf.x, 184 * 0.5 * sf.y) };
+			m_upgrade = { type, SDL_FRect(33 * 0.5 * sf.x, 51 * 0.5 * sf.y, 184 * 0.5 * sf.x, 184 * 0.5 * sf.y) };
 			break;
 
 		case UPGRADE_WEAPON:
-			m_upgrade = { type, SDL_Rect(33 * 0.5 * sf.x, 51 * 0.5 * sf.y, 184 * 0.5 * sf.x, 184 * 0.5 * sf.y) };
+			m_upgrade = { type, SDL_FRect(33 * 0.5 * sf.x, 51 * 0.5 * sf.y, 184 * 0.5 * sf.x, 184 * 0.5 * sf.y) };
 			break;
 	}
 }

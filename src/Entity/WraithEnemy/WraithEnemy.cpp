@@ -1,5 +1,6 @@
 #include "WraithEnemy.h"
 #include "../../Common/Common.h"
+#include <cmath>
 
 WraithEnemy::WraithEnemy(int x, int y)
 	: Enemy{ x, y }
@@ -70,7 +71,7 @@ void WraithEnemy::checkScreenBoundaryX()
 {
 	for (int i = 0; i < m_ship.getParts().size(); ++i)
 	{
-		const SDL_Rect& collider = m_ship.getParts()[i].getCollider().getRect();
+		const SDL_FRect& collider = m_ship.getParts()[i].getCollider().getRect();
 
 		// Check if outside of left screen boundary
 		if (collider.x < 0.f)
@@ -99,7 +100,7 @@ void WraithEnemy::checkScreenBoundaryY()
 {
 	for (int i = 0; i < m_ship.getParts().size(); ++i)
 	{
-		const SDL_Rect& collider = m_ship.getParts()[i].getCollider().getRect();
+		const SDL_FRect& collider = m_ship.getParts()[i].getCollider().getRect();
 
 		// Check if outside of top screen boundary
 		if (collider.y < 0.f)

@@ -1,7 +1,7 @@
 #ifndef FONT_H
 #define FONT_H
 
-#include <SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 
 class Font

@@ -1,6 +1,6 @@
 #include "Texture.h"
 #include "../../Common/Common.h"
-#include <SDL_image.h>
+#include <SDL3_image/SDL_image.h>
 #include <cstdio>
 
 Texture::Texture()
@@ -29,7 +29,7 @@ bool Texture::loadPixelsFromFile(const std::string& path)
 		return false;
 	}
 
-	m_surfacePixels = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_ABGR8888, 0);
+	m_surfacePixels = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_ABGR8888);
 	if (!m_surfacePixels)
 	{
 		printf("Failed to convert surface format, Error: %s\n", SDL_GetError());
@@ -39,7 +39,7 @@ bool Texture::loadPixelsFromFile(const std::string& path)
 	m_width = m_surfacePixels->w;
 	m_height = m_surfacePixels->h;
 
-	SDL_FreeSurface(surface);
+	SDL_DestroySurface(surface);
 
 	return true;
 }
@@ -52,7 +52,7 @@ bool Texture::loadFromPixels(const bool flag, const Uint8 red, const Uint8 green
 		return false;
 	}
 
-	SDL_SetColorKey(m_surfacePixels, flag, SDL_MapRGBA(m_surfacePixels->format, red, green, blue, alpha));
+	SDL_SetSurfaceColorKey(m_surfacePixels, flag, SDL_MapRGBA(m_surfacePixels->format, red, green, blue, alpha));
 
 	m_texture = SDL_CreateTextureFromSurface(resourceManager.getRenderSystem().getWindow().getRenderer(), m_surfacePixels);
 	if (!m_texture)
@@ -64,7 +64,7 @@ bool Texture::loadFromPixels(const bool flag, const Uint8 red, const Uint8 green
 	m_width = m_surfacePixels->w;
 	m_height = m_surfacePixels->h;
 
-	SDL_FreeSurface(m_surfacePixels);
+	SDL_DestroySurface(m_surfacePixels);
 
 	return true;
 }
@@ -107,16 +107,16 @@ bool Texture::loadFromRenderedText(const std::string& text, TTF_Font* font, SDL_
 	m_width = surface->w;
 	m_height = surface->h;
 
-	SDL_FreeSurface(surface);
+	SDL_DestroySurface(surface);
 
 	return true;
 }
 
-void Texture::render(int x, int y, int w, int h, SDL_Rect* srcrect, double angle, SDL_Point* centre, SDL_RendererFlip flip)
+void Texture::render(int x, int y, int w, int h, SDL_FRect* srcrect, double angle, SDL_FPoint* centre, SDL_RendererFlip flip)
 {
-	SDL_Rect dstrect{ x, y, w, h};
+	SDL_FRect dstrect{ static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h) };
 
-	SDL_RenderCopyEx(resourceManager.getRenderSystem().getWindow().getRenderer(), m_texture, srcrect, &dstrect, angle, centre, flip);
+	SDL_RenderTextureRotated(resourceManager.getRenderSystem().getWindow().getRenderer(), m_texture, srcrect, &dstrect, angle, centre, flip);
 }
 
 void Texture::scale(int width, int height)

@@ -22,10 +22,10 @@ void Projectile::move(double dt)
 
 bool Projectile::checkScreenBoundary()
 {
-	SDL_Rect screen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	SDL_FRect screen(0.f, 0.f, static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT));
 
 	// Checks if projectile is outside the screen
-	if (!SDL_HasIntersection(&m_collider.getRect(), &screen))
+	if (!SDL_HasRectIntersectionFloat(&m_collider.getRect(), &screen))
 	{
 		return true;
 	}
@@ -105,7 +105,7 @@ void Projectile::render()
 
 void Projectile::debug()
 {
-	const SDL_Rect& rect = m_collider.getRect();
+	const SDL_FRect& rect = m_collider.getRect();
 
 	//std::stringstream pos;
 	//pos.str(std::to_string(rect.x) + ',' + std::to_string(rect.y));

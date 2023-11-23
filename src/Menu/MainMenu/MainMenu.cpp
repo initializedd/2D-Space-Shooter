@@ -9,9 +9,9 @@ MainMenu::MainMenu()
 
 void MainMenu::createButtons()
 {
-	m_buttons.emplace_back(Button(PLAY,			SDL_Rect(200, 100, 200, 50)));
-	m_buttons.emplace_back(Button(CUSTOMISE,	SDL_Rect(200, 175, 200, 50)));
-	m_buttons.emplace_back(Button(OPTIONS,		SDL_Rect(200, 250, 200, 50)));
+	m_buttons.emplace_back(Button(PLAY,			SDL_FRect(200, 100, 200, 50)));
+	m_buttons.emplace_back(Button(CUSTOMISE,	SDL_FRect(200, 175, 200, 50)));
+	m_buttons.emplace_back(Button(OPTIONS,		SDL_FRect(200, 250, 200, 50)));
 }
 
 void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
@@ -20,7 +20,7 @@ void MainMenu::displayMenu(SDL_Event& event, bool& quitGame)
 
 	while (SDL_PollEvent(&event) != 0)
 	{
-		if (event.type == SDL_QUIT)
+		if (event.type == SDL_EVENT_QUIT)
 		{
 			m_exitMenu = true;
 			quitGame = true;

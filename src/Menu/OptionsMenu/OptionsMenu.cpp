@@ -7,9 +7,9 @@ OptionsMenu::OptionsMenu()
 
 void OptionsMenu::createButtons()
 {
-	m_buttons.emplace_back(Button(BACK,			SDL_Rect(0, 0, 200, 50)));
-	m_buttons.emplace_back(Button(RESOLUTION,	SDL_Rect(200, 175, 200, 50)));
-	//m_buttons.emplace_back(Button(SOUND,		SDL_Rect(200, 250, 200, 50)));
+	m_buttons.emplace_back(Button(BACK,			SDL_FRect(0, 0, 200, 50)));
+	m_buttons.emplace_back(Button(RESOLUTION,	SDL_FRect(200, 175, 200, 50)));
+	//m_buttons.emplace_back(Button(SOUND,		SDL_FRect(200, 250, 200, 50)));
 }
 
 void OptionsMenu::displayMenu(SDL_Event& event, bool& quitGame)
@@ -18,7 +18,7 @@ void OptionsMenu::displayMenu(SDL_Event& event, bool& quitGame)
 
 	while (SDL_PollEvent(&event) != 0)
 	{
-		if (event.type == SDL_QUIT)
+		if (event.type == SDL_EVENT_QUIT)
 		{
 			m_exitMenu = true;
 			quitGame = true;

@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "../Common/Common.h"
 #include "../Game/Game.h"
+#include <cmath>
 
 Entity::Entity()
 	: m_ship{}
@@ -89,7 +90,7 @@ void Entity::checkScreenBoundary()
 		Collider& collider = m_ship.getParts()[i].getCollider();
 
 		if (collider.handleScreenCollision(m_pos, m_textureRotation))
-			if (m_type == ENEMY)
+			if (m_type == EntityType::ENEMY)
 				m_direction.x = -m_direction.x;
 	}
 

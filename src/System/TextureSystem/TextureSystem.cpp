@@ -1,6 +1,6 @@
 #include "TextureSystem.h"
 #include "../../Resource/resourcedb_generated.h"
-#include <SDL_image.h>
+#include <SDL3_image/SDL_image.h>
 #include <cstdio>
 
 TextureSystem::TextureSystem()

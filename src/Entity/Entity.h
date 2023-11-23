@@ -9,7 +9,7 @@
 #include "../Common/Pair.h"
 #include <vector>
 
-enum EntityType
+enum EntityType : int
 {
 	ENTITY,
 	PLAYER,
@@ -28,8 +28,8 @@ protected:
 	int						m_width;
 	int						m_height;
 
-	SDL_Rect*				m_currentExhaustClip;
-	SDL_Rect*				m_currentDeathClip;
+	SDL_FRect*				m_currentExhaustClip;
+	SDL_FRect*				m_currentDeathClip;
 
 	Vector2<float>			m_pos;
 	Movement				m_movement;

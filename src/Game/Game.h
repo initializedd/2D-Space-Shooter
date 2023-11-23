@@ -10,7 +10,7 @@
 #include "../Wave/Wave.h"
 #include <vector>
 #include <memory>
-#include <SDL_rect.h>
+#include <SDL3/SDL_rect.h>
 
 class Game
 {

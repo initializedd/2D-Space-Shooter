@@ -19,10 +19,10 @@ struct Upgrade
 {
 	UpgradeType						type;
 	Collider						collider;
-	Vector2<int>					offset;
+	Vector2<float>					offset;
 
 	Upgrade() = default;
-	Upgrade(UpgradeType itemType, SDL_Rect rect) : type{ itemType }, collider{ rect }, offset{ rect.x, rect.y } {}
+	Upgrade(const UpgradeType itemType, const SDL_FRect& rect) : type{ itemType }, collider{ rect }, offset{ rect.x, rect.y } {}
 };
 
 class PickUp

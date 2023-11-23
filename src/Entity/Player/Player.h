@@ -6,7 +6,7 @@
 #include "../../Ability/Ability.h"
 #include "../../UI/UI.h"
 #include <sstream>
-#include <SDL_events.h>
+#include <SDL3/SDL_events.h>
 //#include <memory>
 
 class Player : public Entity
@@ -14,7 +14,7 @@ class Player : public Entity
 private:
 	Ability						m_ability;
 	int							m_abilityFrames;
-	SDL_Rect*					m_currentAbilityClip;
+	SDL_FRect*					m_currentAbilityClip;
 	bool						m_shieldActivated;
 	bool						m_hasAbility;
 
