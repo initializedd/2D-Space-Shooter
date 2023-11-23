@@ -2,7 +2,7 @@
 #define TEXT_H
 
 #include "../Texture/Texture.h"
-#include <SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 #include <sstream>
 #include <memory>

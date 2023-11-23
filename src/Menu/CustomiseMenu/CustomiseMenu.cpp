@@ -9,10 +9,10 @@ CustomiseMenu::CustomiseMenu()
 
 void CustomiseMenu::createButtons()
 {
-	m_buttons.emplace_back(Button(BACK,		SDL_Rect(0, 0, 200, 50)));
-	m_buttons.emplace_back(Button(LEFT,		SDL_Rect(0, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
-	m_buttons.emplace_back(Button(RIGHT,	SDL_Rect(440, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
-	m_buttons.emplace_back(Button(SELECT,	SDL_Rect(220, 430, 200, 50)));
+	m_buttons.emplace_back(Button(BACK,		SDL_FRect(0, 0, 200, 50)));
+	m_buttons.emplace_back(Button(LEFT,		SDL_FRect(0, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
+	m_buttons.emplace_back(Button(RIGHT,	SDL_FRect(440, (SCREEN_HEIGHT / 2) - 25, 200, 50)));
+	m_buttons.emplace_back(Button(SELECT,	SDL_FRect(220, 430, 200, 50)));
 }
 
 void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
@@ -21,7 +21,7 @@ void CustomiseMenu::displayMenu(SDL_Event& event, bool& quitGame)
 
 	while (SDL_PollEvent(&event) != 0)
 	{
-		if (event.type == SDL_QUIT)
+		if (event.type == SDL_EVENT_QUIT)
 		{
 			m_exitMenu = true;
 			quitGame = true;

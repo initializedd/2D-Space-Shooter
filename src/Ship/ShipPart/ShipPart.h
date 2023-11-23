@@ -33,7 +33,7 @@ private:
 	Pair<int>		m_offset;
 
 public:
-	ShipPart(ShipPartType type, SDL_Rect rect);
+	ShipPart(ShipPartType type, SDL_FRect rect);
 
 	ShipPartType getPartType();
 	Collider& getCollider();

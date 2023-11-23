@@ -1,6 +1,6 @@
 #include "Window.h"
 #include "../Common/Common.h"
-#include <SDL_image.h>
+#include <SDL3_image/SDL_image.h>
 #include <cstdio>
 
 Window::Window()
@@ -23,7 +23,7 @@ Window::~Window()
 
 	if (m_icon)
 	{
-		SDL_FreeSurface(m_icon);
+		SDL_DestroySurface(m_icon);
 		m_icon = nullptr;
 	}
 
@@ -39,7 +39,7 @@ bool Window::createWindow()
 	m_width = SCREEN_WIDTH;
 	m_height = SCREEN_HEIGHT;
 
-	m_window = SDL_CreateWindow("Space Shooter", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN);
+	m_window = SDL_CreateWindow("Space Shooter", m_width, m_height, 0);
 	if (!m_window)
 	{
 		printf("Failed to create window, Error: %s\n", SDL_GetError());
@@ -62,7 +62,7 @@ bool Window::createRenderer()
 {
 	if (m_window)
 	{
-		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		m_renderer = SDL_CreateRenderer(m_window, NULL, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 		if (!m_renderer)
 		{
 			printf("Failed to create renderer, Error: %s\n", SDL_GetError());

@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-enum EntityType;
+enum EntityType : int;
 
 class Weapon
 {

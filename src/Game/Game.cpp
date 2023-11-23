@@ -1,14 +1,9 @@
 #include "Game.h"
 #include "../Common/Common.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_mixer.h>
-#include <SDL_ttf.h>
-
-// sdl
-// img
-// mix
-// ttf
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_mixer/SDL_mixer.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 Game::Game()
 {
@@ -81,7 +76,7 @@ void Game::loop()
 
 		while (SDL_PollEvent(&event) != 0)
 		{
-			if (event.type == SDL_QUIT)
+			if (event.type == SDL_EVENT_QUIT)
 			{
 				quitGame = true;
 			}

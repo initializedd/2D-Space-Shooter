@@ -1,6 +1,6 @@
 #include "TextSystem.h"
 #include "../../Common/Common.h"
-#include <SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <cstdio>
 
 TextSystem::TextSystem()

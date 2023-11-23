@@ -1,6 +1,6 @@
 #include "ShipPart.h"
 
-ShipPart::ShipPart(ShipPartType type, SDL_Rect rect)
+ShipPart::ShipPart(ShipPartType type, SDL_FRect rect)
 	: m_type{type}
 	, m_collider{rect}
 	, m_offset{}

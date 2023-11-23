@@ -9,7 +9,7 @@
 #include <memory>
 
 class Entity;
-enum EntityType;
+enum EntityType : int;
 
 enum ProjectileType
 {

@@ -2,9 +2,9 @@
 #define BUTTON_H
 
 #include "../../Resource/Texture/Texture.h"
-#include <SDL_rect.h>
-#include <SDL_ttf.h>
-#include <SDL_events.h>
+#include <SDL3/SDL_rect.h>
+#include <SDL3_ttf/SDL_ttf.h>
+#include <SDL3/SDL_events.h>
 #include <string>
 #include <memory>
 
@@ -30,13 +30,13 @@ class Button
 {
 private:
 	ButtonTypes					m_type;
-	SDL_Rect					m_rect;
+	SDL_FRect					m_rect;
 	bool						m_selected;
 	bool						m_down;
 	bool						m_hover;
 
 public:
-	Button(ButtonTypes type, SDL_Rect rect);
+	Button(ButtonTypes type, SDL_FRect rect);
 
 	void handleEvent(SDL_Event& event);
 	void renderButton();

@@ -2,18 +2,18 @@
 #define COLLIDER_H
 
 #include "../../Common/Pair.h"
-#include <SDL_rect.h>
-#include <SDL_render.h>
+#include <SDL3/SDL_rect.h>
+#include <SDL3/SDL_render.h>
 
 class Collider
 {
 private:
-	SDL_Rect m_rect;
+	SDL_FRect m_rect;
 	Vector2<int> m_offset;
 
 public:
 	Collider();
-	Collider(SDL_Rect& rect);
+	Collider(const SDL_FRect& rect);
 
 	bool intersects(const Collider& collider);
 
@@ -22,7 +22,7 @@ public:
 
 	void drawCollider();
 
-	const SDL_Rect& getRect() const;
+	const SDL_FRect& getRect() const;
 
 	void createColliders(Vector2<float>& pos, double rotation);
 };

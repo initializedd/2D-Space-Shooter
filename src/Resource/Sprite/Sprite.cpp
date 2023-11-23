@@ -10,7 +10,7 @@ Sprite::~Sprite()
 {
 }
 
-SDL_Rect* Sprite::getClips()
+SDL_FRect* Sprite::getClips()
 {
 	return m_clips;
 }
@@ -22,7 +22,7 @@ int Sprite::getIndex()
 
 /*
  * Calculates the coordinates of each texture in a sprite and then assigns
- * each coordinate to its corresponding element in an SDL_Rect array.
+ * each coordinate to its corresponding element in an SDL_FRect array.
  *
  * @note This function assumes the sprite is aligning each texture by left align.
  *

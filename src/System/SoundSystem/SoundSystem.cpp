@@ -1,6 +1,6 @@
 #include "SoundSystem.h"
-#include <SDL.h>
-#include <SDL_mixer.h>
+#include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
 #include <cstdio>
 
 SoundSystem::SoundSystem()
@@ -25,7 +25,7 @@ bool SoundSystem::init()
 		return false;
 	}
 
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	if (Mix_OpenAudio(0, nullptr) < 0)
 	{
 		printf("Failed to initialize Mixer, Error: %s\n", Mix_GetError());
 		return false;

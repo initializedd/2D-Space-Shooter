@@ -9,7 +9,7 @@ Collider::Collider()
 {
 }
 
-Collider::Collider(SDL_Rect& rect)
+Collider::Collider(const SDL_FRect& rect)
 	: m_rect{ rect }
 	, m_offset{ rect.x, rect.y }
 {
@@ -17,7 +17,7 @@ Collider::Collider(SDL_Rect& rect)
 
 bool Collider::intersects(const Collider& collider)
 {
-	return SDL_HasIntersection(&m_rect, &collider.m_rect);
+	return SDL_HasRectIntersectionFloat(&m_rect, &collider.m_rect);
 }
 
 void Collider::handleCollision(Vector2<float>& pos, const Vector2<float>& otherPos, const Collider& otherCollider)
@@ -96,10 +96,10 @@ bool Collider::handleScreenCollision(Vector2<float>& pos, double rotation)
 void Collider::drawCollider()
 {
 	SDL_SetRenderDrawColor(resourceManager.getRenderSystem().getWindow().getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
-	SDL_RenderDrawRect(resourceManager.getRenderSystem().getWindow().getRenderer(), &m_rect);
+	SDL_RenderRect(resourceManager.getRenderSystem().getWindow().getRenderer(), &m_rect);
 }
 
-const SDL_Rect& Collider::getRect() const
+const SDL_FRect& Collider::getRect() const
 {
 	return m_rect;
 }
@@ -131,6 +131,6 @@ void Collider::createColliders(Vector2<float>& pos, double rotation)
 	double rotatedY = translatedX * sinAngle + translatedY * cosAngle;
 
 	// Translate the rotated collider's positions back to the original coordinate system
-	m_rect.x = static_cast<int>(rotatedX + textureCentreX - colliderCentreX + pos.x);
-	m_rect.y = static_cast<int>(rotatedY + textureCentreY - colliderCentreY + pos.y);
+	m_rect.x = static_cast<float>(rotatedX + textureCentreX - colliderCentreX + pos.x);
+	m_rect.y = static_cast<float>(rotatedY + textureCentreY - colliderCentreY + pos.y);
 }
