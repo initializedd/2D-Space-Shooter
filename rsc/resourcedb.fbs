@@ -1,0 +1,50 @@
+namespace ResourceDB;
+
+table Texture {
+    name:string (key);
+    path:string;
+}
+
+table Sprite {
+    name:string (key);
+    path:string;
+    elements:int;
+    padding:int;
+    width:int;
+    height:int;
+}
+
+table Sound {
+    name:string (key);
+    path:string;
+}
+
+table Font {
+    name:string (key);
+    path:string;
+    point_size:int;
+}
+
+table Text {
+    name:string (key);
+    text:string;
+}
+
+table TextStream {
+    name:string (key);
+}
+
+table Root {
+    name:string;
+    textures:[Texture];
+    sprites:[Sprite];
+    sounds:[Sound];
+    fonts:[Font];
+    texts:[Text];
+    text_streams:[TextStream];
+}
+
+root_type Root;
+
+file_identifier "2DSS";
+file_extension "bin";
