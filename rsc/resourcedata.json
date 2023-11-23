@@ -1,0 +1,169 @@
+{
+  "name": "resourcedb",
+  "textures": [
+    {
+      "name": "tex_main_menu",
+      "path": "rsc/img/main_menu.jpg"
+    },
+    {
+      "name": "tex_game_background",
+      "path": "rsc/img/game_bg.png"
+    },
+    {
+      "name": "tex_projectile",
+      "path": "rsc/img/projectile_sprite.png"
+    },
+    {
+      "name": "tex_ui_inner_health",
+      "path": "rsc/img/ui_inner_health.png"
+    },
+    {
+      "name": "tex_ui_outer_health",
+      "path": "rsc/img/ui_outer_health.png"
+    },
+    {
+      "name": "tex_ui_inner_shield",
+      "path": "rsc/img/ui_inner_shield.png"
+    },
+    {
+      "name": "tex_ui_outer_shield",
+      "path": "rsc/img/ui_outer_shield.png"
+    }
+  ],
+  "sprites": [
+    {
+      "name": "sprite_ships",
+      "path": "rsc/img/ships_sprite.png",
+      "width": 128,
+      "height": 160,
+      "padding": 40,
+      "elements": 48
+    },
+    {
+      "name": "sprite_explosion",
+      "path": "rsc/img/explosion_sprite.png",
+      "width": 96,
+      "height": 96,
+      "padding": 40,
+      "elements": 12
+    },
+    {
+      "name": "sprite_blue_shield",
+      "path": "rsc/img/blue_shield_sprite.png",
+      "width": 340,
+      "height": 340,
+      "padding": 40,
+      "elements": 11
+    },
+    {
+      "name": "sprite_health_regen",
+      "path": "rsc/img/health_regen_sprite.png",
+      "width": 192,
+      "height": 192,
+      "padding": 40,
+      "elements": 16
+    },
+    {
+      "name": "sprite_ui",
+      "path": "rsc/img/ui_sprite.png",
+      "width": 110,
+      "height": 111,
+      "padding": 40,
+      "elements": 4
+    },
+    {
+      "name": "sprite_upgrades",
+      "path": "rsc/img/upgrades_sprite.png",
+      "width": 250,
+      "height": 300,
+      "padding": 40,
+      "elements": 4
+    },
+    {
+      "name": "sprite_fire",
+      "path": "rsc/img/fire_sprite.png",
+      "width": 400,
+      "height": 400,
+      "padding": 40,
+      "elements": 6
+    }
+  ],
+  "sounds": [
+    {
+      "name": "sfx_game",
+      "path": "rsc/audio/Orbital Colossus.mp3"
+    },
+    {
+      "name": "sfx_laser",
+      "path": "rsc/audio/new laser.mp3"
+    },
+    {
+      "name": "sfx_beam",
+      "path": "rsc/audio/beam.mp3"
+    },
+    {
+      "name": "sfx_explosion",
+      "path": "rsc/audio/explosion.mp3"
+    },
+    {
+      "name": "sfx_health_regen",
+      "path": "rsc/audio/health_regen.mp3"
+    },
+    {
+      "name": "sfx_shield_activate",
+      "path": "rsc/audio/shield_activate.mp3"
+    },
+    {
+      "name": "sfx_shield_destroy",
+      "path": "rsc/audio/shield_destroy.mp3"
+    }
+  ],
+  "fonts": [
+    {
+      "name": "ttf_futura",
+      "path": "rsc/font/futura.ttf",
+      "point_size": 28
+    }
+  ],
+  "texts": [
+    {
+      "name": "txt_play",
+      "text": "Play"
+    },
+    {
+      "name": "txt_customise",
+      "text": "Customise"
+    },
+    {
+      "name": "txt_options",
+      "text": "Options"
+    },
+    {
+      "name": "txt_back",
+      "text": "Back"
+    },
+    {
+      "name": "txt_left",
+      "text": "Left"
+    },
+    {
+      "name": "txt_right",
+      "text": "Right"
+    },
+    {
+      "name": "txt_select",
+      "text": "Select"
+    }
+  ],
+  "text_streams": [
+    {
+      "name": "txt_fps"
+    },
+    {
+      "name": "txt_wave"
+    },
+    {
+      "name": "txt_projectile"
+    }
+  ]
+}
