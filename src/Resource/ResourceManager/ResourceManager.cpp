@@ -51,8 +51,8 @@ bool ResourceManager::loadDatabase(const std::string& path)
 	for (const auto& text : *m_root->texts())
 		m_textSystem.loadText(text->name()->str(), text->text()->str());
 
-	for (const auto& textStreams : *m_root->textstreams())
-		m_textSystem.loadTextStream(textStreams->name()->str());
+	for (const auto& text_streams : *m_root->text_streams())
+		m_textSystem.loadTextStream(text_streams->name()->str());
 
 	return true;
 }
