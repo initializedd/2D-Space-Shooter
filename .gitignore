@@ -46,6 +46,7 @@ TestResults
 *.vssscc
 .builds
 out/
+build/
 
 # Visual C++ cache files
 ipch/
