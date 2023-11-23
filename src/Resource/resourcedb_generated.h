@@ -38,6 +38,9 @@ struct RootBuilder;
 
 struct Texture FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef TextureBuilder Builder;
+  static FLATBUFFERS_CONSTEXPR_CPP11 const char *GetFullyQualifiedName() {
+    return "ResourceDB.Texture";
+  }
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NAME = 4,
     VT_PATH = 6
@@ -110,13 +113,16 @@ inline ::flatbuffers::Offset<Texture> CreateTextureDirect(
 
 struct Sprite FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef SpriteBuilder Builder;
+  static FLATBUFFERS_CONSTEXPR_CPP11 const char *GetFullyQualifiedName() {
+    return "ResourceDB.Sprite";
+  }
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NAME = 4,
     VT_PATH = 6,
-    VT_WIDTH = 8,
-    VT_HEIGHT = 10,
-    VT_PADDING = 12,
-    VT_ELEMENTS = 14
+    VT_ELEMENTS = 8,
+    VT_PADDING = 10,
+    VT_WIDTH = 12,
+    VT_HEIGHT = 14
   };
   const ::flatbuffers::String *name() const {
     return GetPointer<const ::flatbuffers::String *>(VT_NAME);
@@ -130,17 +136,17 @@ struct Sprite FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::String *path() const {
     return GetPointer<const ::flatbuffers::String *>(VT_PATH);
   }
+  int32_t elements() const {
+    return GetField<int32_t>(VT_ELEMENTS, 0);
+  }
+  int32_t padding() const {
+    return GetField<int32_t>(VT_PADDING, 0);
+  }
   int32_t width() const {
     return GetField<int32_t>(VT_WIDTH, 0);
   }
   int32_t height() const {
     return GetField<int32_t>(VT_HEIGHT, 0);
-  }
-  int32_t padding() const {
-    return GetField<int32_t>(VT_PADDING, 0);
-  }
-  int32_t elements() const {
-    return GetField<int32_t>(VT_ELEMENTS, 0);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -148,10 +154,10 @@ struct Sprite FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
            verifier.VerifyString(name()) &&
            VerifyOffset(verifier, VT_PATH) &&
            verifier.VerifyString(path()) &&
+           VerifyField<int32_t>(verifier, VT_ELEMENTS, 4) &&
+           VerifyField<int32_t>(verifier, VT_PADDING, 4) &&
            VerifyField<int32_t>(verifier, VT_WIDTH, 4) &&
            VerifyField<int32_t>(verifier, VT_HEIGHT, 4) &&
-           VerifyField<int32_t>(verifier, VT_PADDING, 4) &&
-           VerifyField<int32_t>(verifier, VT_ELEMENTS, 4) &&
            verifier.EndTable();
   }
 };
@@ -166,17 +172,17 @@ struct SpriteBuilder {
   void add_path(::flatbuffers::Offset<::flatbuffers::String> path) {
     fbb_.AddOffset(Sprite::VT_PATH, path);
   }
+  void add_elements(int32_t elements) {
+    fbb_.AddElement<int32_t>(Sprite::VT_ELEMENTS, elements, 0);
+  }
+  void add_padding(int32_t padding) {
+    fbb_.AddElement<int32_t>(Sprite::VT_PADDING, padding, 0);
+  }
   void add_width(int32_t width) {
     fbb_.AddElement<int32_t>(Sprite::VT_WIDTH, width, 0);
   }
   void add_height(int32_t height) {
     fbb_.AddElement<int32_t>(Sprite::VT_HEIGHT, height, 0);
-  }
-  void add_padding(int32_t padding) {
-    fbb_.AddElement<int32_t>(Sprite::VT_PADDING, padding, 0);
-  }
-  void add_elements(int32_t elements) {
-    fbb_.AddElement<int32_t>(Sprite::VT_ELEMENTS, elements, 0);
   }
   explicit SpriteBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -194,15 +200,15 @@ inline ::flatbuffers::Offset<Sprite> CreateSprite(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
     ::flatbuffers::Offset<::flatbuffers::String> path = 0,
-    int32_t width = 0,
-    int32_t height = 0,
+    int32_t elements = 0,
     int32_t padding = 0,
-    int32_t elements = 0) {
+    int32_t width = 0,
+    int32_t height = 0) {
   SpriteBuilder builder_(_fbb);
-  builder_.add_elements(elements);
-  builder_.add_padding(padding);
   builder_.add_height(height);
   builder_.add_width(width);
+  builder_.add_padding(padding);
+  builder_.add_elements(elements);
   builder_.add_path(path);
   builder_.add_name(name);
   return builder_.Finish();
@@ -212,24 +218,27 @@ inline ::flatbuffers::Offset<Sprite> CreateSpriteDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const char *name = nullptr,
     const char *path = nullptr,
-    int32_t width = 0,
-    int32_t height = 0,
+    int32_t elements = 0,
     int32_t padding = 0,
-    int32_t elements = 0) {
+    int32_t width = 0,
+    int32_t height = 0) {
   auto name__ = name ? _fbb.CreateString(name) : 0;
   auto path__ = path ? _fbb.CreateString(path) : 0;
   return ResourceDB::CreateSprite(
       _fbb,
       name__,
       path__,
-      width,
-      height,
+      elements,
       padding,
-      elements);
+      width,
+      height);
 }
 
 struct Sound FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef SoundBuilder Builder;
+  static FLATBUFFERS_CONSTEXPR_CPP11 const char *GetFullyQualifiedName() {
+    return "ResourceDB.Sound";
+  }
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NAME = 4,
     VT_PATH = 6
@@ -302,6 +311,9 @@ inline ::flatbuffers::Offset<Sound> CreateSoundDirect(
 
 struct Font FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef FontBuilder Builder;
+  static FLATBUFFERS_CONSTEXPR_CPP11 const char *GetFullyQualifiedName() {
+    return "ResourceDB.Font";
+  }
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NAME = 4,
     VT_PATH = 6,
@@ -386,6 +398,9 @@ inline ::flatbuffers::Offset<Font> CreateFontDirect(
 
 struct Text FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef TextBuilder Builder;
+  static FLATBUFFERS_CONSTEXPR_CPP11 const char *GetFullyQualifiedName() {
+    return "ResourceDB.Text";
+  }
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NAME = 4,
     VT_TEXT = 6
@@ -458,6 +473,9 @@ inline ::flatbuffers::Offset<Text> CreateTextDirect(
 
 struct TextStream FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef TextStreamBuilder Builder;
+  static FLATBUFFERS_CONSTEXPR_CPP11 const char *GetFullyQualifiedName() {
+    return "ResourceDB.TextStream";
+  }
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NAME = 4
   };
@@ -516,6 +534,9 @@ inline ::flatbuffers::Offset<TextStream> CreateTextStreamDirect(
 
 struct Root FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef RootBuilder Builder;
+  static FLATBUFFERS_CONSTEXPR_CPP11 const char *GetFullyQualifiedName() {
+    return "ResourceDB.Root";
+  }
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NAME = 4,
     VT_TEXTURES = 6,
@@ -523,7 +544,7 @@ struct Root FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
     VT_SOUNDS = 10,
     VT_FONTS = 12,
     VT_TEXTS = 14,
-    VT_TEXTSTREAMS = 16
+    VT_TEXT_STREAMS = 16
   };
   const ::flatbuffers::String *name() const {
     return GetPointer<const ::flatbuffers::String *>(VT_NAME);
@@ -543,8 +564,8 @@ struct Root FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::Text>> *texts() const {
     return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::Text>> *>(VT_TEXTS);
   }
-  const ::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::TextStream>> *textstreams() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::TextStream>> *>(VT_TEXTSTREAMS);
+  const ::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::TextStream>> *text_streams() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::TextStream>> *>(VT_TEXT_STREAMS);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -565,9 +586,9 @@ struct Root FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
            VerifyOffset(verifier, VT_TEXTS) &&
            verifier.VerifyVector(texts()) &&
            verifier.VerifyVectorOfTables(texts()) &&
-           VerifyOffset(verifier, VT_TEXTSTREAMS) &&
-           verifier.VerifyVector(textstreams()) &&
-           verifier.VerifyVectorOfTables(textstreams()) &&
+           VerifyOffset(verifier, VT_TEXT_STREAMS) &&
+           verifier.VerifyVector(text_streams()) &&
+           verifier.VerifyVectorOfTables(text_streams()) &&
            verifier.EndTable();
   }
 };
@@ -594,8 +615,8 @@ struct RootBuilder {
   void add_texts(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::Text>>> texts) {
     fbb_.AddOffset(Root::VT_TEXTS, texts);
   }
-  void add_textstreams(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::TextStream>>> textstreams) {
-    fbb_.AddOffset(Root::VT_TEXTSTREAMS, textstreams);
+  void add_text_streams(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::TextStream>>> text_streams) {
+    fbb_.AddOffset(Root::VT_TEXT_STREAMS, text_streams);
   }
   explicit RootBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -616,9 +637,9 @@ inline ::flatbuffers::Offset<Root> CreateRoot(
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::Sound>>> sounds = 0,
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::Font>>> fonts = 0,
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::Text>>> texts = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::TextStream>>> textstreams = 0) {
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<ResourceDB::TextStream>>> text_streams = 0) {
   RootBuilder builder_(_fbb);
-  builder_.add_textstreams(textstreams);
+  builder_.add_text_streams(text_streams);
   builder_.add_texts(texts);
   builder_.add_fonts(fonts);
   builder_.add_sounds(sounds);
@@ -636,14 +657,14 @@ inline ::flatbuffers::Offset<Root> CreateRootDirect(
     std::vector<::flatbuffers::Offset<ResourceDB::Sound>> *sounds = nullptr,
     std::vector<::flatbuffers::Offset<ResourceDB::Font>> *fonts = nullptr,
     std::vector<::flatbuffers::Offset<ResourceDB::Text>> *texts = nullptr,
-    std::vector<::flatbuffers::Offset<ResourceDB::TextStream>> *textstreams = nullptr) {
+    std::vector<::flatbuffers::Offset<ResourceDB::TextStream>> *text_streams = nullptr) {
   auto name__ = name ? _fbb.CreateString(name) : 0;
   auto textures__ = textures ? _fbb.CreateVectorOfSortedTables<ResourceDB::Texture>(textures) : 0;
   auto sprites__ = sprites ? _fbb.CreateVectorOfSortedTables<ResourceDB::Sprite>(sprites) : 0;
   auto sounds__ = sounds ? _fbb.CreateVectorOfSortedTables<ResourceDB::Sound>(sounds) : 0;
   auto fonts__ = fonts ? _fbb.CreateVectorOfSortedTables<ResourceDB::Font>(fonts) : 0;
   auto texts__ = texts ? _fbb.CreateVectorOfSortedTables<ResourceDB::Text>(texts) : 0;
-  auto textstreams__ = textstreams ? _fbb.CreateVectorOfSortedTables<ResourceDB::TextStream>(textstreams) : 0;
+  auto text_streams__ = text_streams ? _fbb.CreateVectorOfSortedTables<ResourceDB::TextStream>(text_streams) : 0;
   return ResourceDB::CreateRoot(
       _fbb,
       name__,
@@ -652,7 +673,7 @@ inline ::flatbuffers::Offset<Root> CreateRootDirect(
       sounds__,
       fonts__,
       texts__,
-      textstreams__);
+      text_streams__);
 }
 
 inline const ResourceDB::Root *GetRoot(const void *buf) {
@@ -685,6 +706,10 @@ inline bool VerifyRootBuffer(
 inline bool VerifySizePrefixedRootBuffer(
     ::flatbuffers::Verifier &verifier) {
   return verifier.VerifySizePrefixedBuffer<ResourceDB::Root>(RootIdentifier());
+}
+
+inline const char *RootExtension() {
+  return "bin";
 }
 
 inline void FinishRootBuffer(

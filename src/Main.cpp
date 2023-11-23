@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-	resourceManager.loadDatabase("resources/resourcedata.bin");
+	resourceManager.loadDatabase("rsc/resourcedata.bin");
 
 	Game game{};
 

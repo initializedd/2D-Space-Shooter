@@ -5,7 +5,7 @@ project(2D-Space-Shooter)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 
-add_executable("${PROJECT_NAME}" "${SOURCES}")
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 find_package(SDL3 3.0.0 REQUIRED)
 find_package(SDL3_image 3.0.0 REQUIRED)
@@ -19,5 +19,4 @@ target_link_libraries(${PROJECT_NAME} SDL3_mixer::SDL3_mixer)
 target_link_libraries(${PROJECT_NAME} SDL3_ttf::SDL3_ttf)
 target_link_libraries(${PROJECT_NAME} flatbuffers::flatbuffers)
 
-add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
-add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
+add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/rsc $<TARGET_FILE_DIR:${PROJECT_NAME}>/rsc)
