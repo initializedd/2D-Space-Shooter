@@ -47,6 +47,8 @@ TestResults
 out/
 build/
 
+.cache/
+
 # Visual C++ cache files
 ipch/
 *.aps
